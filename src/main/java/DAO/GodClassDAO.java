@@ -1,5 +1,7 @@
 package DAO;
 
+import DAO.Helpers.GetGodClassHelper;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,17 +17,103 @@ public class GodClassDAO {
     private String path;
     private Date insertDate;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public int getWmc() {
+        return wmc;
+    }
+
+    public void setWmc(int wmc) {
+        this.wmc = wmc;
+    }
+
+    public int getAtfd() {
+        return atfd;
+    }
+
+    public void setAtfd(int atfd) {
+        this.atfd = atfd;
+    }
+
+    public float getTcc() {
+        return tcc;
+    }
+
+    public void setTcc(float tcc) {
+        this.tcc = tcc;
+    }
+
+    public int getAnalyzerId() {
+        return analyzerId;
+    }
+
+    public void setAnalyzerId(int analyzerId) {
+        this.analyzerId = analyzerId;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public Date getInsertDate() {
+        return insertDate;
+    }
+
+    public void setInsertDate(Date insertDate) {
+        this.insertDate = insertDate;
+    }
+
+    public Connect getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connect connection) {
+        this.connection = connection;
+    }
+
     private Connect connection;
 
+    public GodClassDAO(String className, int analyzerId, Date insertDate) {
+        this.className = className;
+        this.analyzerId = analyzerId;
+        this.insertDate = insertDate;
+    }
+
     public GodClassDAO(int id,
-             String className,
-             int wmc,
-             int atfd,
-             float tcc,
-             int analyzerId,
-             String projectName,
-             String path,
-             Date insertDate
+                       String className,
+                       int wmc,
+                       int atfd,
+                       float tcc,
+                       int analyzerId,
+                       String projectName,
+                       String path,
+                       Date insertDate
     )
     {
         this.id = id;
@@ -59,23 +147,29 @@ public class GodClassDAO {
         this.insertDate = insertDate;
     }
 
-    public ArrayList<GodClassDAO> getGodClasses(GodClassDAO godClassDao){
+    public ArrayList<GodClassDAO> getGodClasses(){
         String sql = "SELECT * FROM GODCLASS";
+        ArrayList<String> whereStatement = GetGodClassHelper.getWhereStatementByBasicProps(this);
+        if(!whereStatement.isEmpty()){
+            String where = " WHERE " + String.join("AND ", whereStatement);
+            sql += where;
+        }
+        
         GodClassDAO godClass;
         ArrayList<GodClassDAO> godClasses = new ArrayList<>();
-        try (Connection conn = connection.getConnection();
-            Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery(sql);
-            // set the value
-            //pstmt.setDouble(1,capacity);
+        try (Connection conn = connection.getConnection()) {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            GetGodClassHelper.preparedStatementByBasicProps(this, pstmt);
+
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()){
                 godClass = new GodClassDAO(
                     rs.getInt("id"),
                     rs.getString("classname"),
                     rs.getInt("wmc"),
                     rs.getInt("atfd"),
-                    rs.getFloat("acc"),
-                    rs.getInt("analizerid"),
+                    rs.getFloat("tcc"),
+                    rs.getInt("analyzerid"),
                     rs.getString("projectname"),
                     rs.getString("path"),
                     rs.getDate("insertdate")
@@ -87,10 +181,12 @@ public class GodClassDAO {
         }
         return godClasses;
     }
+
     public void save(){
         String sql = "INSERT INTO GODCLASS(classname, wmc, atfd, tcc, analyzerid, projectname, path)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
+            
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
 

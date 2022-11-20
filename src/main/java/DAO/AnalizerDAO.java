@@ -31,8 +31,6 @@ public class AnalizerDAO {
         try (Connection conn = connection.getConnection();
             Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
-            // set the value
-            //pstmt.setDouble(1,capacity);
             while (rs.next()){
                 analizer = new DAO.AnalizerDAO(rs.getInt("id"), rs.getString("name"));
                 analizers.add(analizer);
