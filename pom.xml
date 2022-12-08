@@ -19,5 +19,19 @@
             <version>3.39.3.0</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>avib.coderetriever</groupId>
+            <artifactId>avib.coderetriever.analyzer</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jodd/jodd -->
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd</artifactId>
+            <version>3.3.4</version>
+        </dependency>
+
     </dependencies>
 </project>

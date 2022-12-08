@@ -13,11 +13,12 @@ public class PMDResultsReader {
     File file = new File(getClass().getResource("/output.txt").getPath());
     String st;
 
-    public void readGodClass() throws IOException {
+    public void readGodClass(String sourcePath) throws IOException {
         GodClassDAO godClass;
         int wmc;
         int atfd;
         float tcc;
+        File file  = sourcePath != null && !sourcePath.isEmpty() ? new File(sourcePath + "PMDoutput.txt") : this.file;
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         while((st = br.readLine()) != null){
@@ -38,7 +39,11 @@ public class PMDResultsReader {
 
     public String getClassName(String data){
         Pattern className = Pattern.compile("\\/(?:.(?!\\/))+$");
+        Pattern onlyName = Pattern.compile("[\\w]+");
         Matcher matcher = className.matcher(data);
+        if(matcher.find()){
+            matcher = onlyName.matcher(matcher.group(0));
+        }
         return matcher.find() ? matcher.group(0) : "";}
 
     private String getNumericMetric(String data){

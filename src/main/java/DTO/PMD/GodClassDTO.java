@@ -59,9 +59,7 @@ public class GodClassDTO {
         this.atfd = atfd;
     }
 
-    public float getTcc() {
-        return tcc;
-    }
+    public float getTcc() { return tcc; }
 
     public void setTcc(float tcc) {
         this.tcc = tcc;
@@ -98,6 +96,4 @@ public class GodClassDTO {
     public void setInsertDate(Date insertDate) {
         this.insertDate = insertDate;
     }
-
-
 }
