@@ -1,4 +1,4 @@
-package UI;
+package UI.GodClass;
 
 import Configurations.Configuration;
 import Configurations.InputPath;
@@ -19,6 +19,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,6 +47,9 @@ public class GodClassWindow extends JPanel {
     private static JToggleButton isGastFileToggle;
     private static JToggleButton isFromMemoryToggle;
     private static JToggleButton useThreadsToggle;
+    private static JToggleButton saveInDBToggle;
+    private static JToggleButton onlyAnalyzerToggle;
+    private static JToggleButton returnMetricsToggle;
     private static JLabel inputPathLabel;
     private static JLabel outputPathLabel;
     private static JLabel wmcLabel;
@@ -88,7 +92,9 @@ public class GodClassWindow extends JPanel {
         isGastFileToggle = new JToggleButton("Is GAST file");
         isFromMemoryToggle = new JToggleButton("Is from memory");
         useThreadsToggle = new JToggleButton("Use threads");
-
+        saveInDBToggle = new JToggleButton("Save results in DB");
+        onlyAnalyzerToggle = new JToggleButton("Run only Analyzer");
+        returnMetricsToggle = new JToggleButton("Return metrics");
 
         constraints.gridx = 1;
         constraints.gridy = 0;
@@ -108,21 +114,32 @@ public class GodClassWindow extends JPanel {
         constraints.gridx = 1;
         add(isFromMemoryToggle, constraints);
 
+        constraints.gridx = 0;
         constraints.gridy = 4;
+        add(saveInDBToggle, constraints);
+
+        constraints.gridx = 1;
+        add(onlyAnalyzerToggle, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 5;
+        add(returnMetricsToggle, constraints);
+
+        constraints.gridy = 6;
         constraints.gridx = 0;
         atfdLabel = new JLabel("ATFD:");
         add(atfdLabel, constraints);
         constraints.gridx = 1;
         add(atfdField,  constraints);
 
-        constraints.gridy = 5;
+        constraints.gridy = 7;
         constraints.gridx = 0;
         wmcLabel = new JLabel("WMC:");
         add(wmcLabel, constraints);
         constraints.gridx = 1;
         add(wmcField, constraints);
 
-        constraints.gridy = 6;
+        constraints.gridy = 8;
         constraints.gridx = 0;
         tccLabel = new JLabel("TCC:");
         add(tccLabel, constraints);
@@ -130,10 +147,50 @@ public class GodClassWindow extends JPanel {
         add(tccField, constraints);
 
         constraints.gridx = 1;
-        constraints.gridy = 7;
+        constraints.gridy = 9;
         JButton btn = new JButton("Execute");
         btn.addActionListener(new BtnListener());
         add(btn, constraints);
+
+        JButton btnOnlyAnalyzer = new JButton("Only Analyzer");
+        btnOnlyAnalyzer.addActionListener(new BtnListenerTest(1));
+        constraints.gridy = 10;
+        constraints.gridx = 0;
+        add(btnOnlyAnalyzer, constraints);
+
+        JButton btnOnlyPMD = new JButton("Only PMD");
+        btnOnlyPMD.addActionListener(new BtnListenerTest(2));
+        constraints.gridx = 1;
+        add(btnOnlyPMD, constraints);
+
+        JButton btnShowAll = new JButton("Show All");
+        btnShowAll.addActionListener(new BtnListenerTest(0));
+        constraints.gridx = 0;
+        constraints.gridy = 11;
+        add(btnShowAll, constraints);
+    }
+
+    private class BtnListenerTest implements  ActionListener {
+
+        private int analyzerId;
+        public BtnListenerTest(int analyzerId){
+            this.analyzerId = analyzerId;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String sql = "SELECT * FROM GODCLASS ORDER BY classname, analyzerid, insertdate";
+            ArrayList<GodClassDAO> t = new ArrayList<>();
+            GodClassDAO gcd = new GodClassDAO();
+            switch (analyzerId){
+                case 0: t = gcd.getGodClasses(sql); break;
+                case 1: t = gcd.getGodClassesOnlyAnalyzer(); break;
+                case 2: t = gcd.getGodClassesOnlyPMD(); break;
+            }
+            TableModel tableModel = new GodClassTableModel(t);
+            ComparativeTable ct = new ComparativeTable(tableModel);
+            ct.drawTable();
+        }
     }
 
     private class BtnListener implements ActionListener {
@@ -142,9 +199,11 @@ public class GodClassWindow extends JPanel {
             //input: "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/hibernate/hibernate-4.2.2/src/hibernate-release-4.2.2.Final/project/hibernate-core/src/main/java/org/hibernate/cfg/HbmBinder.java"
             //Output: /Users/williamcasasola/Documents/TEC/Detector/test/
                 try {
-                    PMDExecutor pmdExecutor = new PMDExecutor();
-                    pmdExecutor.executePMD(inputPathField.getText(), outputPathField.getText());
-                    ReadPMFileAndSaveResults();
+                    if(!onlyAnalyzerToggle.isSelected()) {
+                        PMDExecutor pmdExecutor = new PMDExecutor();
+                        pmdExecutor.executePMD(inputPathField.getText(), outputPathField.getText());
+                        if (saveInDBToggle.isSelected()) ReadPMFileAndSaveResults();
+                    }
                     InitAnalyzerAndSaveResults();
                 } catch (ParseException ex) {
                     ex.printStackTrace();
@@ -187,13 +246,14 @@ public class GodClassWindow extends JPanel {
     }
 
     public void InitAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
-        ArrayList<InputPath> ip = new ArrayList<InputPath>();
+        ArrayList<InputPath> ip = new ArrayList<>();
         ip.add(new InputPath(
                 inputPathField.getText(),
                 isFolderToggle.isSelected(),
                 isGastFileToggle.isSelected(),
                 isFromMemoryToggle.isSelected(),
-                useThreadsToggle.isSelected())
+                useThreadsToggle.isSelected()
+                )
         );
 
         if(isAValidNumericInput(atfdField.getText(), "ATFD")
@@ -203,7 +263,7 @@ public class GodClassWindow extends JPanel {
             inputParameters.add(Integer.parseInt(atfdField.getText()));
             inputParameters.add(Float.parseFloat(wmcField.getText()));
             inputParameters.add(Float.parseFloat(tccField.getText()));
-            Configuration config = new Configuration("GOD_CLASS", outputPathField.getText(), inputParameters, ip);
+            Configuration config = new Configuration("GOD_CLASS", outputPathField.getText(), inputParameters, returnMetricsToggle.isSelected(), ip);
             JSONParser jsonParser = new JSONParser();
             Gson gson = new Gson();
             String configString = "{\"metrics\": [" + gson.toJson(config) + "]}";
@@ -212,6 +272,7 @@ public class GodClassWindow extends JPanel {
             OutputGodClass ogc = (OutputGodClass) cr.processJSONConfigReturningOutput(configJSON);
             if(ogc != null && !ogc.getGodClassesResult().isEmpty()) {
                 ArrayList<ClassDataGodClass> godClassFound = ogc.getGodClassesResult().stream().map(g -> g.getClassData().second).collect(Collectors.toCollection(ArrayList::new));
+                ArrayList<GodClassDAO> classes = new ArrayList<>();
                 for (var god : godClassFound){
                     GodClassDAO godClass = new GodClassDAO(
                             god.getName(),
@@ -223,10 +284,15 @@ public class GodClassWindow extends JPanel {
                             god.getName(),
                             new java.util.Date()
                             );
-                    godClass.save();
+                    if(saveInDBToggle.isSelected()) godClass.save();
+                    classes.add(godClass);
                 }
+                TableModel tableModel = new GodClassTableModel(classes);
+                ComparativeTable ct = new ComparativeTable(tableModel);
+                ct.drawTable();
             }
             System.out.println("Success" + ogc.toString());
+
         }
     }
 

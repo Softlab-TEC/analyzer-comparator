@@ -8,20 +8,24 @@ public class Configuration {
     private String outputPath;
     private ArrayList<Number> inputParameters;
     private ArrayList<InputPath> inputPaths;
+    private  Boolean returnMetrics;
 
-    public Configuration(String language, String metricToApply, String outputPath, ArrayList<Number> inputParameters, ArrayList<InputPath> inputPaths) {
+
+    public Configuration(String language, String metricToApply, String outputPath, ArrayList<Number> inputParameters, Boolean returnMetrics, ArrayList<InputPath> inputPaths) {
         this.language = language;
         this.metricToApply = metricToApply;
         this.outputPath = outputPath;
         this.inputParameters = inputParameters;
+        this.returnMetrics = returnMetrics;
         this.inputPaths = inputPaths;
     }
 
-    public Configuration(String metricToApply, String outputPath, ArrayList<Number> inputParameters, ArrayList<InputPath> inputPaths){
+    public Configuration(String metricToApply, String outputPath, ArrayList<Number> inputParameters, Boolean returnMetrics, ArrayList<InputPath> inputPaths){
         language = "JAVA";
         this.metricToApply = metricToApply;
         this.outputPath = outputPath;
         this.inputParameters = inputParameters;
+        this.returnMetrics = returnMetrics;
         this.inputPaths = inputPaths;
     }
 

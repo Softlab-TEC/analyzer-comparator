@@ -10,7 +10,8 @@ public class GodClassService {
     private GodClassDAO godClassDAO;
     public ArrayList<GodClassDTO> GetGodClassDaoByProps(GodClassDTO godClassDTO){
         godClassDAO = new GodClassDAO(godClassDTO.getClassName(), godClassDTO.getAnalyzerId(), godClassDTO.getInsertDate());
-        var godClassList = godClassDAO.getGodClasses();
+        String sql = "SELECT * FROM GODCLASS ORDER BY classname, analyzerid, insertdate";
+        var godClassList = godClassDAO.getGodClasses(sql);
         return godClassList.stream().map(g -> Converters.getGodClassDTO(g)).collect(Collectors.toCollection(ArrayList::new));
     }
 }

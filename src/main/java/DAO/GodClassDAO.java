@@ -99,6 +99,8 @@ public class GodClassDAO {
 
     private Connect connection;
 
+    public GodClassDAO(){}
+
     public GodClassDAO(String className, int analyzerId, Date insertDate) {
         this.className = className;
         this.analyzerId = analyzerId;
@@ -147,18 +149,18 @@ public class GodClassDAO {
         this.insertDate = insertDate;
     }
 
-    public ArrayList<GodClassDAO> getGodClasses(){
-        String sql = "SELECT * FROM GODCLASS";
+
+    public ArrayList<GodClassDAO> getGodClasses(String query){
         ArrayList<String> whereStatement = GetGodClassHelper.getWhereStatementByBasicProps(this);
         if(!whereStatement.isEmpty()){
             String where = " WHERE " + String.join("AND ", whereStatement);
-            sql += where;
+            query += where;
         }
         
         GodClassDAO godClass;
         ArrayList<GodClassDAO> godClasses = new ArrayList<>();
         try (Connection conn = connection.getConnection()) {
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            PreparedStatement pstmt = conn.prepareStatement(query);
             GetGodClassHelper.preparedStatementByBasicProps(this, pstmt);
 
             ResultSet rs = pstmt.executeQuery();
@@ -180,6 +182,16 @@ public class GodClassDAO {
             System.out.println(e.getMessage());
         }
         return godClasses;
+    }
+
+    public ArrayList<DAO.GodClassDAO> getGodClassesOnlyPMD(){
+        String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON gc1.classname = gc2.classname AND gc2.analyzerid = 1 WHERE gc1.analyzerid = 2 AND gc2.analyzerid IS NULL;";
+        return getGodClasses(query);
+    }
+
+    public ArrayList<GodClassDAO> getGodClassesOnlyAnalyzer(){
+        String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON gc1.classname = gc2.classname AND gc2.analyzerid = 2 WHERE gc1.analyzerid = 1 AND gc2.analyzerid IS NULL";
+        return getGodClasses(query);
     }
 
     public void save(){
