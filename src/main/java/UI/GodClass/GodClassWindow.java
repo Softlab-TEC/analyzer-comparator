@@ -7,13 +7,10 @@ import DataAccess.PMDExecutor;
 import DataAccess.PMDResultsReader;
 import com.google.gson.Gson;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.Output;
 import metrics.codesmells.godClass.OutputGodClass;
-import metrics.codesmells.godClass.detector.GodClass;
 import metrics.codesmells.godClass.domain.ClassDataGodClass;
 import metrics.exceptions.UnsupportedMetricException;
 import metrics.run.ConfigurationReader;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -23,6 +20,7 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,13 +41,13 @@ public class GodClassWindow extends JPanel {
     private static JTextField wmcField;
     private static JTextField tccField;
     private static JTextField atfdField;
-    private static JToggleButton isFolderToggle;
-    private static JToggleButton isGastFileToggle;
-    private static JToggleButton isFromMemoryToggle;
-    private static JToggleButton useThreadsToggle;
-    private static JToggleButton saveInDBToggle;
-    private static JToggleButton onlyAnalyzerToggle;
-    private static JToggleButton returnMetricsToggle;
+    private static Checkbox isFolderToggle;
+    private static Checkbox isGastFileToggle;
+    private static Checkbox isFromMemoryToggle;
+    private static Checkbox useThreadsToggle;
+    private static Checkbox saveInDBToggle;
+    private static Checkbox onlyAnalyzerToggle;
+    private static Checkbox returnMetricsToggle;
     private static JLabel inputPathLabel;
     private static JLabel outputPathLabel;
     private static JLabel wmcLabel;
@@ -88,13 +86,13 @@ public class GodClassWindow extends JPanel {
         tccField.setPreferredSize(new Dimension(30, 30));
         atfdField = new JTextField();
         atfdField.setPreferredSize(new Dimension(30, 30));
-        isFolderToggle = new JToggleButton("Is Folder");
-        isGastFileToggle = new JToggleButton("Is GAST file");
-        isFromMemoryToggle = new JToggleButton("Is from memory");
-        useThreadsToggle = new JToggleButton("Use threads");
-        saveInDBToggle = new JToggleButton("Save results in DB");
-        onlyAnalyzerToggle = new JToggleButton("Run only Analyzer");
-        returnMetricsToggle = new JToggleButton("Return metrics");
+        isFolderToggle = new Checkbox("Folder");
+        isGastFileToggle = new Checkbox("GAST file");
+        isFromMemoryToggle = new Checkbox("Memory");
+        useThreadsToggle = new Checkbox("Use threads");
+        saveInDBToggle = new Checkbox("Save results in DB");
+        onlyAnalyzerToggle = new Checkbox("Run only Analyzer");
+        returnMetricsToggle = new Checkbox("Return metrics");
 
         constraints.gridx = 1;
         constraints.gridy = 0;
@@ -170,6 +168,27 @@ public class GodClassWindow extends JPanel {
         add(btnShowAll, constraints);
     }
 
+    private String createFolder(){
+        try {
+            File directory = new File("Results");
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
+            File file = new File(directory, "PMDoutput.txt");
+            if (file.createNewFile()) {
+                System.out.println("File created in Results folder: " + file.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+
     private class BtnListenerTest implements  ActionListener {
 
         private int analyzerId;
@@ -199,10 +218,11 @@ public class GodClassWindow extends JPanel {
             //input: "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/hibernate/hibernate-4.2.2/src/hibernate-release-4.2.2.Final/project/hibernate-core/src/main/java/org/hibernate/cfg/HbmBinder.java"
             //Output: /Users/williamcasasola/Documents/TEC/Detector/test/
                 try {
-                    if(!onlyAnalyzerToggle.isSelected()) {
+                    if(!onlyAnalyzerToggle.getState()) {
+                        String path = outputPathField.getText().isEmpty() ?  createFolder() : outputPathField.getText() +  "PMDoutput.txt";
                         PMDExecutor pmdExecutor = new PMDExecutor();
-                        pmdExecutor.executePMD(inputPathField.getText(), outputPathField.getText());
-                        if (saveInDBToggle.isSelected()) ReadPMFileAndSaveResults();
+                        pmdExecutor.executePMD(inputPathField.getText(), path);
+                        if (saveInDBToggle.getState()) ReadPMFileAndSaveResults();
                     }
                     InitAnalyzerAndSaveResults();
                 } catch (ParseException ex) {
@@ -249,10 +269,10 @@ public class GodClassWindow extends JPanel {
         ArrayList<InputPath> ip = new ArrayList<>();
         ip.add(new InputPath(
                 inputPathField.getText(),
-                isFolderToggle.isSelected(),
-                isGastFileToggle.isSelected(),
-                isFromMemoryToggle.isSelected(),
-                useThreadsToggle.isSelected()
+                isFolderToggle.getState(),
+                isGastFileToggle.getState(),
+                isFromMemoryToggle.getState(),
+                useThreadsToggle.getState()
                 )
         );
 
@@ -263,7 +283,7 @@ public class GodClassWindow extends JPanel {
             inputParameters.add(Integer.parseInt(atfdField.getText()));
             inputParameters.add(Float.parseFloat(wmcField.getText()));
             inputParameters.add(Float.parseFloat(tccField.getText()));
-            Configuration config = new Configuration("GOD_CLASS", outputPathField.getText(), inputParameters, returnMetricsToggle.isSelected(), ip);
+            Configuration config = new Configuration("GOD_CLASS", outputPathField.getText(), inputParameters, returnMetricsToggle.getState(), ip);
             JSONParser jsonParser = new JSONParser();
             Gson gson = new Gson();
             String configString = "{\"metrics\": [" + gson.toJson(config) + "]}";
@@ -280,11 +300,11 @@ public class GodClassWindow extends JPanel {
                             god.getPossibleAccessors(),
                             god.getTCC(),
                             1,
-                            god.getName(),//Todo: In the analyzer get the path of the class
-                            god.getName(),
+                            god.getPath(),//Todo: In the analyzer get the path of the class
+                            god.getPath(),
                             new java.util.Date()
                             );
-                    if(saveInDBToggle.isSelected()) godClass.save();
+                    if(saveInDBToggle.getState()) godClass.save();
                     classes.add(godClass);
                 }
                 TableModel tableModel = new GodClassTableModel(classes);
@@ -299,7 +319,7 @@ public class GodClassWindow extends JPanel {
     public void ReadPMFileAndSaveResults(){
         PMDResultsReader reader = new PMDResultsReader();
         try {
-            reader.readGodClass(outputPathField.getText());
+            reader.readGodClass(outputPathField.getText().isEmpty() ? "/Users/williamcasasola/Documents/TEC/Detector/test/" : outputPathField.getText());
         } catch (IOException e) {
             e.printStackTrace();
         }

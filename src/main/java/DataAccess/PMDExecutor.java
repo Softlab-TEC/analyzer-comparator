@@ -13,7 +13,7 @@ public class PMDExecutor {
     public void executePMD(String targetPath, String outputPath) throws IOException, ExecutionException, InterruptedException, TimeoutException {
         StringBuilder command = new StringBuilder();
         command.append("alias pmd=\"$HOME/pmd-bin-6.48.0/bin/run.sh pmd\" \n");
-        command.append("pmd -d "+ targetPath + " -R category/java/design.xml/GodClass > "+ outputPath + "PMDoutput.txt");
+        command.append("pmd -d "+ targetPath + " -R category/java/design.xml/GodClass > "+ outputPath);
 
         boolean isWindows = System.getProperty("os.name")
                 .toLowerCase().startsWith("windows");
