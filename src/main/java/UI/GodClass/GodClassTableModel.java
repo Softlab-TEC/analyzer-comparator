@@ -1,10 +1,7 @@
 package UI.GodClass;
 
 import DAO.GodClassDAO;
-import metrics.codesmells.godClass.domain.ClassDataGodClass;
-
 import javax.swing.table.AbstractTableModel;
-import java.util.Date;
 import java.util.List;
 
 public class GodClassTableModel  extends AbstractTableModel {

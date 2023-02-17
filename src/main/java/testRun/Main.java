@@ -2,10 +2,7 @@ package testRun;
 
 import DTO.PMD.GodClassDTO;
 import Services.GodClassService;
-import UI.GodClass.ComparativeTable;
-import UI.GodClass.GodClassWindow;
-
-import javax.swing.*;
+import UI.MainWindow;
 
 public class Main {
     public static void getGoClasses(){
@@ -17,11 +14,13 @@ public class Main {
     }
 
     public static void main(String[] args){
+        MainWindow mm = new MainWindow();
         //getGoClasses();
-        JFrame frame = new JFrame("Analyzer-Comparator");
+        /*JFrame frame = new JFrame();
         frame.add(new GodClassWindow());
         frame.setVisible(true);
         frame.setSize(500, 2000);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         */
     }
 }
