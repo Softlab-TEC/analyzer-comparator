@@ -42,7 +42,7 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
 
         placeElementInPanel(atfdLabel, atfdField, "ATFD:", 0);
         placeElementInPanel(laaLabel, laaField, "LAA:", 1);
-        placeElementInPanel(fdpLabel, fdpField, "FDP::", 2);
+        placeElementInPanel(fdpLabel, fdpField, "FDP:", 2);
     }
 
     @Override
@@ -79,9 +79,9 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
 
     @Override
     public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
-        if(isAValidNumericInput(atfdField.getText(), "ATFD")
-                && isAValidNumericInput(laaField.getText(), "LAA")
-                && isAValidNumericInput(fdpLabel.getText(), "FDP")) {
+        if(isAValidNumericInput(atfdField.getText(), atfdLabel.getText())
+                && isAValidNumericInput(laaField.getText(), laaLabel.getText())
+                && isAValidNumericInput(fdpLabel.getText(), fdpLabel.getText())) {
             ArrayList<Number> inputParameters = new ArrayList<>();
             inputParameters.add(Integer.parseInt(atfdField.getText()));
             inputParameters.add(Float.parseFloat(laaField.getText()));

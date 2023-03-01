@@ -4,7 +4,7 @@ import DAO.GodClassDAO;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
-public class GodClassTableModel  extends AbstractTableModel {
+public class GodClassTableModel extends AbstractTableModel {
     private List<GodClassDAO> godclasses;
     private String[] columns ;
 

@@ -5,8 +5,8 @@ import DataAccess.PMDExecutor;
 import DataAccess.PMDResultsReader;
 import UI.CodeSmellGeneralPanel;
 import gastmappers.exceptions.UnsupportedLanguageException;
+import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.codesmells.godClass.OutputGodClass;
-import metrics.codesmells.godClass.domain.ClassDataGodClass;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 
@@ -174,9 +174,9 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
 
     @Override
     public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
-        if(isAValidNumericInput(atfdField.getText(), "ATFD")
-                && isAValidNumericInput(wmcField.getText(), "WMC")
-                && isAValidNumericInput(tccField.getText(), "TCC")) {
+        if(isAValidNumericInput(atfdField.getText(), atfdLabel.getText())
+                && isAValidNumericInput(wmcField.getText(), wmcLabel.getText())
+                && isAValidNumericInput(tccField.getText(), tccLabel.getText())) {
             ArrayList<Number> inputParameters = new ArrayList<>();
             inputParameters.add(Integer.parseInt(atfdField.getText()));
             inputParameters.add(Float.parseFloat(wmcField.getText()));
@@ -184,7 +184,7 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputGodClass ogc = (OutputGodClass) callAnalyzer("GOD_CLASS", inputParameters);
             if(ogc != null && !ogc.getGodClassesResult().isEmpty()) {
-                ArrayList<ClassDataGodClass> godClassFound = ogc.getGodClassesResult().stream().map(g -> g.getClassData().second).collect(Collectors.toCollection(ArrayList::new));
+                ArrayList<ClassDataCodeSmell> godClassFound = ogc.getGodClassesResult().stream().map(g -> g.getClassData().second).collect(Collectors.toCollection(ArrayList::new));
                 ArrayList<GodClassDAO> classes = new ArrayList<>();
                 for (var god : godClassFound){
                     GodClassDAO godClass = new GodClassDAO(
