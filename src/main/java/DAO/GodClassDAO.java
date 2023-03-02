@@ -1,36 +1,56 @@
 package DAO;
 
-import DAO.Helpers.GetGodClassHelper;
+import DAO.Helpers.CodeSmellDAO;
+import DAO.Helpers.GetCodeSmellHelper;
+import DTO.PMD.GodClassDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class GodClassDAO {
-    private int id;
-    private String className;
+public class GodClassDAO extends CodeSmellDAO {
     private int wmc;
     private int atfd;
     private float tcc;
-    private int analyzerId;
-    private String projectName;
-    private String path;
-    private Date insertDate;
 
-    public int getId() {
-        return id;
+    public GodClassDAO(){
+        super();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public GodClassDAO(int id,
+                       String className,
+                       int wmc,
+                       int atfd,
+                       float tcc,
+                       int analyzerId,
+                       String projectName,
+                       String path,
+                       Date insertDate
+    )
+    {
+        super(id, className, analyzerId, projectName, path, insertDate);
+        this.wmc = wmc;
+        this.atfd = atfd;
+        this.tcc = tcc;
     }
 
-    public String getClassName() {
-        return className;
+    public GodClassDAO(String className,
+                       int wmc,
+                       int atfd,
+                       float tcc,
+                       int analyzerId,
+                       String projectName,
+                       String path,
+                       Date insertDate
+    ){
+        super(className, analyzerId, projectName, path, insertDate);
+        this.wmc = wmc;
+        this.atfd = atfd;
+        this.tcc = tcc;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public GodClassDAO(String className, int analyzerId, Date insertDate){
+        super(className, analyzerId, insertDate);
     }
 
     public int getWmc() {
@@ -57,101 +77,8 @@ public class GodClassDAO {
         this.tcc = tcc;
     }
 
-    public int getAnalyzerId() {
-        return analyzerId;
-    }
-
-    public void setAnalyzerId(int analyzerId) {
-        this.analyzerId = analyzerId;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public Date getInsertDate() {
-        return insertDate;
-    }
-
-    public void setInsertDate(Date insertDate) {
-        this.insertDate = insertDate;
-    }
-
-    public Connect getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connect connection) {
-        this.connection = connection;
-    }
-
-    private Connect connection;
-
-    public GodClassDAO(){}
-
-    public GodClassDAO(String className, int analyzerId, Date insertDate) {
-        this.className = className;
-        this.analyzerId = analyzerId;
-        this.insertDate = insertDate;
-    }
-
-    public GodClassDAO(int id,
-                       String className,
-                       int wmc,
-                       int atfd,
-                       float tcc,
-                       int analyzerId,
-                       String projectName,
-                       String path,
-                       Date insertDate
-    )
-    {
-        this.id = id;
-        this.className = className;
-        this.wmc = wmc;
-        this.atfd = atfd;
-        this.tcc = tcc;
-        this.analyzerId = analyzerId;
-        this.projectName = projectName;
-        this.path = path;
-        this.insertDate = insertDate;
-    }
-
-    public GodClassDAO(String className,
-                       int wmc,
-                       int atfd,
-                       float tcc,
-                       int analyzerId,
-                       String projectName,
-                       String path,
-                       Date insertDate
-    )
-    {
-        this.className = className;
-        this.wmc = wmc;
-        this.atfd = atfd;
-        this.tcc = tcc;
-        this.analyzerId = analyzerId;
-        this.projectName = projectName;
-        this.path = path;
-        this.insertDate = insertDate;
-    }
-
-
     public ArrayList<GodClassDAO> getGodClasses(String query){
-        ArrayList<String> whereStatement = GetGodClassHelper.getWhereStatementByBasicProps(this);
+        ArrayList<String> whereStatement = GetCodeSmellHelper.getWhereStatementByBasicProps(this);
         if(!whereStatement.isEmpty()){
             String where = " WHERE " + String.join("AND ", whereStatement);
             query += where;
@@ -161,7 +88,7 @@ public class GodClassDAO {
         ArrayList<GodClassDAO> godClasses = new ArrayList<>();
         try (Connection conn = connection.getConnection()) {
             PreparedStatement pstmt = conn.prepareStatement(query);
-            GetGodClassHelper.preparedStatementByBasicProps(this, pstmt);
+            GetCodeSmellHelper.preparedStatementByBasicProps(this, pstmt);
 
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()){
@@ -184,7 +111,7 @@ public class GodClassDAO {
         return godClasses;
     }
 
-    public ArrayList<DAO.GodClassDAO> getGodClassesOnlyPMD(){
+    public ArrayList<GodClassDAO> getGodClassesOnlyPMD(){
         String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON gc1.classname = gc2.classname AND gc2.analyzerid = 1 WHERE gc1.analyzerid = 2 AND gc2.analyzerid IS NULL;";
         return getGodClasses(query);
     }

@@ -82,15 +82,15 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
     public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if(isAValidNumericInput(wocField.getText(), wocLabel.getText())
                 && isAValidNumericInput(fewPublicField.getText(), fewPublicLabel.getText())
-                && isAValidNumericInput(highWmcField.getText(), highWmcField.getText())
-                && isAValidNumericInput(manyPublicLabel.getText(), manyPublicField.getText())
-                && isAValidNumericInput(veryHighWmcField.getText(), veryHighWmcField.getText())) {
+                && isAValidNumericInput(highWmcField.getText(), highWmcLabel.getText())
+                && isAValidNumericInput(manyPublicField.getText(), manyPublicLabel.getText())
+                && isAValidNumericInput(veryHighWmcField.getText(), veryHighWmcLabel.getText())) {
             ArrayList<Number> inputParameters = new ArrayList<>();
             inputParameters.add(Float.parseFloat(wocField.getText()));
             inputParameters.add(Integer.parseInt(fewPublicField.getText()));
             inputParameters.add(Integer.parseInt(highWmcField.getText()));
             inputParameters.add(Integer.parseInt(manyPublicField.getText()));
-            inputParameters.add(Integer.parseInt(veryHighWmcLabel.getText()));
+            inputParameters.add(Integer.parseInt(veryHighWmcField.getText()));
             configureJsonForAnalyzer();
             OutputGodClass ogc = (OutputGodClass) callAnalyzer("DATA_CLASS", inputParameters);
             if (ogc != null && !ogc.getGodClassesResult().isEmpty()) {
