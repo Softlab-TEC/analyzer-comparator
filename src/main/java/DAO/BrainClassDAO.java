@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class BrainClassDAO extends CodeSmellDAO {
-    private String methodName;
     private int loc;
     private int wmc;
     private float tcc;
@@ -19,7 +18,6 @@ public class BrainClassDAO extends CodeSmellDAO {
     public BrainClassDAO(
             int id,
             String className,
-            String methodName,
             int loc,
             int wmc,
             float tcc,
@@ -30,7 +28,6 @@ public class BrainClassDAO extends CodeSmellDAO {
     )
     {
         super(id, className, analyzerId, projectName, path, insertDate);
-        this.methodName = methodName;
         this.loc = loc;
         this.wmc = wmc;
         this.tcc = tcc;
@@ -38,7 +35,6 @@ public class BrainClassDAO extends CodeSmellDAO {
 
     public BrainClassDAO(
             String className,
-            String methodName,
             int loc,
             int wmc,
             float tcc,
@@ -49,7 +45,6 @@ public class BrainClassDAO extends CodeSmellDAO {
     )
     {
         super(className, analyzerId, projectName, path, insertDate);
-        this.methodName = methodName;
         this.loc = loc;
         this.wmc = wmc;
         this.tcc = tcc;
@@ -57,14 +52,6 @@ public class BrainClassDAO extends CodeSmellDAO {
 
     public BrainClassDAO(String className, int analyzerId, Date insertDate){
         super(className, analyzerId, insertDate);
-    }
-
-    public String getMethodName() {
-        return methodName;
-    }
-
-    public void setMethodName(String methodName) {
-        this.methodName = methodName;
     }
 
     public int getLoc() {
@@ -109,7 +96,6 @@ public class BrainClassDAO extends CodeSmellDAO {
                 brainClass = new BrainClassDAO(
                         rs.getInt("id"),
                         rs.getString("classname"),
-                        rs.getString("methodname"),
                         rs.getInt("loc"),
                         rs.getInt("wmc"),
                         rs.getFloat("tcc"),
@@ -127,17 +113,17 @@ public class BrainClassDAO extends CodeSmellDAO {
     }
 
     public ArrayList<BrainClassDAO> getGodClassesOnlyPMD(){
-        String query = "SELECT bc1.* FROM BRAINCLASS bc1 LEFT JOIN BRAINCLASS bc2 ON bc1.classname = bc2.classname AND bc1.methodname = bc2.methodname AND bc2.analyzerid = 1 WHERE bc1.analyzerid = 2 AND bc2.analyzerid IS NULL;";
+        String query = "SELECT bc1.* FROM BRAINCLASS bc1 LEFT JOIN BRAINCLASS bc2 ON bc1.classname = bc2.classname AND bc2.analyzerid = 1 WHERE bc1.analyzerid = 2 AND bc2.analyzerid IS NULL;";
         return getGodClasses(query);
     }
 
     public ArrayList<BrainClassDAO> getGodClassesOnlyAnalyzer(){
-        String query = "SELECT bc1.* FROM BRAINCLASS bc1 LEFT JOIN BRAINCLASS bc2 ON bc1.classname = bc2.classname AND bc1.methodname = bc2.methodname AND bc2.analyzerid = 2 WHERE bc1.analyzerid = 1 AND bc2.analyzerid IS NULL";
+        String query = "SELECT bc1.* FROM BRAINCLASS bc1 LEFT JOIN BRAINCLASS bc2 ON bc1.classname = bc2.classname AND bc2.analyzerid = 2 WHERE bc1.analyzerid = 1 AND bc2.analyzerid IS NULL";
         return getGodClasses(query);
     }
 
     public void save(){
-        String sql = "INSERT INTO BRAINCLASS(classname, methodname, loc, wmc, tcc, analyzerid, projectname, path)" +
+        String sql = "INSERT INTO BRAINCLASS(classname, loc, wmc, tcc, analyzerid, projectname, path)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
@@ -145,7 +131,6 @@ public class BrainClassDAO extends CodeSmellDAO {
                     Statement.RETURN_GENERATED_KEYS);
 
             pstmt1.setString(1, className);
-            pstmt1.setString(2, methodName);
             pstmt1.setInt(3, loc);
             pstmt1.setInt(4, wmc);
             pstmt1.setFloat(5, tcc);

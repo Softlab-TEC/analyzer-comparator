@@ -1,6 +1,12 @@
 package UI.BrainClass;
 
-import UI.CodeSmellGeneralPanel;
+import javax.swing.table.TableModel;
 
-public class ComparativeTable extends CodeSmellGeneralPanel {
+public class ComparativeTable{
+    TableModel godClassFoundTableModel;
+
+    public  ComparativeTable(TableModel godClassFoundTableModel){
+        this.godClassFoundTableModel = godClassFoundTableModel;
+    }
+    public void drawTable() {}
 }

@@ -1,6 +1,6 @@
 package UI.BrainClass;
 
-import DAO.GodClassDAO;
+import DAO.BrainClassDAO;
 import UI.CodeSmellGeneralPanel;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.domain.ClassDataCodeSmell;
@@ -9,6 +9,7 @@ import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -102,29 +103,28 @@ public class BrainClassPanel  extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputGodClass ogc = (OutputGodClass) callAnalyzer("BRAIN_CLASS", inputParameters);
             if (ogc != null && !ogc.getGodClassesResult().isEmpty()) {
-                ArrayList<ClassDataCodeSmell> featureEnvyFound = ogc.getGodClassesResult().stream().map(g -> g.getClassData().second).collect(Collectors.toCollection(ArrayList::new));
-                ArrayList<GodClassDAO> classes = new ArrayList<>();
-                /*
-                for (var god : godClassFound){
-                    GodClassDAO godClass = new GodClassDAO(
-                            god.getName(),
-                            god.getWMC(),
-                            god.getPossibleAccessors(),
-                            god.getTCC(),
+                ArrayList<ClassDataCodeSmell> brainClassesFound = ogc.getGodClassesResult().stream().map(g -> g.getClassData().second).collect(Collectors.toCollection(ArrayList::new));
+                ArrayList<BrainClassDAO> classes = new ArrayList<>();
+                for (var brain : brainClassesFound){
+                    BrainClassDAO godClass = new BrainClassDAO(
+                            brain.getName(),
+                            brain.getLOC(),
+                            brain.getWMC(),
+                            brain.getTCC(),
                             1,
-                            god.getPath(),//Todo: In the analyzer get the path of the class
-                            god.getPath(),
+                            brain.getPath(),//Todo: In the analyzer get the path of the class
+                            brain.getPath(),
                             new java.util.Date()
                     );
 
                     if(saveInDB) godClass.save();
                     classes.add(godClass);
                 }
-                TableModel tableModel = new GodClassTableModel(classes);
+                TableModel tableModel = new BrainClassTableModel(classes);
 
-                UI.GodClass.ComparativeTable ct = new ComparativeTable(tableModel);
+                ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();
-                */
+
             }
             System.out.println("Success" + ogc.toString());
         }

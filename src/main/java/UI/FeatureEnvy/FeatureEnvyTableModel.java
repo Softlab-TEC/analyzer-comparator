@@ -1,8 +1,13 @@
 package UI.FeatureEnvy;
 
-import javax.swing.table.AbstractTableModel;
+import DAO.FeatureEnvyDAO;
 
-public class FeatureEnvyTableModel  extends AbstractTableModel {
+import javax.swing.table.AbstractTableModel;
+import java.util.List;
+
+public class FeatureEnvyTableModel extends AbstractTableModel {
+    private List<FeatureEnvyDAO> featureEnvies;
+
     @Override
     public int getRowCount() {
         return 0;
