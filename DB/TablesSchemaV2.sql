@@ -51,6 +51,7 @@ CREATE TABLE BRAINCLASS(
 	loc INTEGER NOT NULL,
 	wmc INTEGER NOT NULL,
 	tcc REAL NOT NULL,
+	numberBrainMethods INTEGER NOT NULL,
 	analyzerid INT NOT NULL,
 	projectname TEXT NOT NULL, 
 	path TEXT NOT NULL,
