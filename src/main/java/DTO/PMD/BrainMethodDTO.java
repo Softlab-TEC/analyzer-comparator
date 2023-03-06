@@ -3,6 +3,7 @@ package DTO.PMD;
 import java.util.Date;
 
 public class BrainMethodDTO extends CodeSmellDTO {
+    private String methodName;
     private int loc;
     private int cyclo;
     private int maxNestig;
@@ -10,6 +11,7 @@ public class BrainMethodDTO extends CodeSmellDTO {
 
     public BrainMethodDTO(int id,
                           String className,
+                          String methodName,
                           int loc,
                           int cyclo,
                           int maxNestig,
@@ -20,6 +22,7 @@ public class BrainMethodDTO extends CodeSmellDTO {
                           Date insertDate
     ){
         super(id, className, analyzerId, projectName, path, insertDate);
+        this.methodName = methodName;
         this.loc = loc;
         this.cyclo = cyclo;
         this.maxNestig = maxNestig;
@@ -28,6 +31,14 @@ public class BrainMethodDTO extends CodeSmellDTO {
 
     public BrainMethodDTO(){
         super();
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
     }
 
     public int getLoc() {

@@ -1,25 +1,32 @@
 package UI.DataClass;
 
 import DAO.DataClassDAO;
+import UI.TableModel;
 
-import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
+import java.util.List;
 
-public class DataClassTableModel  extends AbstractTableModel {
-    private ArrayList<DataClassDAO> dataclasses;
-
-    @Override
-    public int getRowCount() {
-        return 0;
+public class DataClassTableModel  extends TableModel {
+    public DataClassTableModel(List<DataClassDAO> featureEnvies){
+        super(featureEnvies);
+        smells = super.castList(DataClassDAO.class);
+        customColumns = new String[] {"WOC", "NOPA", "NOAM", "WMC"};
+        mergeColumns();
     }
 
-    @Override
-    public int getColumnCount() {
-        return 0;
-    }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        return null;
+    // The object to render in a cell
+    public Object getValueAt(int row, int col) {
+        DataClassDAO dataClass = (DataClassDAO) smells.get(row);
+        switch(col) {
+            case 0: return dataClass.getAnalyzerId();
+            case 1: return dataClass.getClassName();
+            case 2: return dataClass.getPath();
+            case 3: return dataClass.getInsertDate();
+            case 4: return dataClass.getWoc();
+            case 5: return dataClass.getNopa();
+            case 6: return dataClass.getNoam();
+            case 7: return dataClass.getWmc();
+            // to complete here...
+            default: return null;
+        }
     }
 }

@@ -9,9 +9,19 @@ import java.util.List;
 public class TableModel<T extends CodeSmellDAO> extends AbstractTableModel {
     protected List<T> smells;
     protected String[] columns;
+    protected String[] customColumns;
+    protected String[] temp;
 
     public TableModel(List<T> smells){
         this.smells = smells;
+        columns = new String[]{"Analizer", "Class Name", "Path",  "Date"};
+        temp = new String[columns.length + 3];
+        System.arraycopy(columns, 0,  temp, 0 , columns.length);
+    }
+
+    protected void mergeColumns(){
+        System.arraycopy(customColumns, 0, temp, columns.length, customColumns.length);
+        columns = temp;
     }
 
     @Override

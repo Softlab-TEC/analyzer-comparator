@@ -1,24 +1,17 @@
 package UI.FeatureEnvy;
 
 import DAO.GodClassDAO;
-import DataAccess.PMDExecutor;
 import UI.CodeSmellGeneralPanel;
-import UI.GodClass.ComparativeTable;
-import UI.GodClass.GodClassTableModel;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.codesmells.godClass.OutputGodClass;
-import metrics.codesmells.godClass.domain.ClassDataGodClass;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 public class FeatureEnvyPanel extends CodeSmellGeneralPanel {

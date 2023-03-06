@@ -6,12 +6,14 @@ public class BrainClassDTO extends CodeSmellDTO{
     private int loc;
     private int wmc;
     private float tcc;
+    private int numberbrainmethods;
 
-    public BrainClassDTO(int id, String className, int loc, int wmc, float tcc, int analyzerId, String projectName, String path, Date insertDate) {
+    public BrainClassDTO(int id, String className, int loc, int wmc, float tcc, int numberbrainmethods, int analyzerId, String projectName, String path, Date insertDate) {
         super(id, className, analyzerId, projectName, path, insertDate);
         this.loc = loc;
         this.wmc = wmc;
         this.tcc = tcc;
+        this.numberbrainmethods = numberbrainmethods;
     }
 
     public BrainClassDTO(){
@@ -40,5 +42,13 @@ public class BrainClassDTO extends CodeSmellDTO{
 
     public void setTcc(float tcc) {
         this.tcc = tcc;
+    }
+
+    public int getNumberBrainMethods() {
+        return numberbrainmethods;
+    }
+
+    public void setNumberBrainMethods(int numberbrainmethods) {
+        this.numberbrainmethods = numberbrainmethods;
     }
 }

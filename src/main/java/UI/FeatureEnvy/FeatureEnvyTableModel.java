@@ -1,25 +1,32 @@
 package UI.FeatureEnvy;
 
 import DAO.FeatureEnvyDAO;
+import UI.TableModel;
 
-import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
-public class FeatureEnvyTableModel extends AbstractTableModel {
-    private List<FeatureEnvyDAO> featureEnvies;
+public class FeatureEnvyTableModel extends TableModel {
 
-    @Override
-    public int getRowCount() {
-        return 0;
+    public FeatureEnvyTableModel(List<FeatureEnvyDAO> featureEnvies){
+        super(featureEnvies);
+        smells = super.castList(FeatureEnvyDAO.class);
+        customColumns = new String[]{"ATFD", "LAA", "FPD"};
+        mergeColumns();
     }
 
-    @Override
-    public int getColumnCount() {
-        return 0;
-    }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        return null;
+    // The object to render in a cell
+    public Object getValueAt(int row, int col) {
+        FeatureEnvyDAO featureEnvy = (FeatureEnvyDAO) smells.get(row);
+        switch (col) {
+            case 0: return featureEnvy.getAnalyzerId();
+            case 1: return  featureEnvy.getClassName();
+            case 2: return  featureEnvy.getPath();
+            case 3: return  featureEnvy.getInsertDate();
+            case 4: return  featureEnvy.getAtfd();
+            case 5: return  featureEnvy.getLaa();
+            case 6: return  featureEnvy.getFdp();
+            // to complete here...
+            default: return null;
+        }
     }
 }

@@ -10,6 +10,7 @@ public class BrainClassDAO extends CodeSmellDAO {
     private int loc;
     private int wmc;
     private float tcc;
+    private int numberBrainMethods;
 
     public BrainClassDAO(){
         super();
@@ -21,6 +22,7 @@ public class BrainClassDAO extends CodeSmellDAO {
             int loc,
             int wmc,
             float tcc,
+            int numberBrainMethods,
             int analyzerId,
             String projectName,
             String path,
@@ -31,6 +33,7 @@ public class BrainClassDAO extends CodeSmellDAO {
         this.loc = loc;
         this.wmc = wmc;
         this.tcc = tcc;
+        this.numberBrainMethods = numberBrainMethods;
     }
 
     public BrainClassDAO(
@@ -38,6 +41,7 @@ public class BrainClassDAO extends CodeSmellDAO {
             int loc,
             int wmc,
             float tcc,
+            int numberBrainMethods,
             int analyzerId,
             String projectName,
             String path,
@@ -48,6 +52,7 @@ public class BrainClassDAO extends CodeSmellDAO {
         this.loc = loc;
         this.wmc = wmc;
         this.tcc = tcc;
+        this.numberBrainMethods = numberBrainMethods;
     }
 
     public BrainClassDAO(String className, int analyzerId, Date insertDate){
@@ -78,6 +83,14 @@ public class BrainClassDAO extends CodeSmellDAO {
         this.tcc = tcc;
     }
 
+    public int getNumberBrainMethods() {
+        return numberBrainMethods;
+    }
+
+    public void setNumberBrainMethods(int numberBrainMethods) {
+        this.numberBrainMethods = numberBrainMethods;
+    }
+
     public ArrayList<BrainClassDAO> getGodClasses(String query){
         ArrayList<String> whereStatement = GetCodeSmellHelper.getWhereStatementByBasicProps(this);
         if(!whereStatement.isEmpty()){
@@ -99,6 +112,7 @@ public class BrainClassDAO extends CodeSmellDAO {
                         rs.getInt("loc"),
                         rs.getInt("wmc"),
                         rs.getFloat("tcc"),
+                        rs.getInt("numberbrainmethods"),
                         rs.getInt("analyzerid"),
                         rs.getString("projectname"),
                         rs.getString("path"),
@@ -123,7 +137,7 @@ public class BrainClassDAO extends CodeSmellDAO {
     }
 
     public void save(){
-        String sql = "INSERT INTO BRAINCLASS(classname, loc, wmc, tcc, analyzerid, projectname, path)" +
+        String sql = "INSERT INTO BRAINCLASS(classname, loc, wmc, tcc, numberbrainmethods, analyzerid, projectname, path)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
@@ -131,9 +145,10 @@ public class BrainClassDAO extends CodeSmellDAO {
                     Statement.RETURN_GENERATED_KEYS);
 
             pstmt1.setString(1, className);
-            pstmt1.setInt(3, loc);
-            pstmt1.setInt(4, wmc);
-            pstmt1.setFloat(5, tcc);
+            pstmt1.setInt(2, loc);
+            pstmt1.setInt(3, wmc);
+            pstmt1.setFloat(4, tcc);
+            pstmt1.setInt(5, numberBrainMethods);
             pstmt1.setInt(6, analyzerId);
             pstmt1.setString(7, projectName);
             pstmt1.setString(8, path);

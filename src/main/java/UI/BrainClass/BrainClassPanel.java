@@ -111,6 +111,7 @@ public class BrainClassPanel  extends CodeSmellGeneralPanel {
                             brain.getLOC(),
                             brain.getWMC(),
                             brain.getTCC(),
+                            1,//todo brain.getNumberBrainMethods(),
                             1,
                             brain.getPath(),//Todo: In the analyzer get the path of the class
                             brain.getPath(),
