@@ -23,7 +23,7 @@ public class BrainMethodDAO extends CodeSmellDAO {
                           String methodName,
                           int loc,
                           int cyclo,
-                          int maxNestig,
+                          int maxNesting,
                           int noav,
                           int analyzerId,
                           String projectName,
@@ -34,7 +34,7 @@ public class BrainMethodDAO extends CodeSmellDAO {
         this.methodName = methodName;
         this.loc = loc;
         this.cyclo = cyclo;
-        this.maxNesting = maxNestig;
+        this.maxNesting = maxNesting;
         this.noav = noav;
     }
 
@@ -42,7 +42,7 @@ public class BrainMethodDAO extends CodeSmellDAO {
                           String methodName,
                           int loc,
                           int cyclo,
-                          int maxNestig,
+                          int maxNesting,
                           int noav,
                        int analyzerId,
                        String projectName,
@@ -53,7 +53,7 @@ public class BrainMethodDAO extends CodeSmellDAO {
         this.methodName = methodName;
         this.loc = loc;
         this.cyclo = cyclo;
-        this.maxNesting = maxNestig;
+        this.maxNesting = maxNesting;
         this.noav = noav;
     }
 
