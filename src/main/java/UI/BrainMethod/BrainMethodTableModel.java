@@ -1,6 +1,5 @@
 package UI.BrainMethod;
 
-import DAO.BrainClassDAO;
 import DAO.BrainMethodDAO;
 import UI.TableModel;
 
@@ -8,9 +7,9 @@ import java.util.List;
 
 public class BrainMethodTableModel extends TableModel {
 
-    public BrainMethodTableModel(List<BrainClassDAO> brainClasses){
+    public BrainMethodTableModel(List<BrainMethodDAO> brainClasses){
         super(brainClasses);
-        smells = super.castList(BrainClassDAO.class);
+        smells = super.castList(BrainMethodDAO.class);
         customColumns = new String[]{"Method", "LOC", "CYCLO", "MAXNESTING", "NOAV"};
         mergeColumns();
     }

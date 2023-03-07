@@ -1,4 +1,4 @@
-package UI.GodClass;
+package UI;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -11,10 +11,10 @@ import java.util.Date;
 
 
 public class ComparativeTable{
-    TableModel godClassFoundTableModel;
+    TableModel tableModel;
 
-    public  ComparativeTable(TableModel godClassFoundTableModel){
-        this.godClassFoundTableModel = godClassFoundTableModel;
+    public  ComparativeTable(TableModel tableModel){
+        this.tableModel = tableModel;
     }
 
     public void drawTable() {
@@ -29,7 +29,7 @@ public class ComparativeTable{
             {"", "PMD", "Test3", 12, 90 , 10, new Date()},
         };
 
-        JTable table = new JTable(godClassFoundTableModel);
+        JTable table = new JTable(tableModel);
        // javax.swing.JLabel[,0,0,0x0,invalid,alignmentX=0.0,alignmentY=0.0,border=,flags=8388608,maximumSize=,minimumSize=,preferredSize=,defaultIcon=up-arrow.png,disabledIcon=,horizontalAlignment=LEFT,horizontalTextPosition=TRAILING,iconTextGap=4,labelFor=,text=Hello,verticalAlignment=CENTER,verticalTextPosition=CENTER]
         // Add the label to the first cell of the table
         //table.setValueAt(label, 0, 0);

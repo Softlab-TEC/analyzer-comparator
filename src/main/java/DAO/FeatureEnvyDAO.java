@@ -11,6 +11,7 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
     private int atfd;
     private float laa;
     private int fdp;
+    private String methodName;
 
     public FeatureEnvyDAO(){
         super();
@@ -18,6 +19,7 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
 
     public FeatureEnvyDAO(int id,
                           String className,
+                          String methodName,
                           int atfd,
                           float laa,
                           int fdp,
@@ -31,9 +33,11 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
         this.atfd = atfd;
         this.laa = laa;
         this.fdp = fdp;
+        this.methodName = methodName;
     }
 
     public FeatureEnvyDAO(String className,
+                       String methodNAme,
                        int atfd,
                        float laa,
                        int fdp,
@@ -45,6 +49,7 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
         this.atfd = atfd;
         this.laa = laa;
         this.fdp = fdp;
+        this.methodName = methodNAme;
     }
 
     public FeatureEnvyDAO(String className, int analyzerId, Date insertDate){
@@ -75,6 +80,14 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
         this.fdp = fdp;
     }
 
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
+
     public ArrayList<FeatureEnvyDAO> getFeatureEnvies(String query){
         ArrayList<String> whereStatement = GetCodeSmellHelper.getWhereStatementByBasicProps(this);
         if(!whereStatement.isEmpty()){
@@ -93,6 +106,7 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
                 featureEnvy = new FeatureEnvyDAO(
                         rs.getInt("id"),
                         rs.getString("classname"),
+                        rs.getString("methodname"),
                         rs.getInt("atfd"),
                         rs.getFloat("laa"),
                         rs.getInt("fdp"),
@@ -120,20 +134,21 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
     }
 
     public void save(){
-        String sql = "INSERT INTO FEATUREENVY(classname, atfd, laa, fdp, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO FEATUREENVY(classname, methodname , atfd, laa, fdp, analyzerid, projectname, path)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
 
             pstmt1.setString(1, className);
-            pstmt1.setInt(2, atfd);
-            pstmt1.setFloat(3, laa);
-            pstmt1.setFloat(4, fdp);
-            pstmt1.setInt(5, analyzerId);
-            pstmt1.setString(6, projectName);
-            pstmt1.setString(7, path);
+            pstmt1.setString(2, methodName);
+            pstmt1.setInt(3, atfd);
+            pstmt1.setFloat(4, laa);
+            pstmt1.setFloat(5, fdp);
+            pstmt1.setInt(6, analyzerId);
+            pstmt1.setString(7, projectName);
+            pstmt1.setString(8, path);
 
             int rowAffected = pstmt1.executeUpdate();
 

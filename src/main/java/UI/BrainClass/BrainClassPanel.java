@@ -2,6 +2,7 @@ package UI.BrainClass;
 
 import DAO.BrainClassDAO;
 import UI.CodeSmellGeneralPanel;
+import UI.ComparativeTable;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.codesmells.godClass.OutputGodClass;

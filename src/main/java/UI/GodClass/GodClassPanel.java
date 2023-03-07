@@ -4,6 +4,7 @@ import DAO.GodClassDAO;
 import DataAccess.PMDExecutor;
 import DataAccess.PMDResultsReader;
 import UI.CodeSmellGeneralPanel;
+import UI.ComparativeTable;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.codesmells.godClass.OutputGodClass;

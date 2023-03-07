@@ -1,21 +1,10 @@
 package UI;
-
-import Configurations.Configuration;
-import Configurations.InputPath;
-import DAO.GodClassDAO;
-import DataAccess.PMDExecutor;
-import DataAccess.PMDResultsReader;
-import UI.GodClass.ComparativeTable;
-import UI.GodClass.GodClassTableModel;
-
 import javax.swing.*;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ConfigurationMenuPanel extends JPanel {
 
