@@ -6,8 +6,6 @@ import metrics.codesmells.domain.MethodDataCodeSmell;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.domain.ClassDataCodeSmell;
-import metrics.codesmells.godClass.OutputGodClass;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 

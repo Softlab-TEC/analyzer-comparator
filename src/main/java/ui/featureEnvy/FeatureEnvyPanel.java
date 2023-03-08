@@ -1,11 +1,8 @@
 package ui.featureEnvy;
 
-import DTO.PMD.FeatureEnvyDTO;
 import dao.FeatureEnvyDAO;
-import dao.GodClassDAO;
 import ui.CodeSmellGeneralPanel;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.codesmells.domain.MethodDataCodeSmell;
 import metrics.codesmells.featureEnvy.OutputFeatureEnvy;
 import metrics.exceptions.UnsupportedMetricException;
@@ -17,7 +14,6 @@ import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class FeatureEnvyPanel extends CodeSmellGeneralPanel {

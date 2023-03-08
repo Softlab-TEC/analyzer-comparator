@@ -6,7 +6,6 @@ import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.domain.ClassDataCodeSmell;
-import metrics.codesmells.godClass.OutputGodClass;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 
@@ -18,23 +17,12 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class BrainClassPanel  extends CodeSmellGeneralPanel {
-    //More than one Brain Method and very large
-    private static JTextField veryHighLocField;
-
-    private static JLabel veryHighLocLabel;
-
-    //Only one Brain Method but extremely large and complex
-    private static JTextField veryHigh2LocField;
-    private static JTextField veryHigh2WmcField;
-
-    private static JLabel veryHigh2LocLabel;
-    private static JLabel veryHigh2WmcLabel;
-
-    //Very complex and not cohesive
-    private static JTextField veryHighWmcField;
+    private static JTextField locField;
+    private static JTextField wmcField;
     private static JTextField tccField;
 
-    private static JLabel veryHighWmcLabel;
+    private static JLabel locLabel;
+    private static JLabel wmcLabel;
     private static JLabel tccLabel;
 
     public BrainClassPanel(){
@@ -43,17 +31,13 @@ public class BrainClassPanel  extends CodeSmellGeneralPanel {
     }
 
     public void initialize(){
-        veryHighLocField = initField(veryHighLocField);
-        veryHigh2LocField = initField(veryHigh2LocField);
-        veryHigh2WmcField = initField(veryHigh2WmcField);
-        veryHighWmcField = initField(veryHighWmcField);
+        locField = initField(locField);
+        wmcField = initField(wmcField);
         tccField = initField(tccField);
 
-        placeElementInPanel(veryHighLocLabel, veryHighLocField, "LOC (Very High)", 0);
-        placeElementInPanel(veryHigh2LocLabel, veryHigh2LocField, "LOC (2x Very High)", 1);
-        placeElementInPanel(veryHigh2WmcLabel, veryHigh2WmcField, "WMC (2x Very High)", 2);
-        placeElementInPanel(veryHighWmcLabel, veryHighWmcField, "WMC (Very High)", 3);
-        placeElementInPanel(tccLabel, tccField, "TCC", 4);
+        placeElementInPanel(locLabel, locField, "LOC", 1);
+        placeElementInPanel(wmcLabel, wmcField, "WMC", 2);
+        placeElementInPanel(tccLabel, tccField, "TCC", 3);
     }
 
     @Override
@@ -90,16 +74,12 @@ public class BrainClassPanel  extends CodeSmellGeneralPanel {
 
     @Override
     public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
-        if(isAValidNumericInput(veryHighLocField.getText(), veryHighLocLabel.getText())
-                && isAValidNumericInput(veryHigh2LocField.getText(), veryHigh2LocLabel.getText())
-                && isAValidNumericInput(veryHigh2WmcField.getText(), veryHigh2WmcLabel.getText())
-                && isAValidNumericInput(veryHighWmcField.getText(), veryHighWmcLabel.getText())
+        if(isAValidNumericInput(locField.getText(), locLabel.getText())
+                && isAValidNumericInput(wmcField.getText(), wmcLabel.getText())
                 && isAValidNumericInput(tccField.getText(), tccLabel.getText())) {
             ArrayList<Number> inputParameters = new ArrayList<>();
-            inputParameters.add(Integer.parseInt(veryHighLocField.getText()));
-            inputParameters.add(Integer.parseInt(veryHigh2LocField.getText()));
-            inputParameters.add(Integer.parseInt(veryHigh2WmcField.getText()));
-            inputParameters.add(Integer.parseInt(veryHighWmcField.getText()));
+            inputParameters.add(Integer.parseInt(locField.getText()));
+            inputParameters.add(Integer.parseInt(wmcField.getText()));
             inputParameters.add(Float.parseFloat(tccField.getText()));
 
             configureJsonForAnalyzer();

@@ -1,12 +1,10 @@
 package ui.dataClass;
 
 import dao.DataClassDAO;
-import dao.GodClassDAO;
 import metrics.codesmells.dataClass.OutputDataClass;
 import ui.CodeSmellGeneralPanel;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.domain.ClassDataCodeSmell;
-import metrics.codesmells.godClass.OutputGodClass;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.ComparativeTable;

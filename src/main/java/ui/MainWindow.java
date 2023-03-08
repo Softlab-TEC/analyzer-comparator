@@ -1,5 +1,8 @@
 package ui;
 
+import ui.brainClass.BrainClassPanel;
+import ui.brainMethod.BrainMethodPanel;
+import ui.dataClass.DataClassPanel;
 import ui.featureEnvy.FeatureEnvyPanel;
 import ui.godClass.GodClassPanel;
 
@@ -121,22 +124,16 @@ public class MainWindow extends JFrame{
 
     private class BtnDataClass implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
+        public void actionPerformed(ActionEvent e) { useNewPanel(new DataClassPanel());}
     }
 
     private class BtnBrainMethod implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
+        public void actionPerformed(ActionEvent e) {useNewPanel(new BrainMethodPanel());}
     }
 
     private class BtnBrainClass implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
+        public void actionPerformed(ActionEvent e) {useNewPanel(new BrainClassPanel());}
     }
 }
