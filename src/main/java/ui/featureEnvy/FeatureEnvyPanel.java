@@ -1,0 +1,116 @@
+package ui.featureEnvy;
+
+import DTO.PMD.FeatureEnvyDTO;
+import dao.FeatureEnvyDAO;
+import dao.GodClassDAO;
+import ui.CodeSmellGeneralPanel;
+import gastmappers.exceptions.UnsupportedLanguageException;
+import metrics.codesmells.domain.ClassDataCodeSmell;
+import metrics.codesmells.domain.MethodDataCodeSmell;
+import metrics.codesmells.featureEnvy.OutputFeatureEnvy;
+import metrics.exceptions.UnsupportedMetricException;
+import org.json.simple.parser.ParseException;
+import ui.ComparativeTable;
+import ui.TableModel;
+
+import javax.swing.*;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
+    private static JTextField atfdField;
+    private static JTextField laaField;
+    private static JTextField fdpField;
+
+    private static  JLabel atfdLabel;
+    private static  JLabel laaLabel;
+    private static  JLabel fdpLabel;
+
+    public FeatureEnvyPanel(){
+        super();
+        initialize();
+    }
+
+    protected void initialize() {
+        atfdField = initField(atfdField);
+        laaField = initField(laaField);
+        fdpField = initField(fdpField);
+
+        placeElementInPanel(atfdLabel, atfdField, "ATFD:", 0);
+        placeElementInPanel(laaLabel, laaField, "LAA:", 1);
+        placeElementInPanel(fdpLabel, fdpField, "FDP:", 2);
+    }
+
+    @Override
+    public void execute() {
+        try {
+            if(!onlyAnalyzer) {
+                JOptionPane.showMessageDialog(panel,
+                        "Feature not implemented yet! Running only Analyzer",
+                        "Not implemented",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+            initAnalyzerAndSaveResults();
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            System.out.println("Error 1");
+        } catch (UnsupportedMetricException unsupportedMetricException) {
+            unsupportedMetricException.printStackTrace();
+            System.out.println("Error 2");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            System.out.println("Error 3");
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            System.out.println("Error 4");
+        } catch (ClassNotFoundException classNotFoundException) {
+            classNotFoundException.printStackTrace();
+            System.out.println("Error 5");
+        } catch (UnsupportedLanguageException unsupportedLanguageException) {
+            unsupportedLanguageException.printStackTrace();
+            System.out.println("Error 6");
+        }
+        System.out.println("No errors");
+    }
+
+    @Override
+    public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+        if(isAValidNumericInput(atfdField.getText(), atfdLabel.getText())
+                && isAValidNumericInput(laaField.getText(), laaLabel.getText())
+                && isAValidNumericInput(fdpLabel.getText(), fdpLabel.getText())) {
+            ArrayList<Number> inputParameters = new ArrayList<>();
+            inputParameters.add(Integer.parseInt(atfdField.getText()));
+            inputParameters.add(Float.parseFloat(laaField.getText()));
+            inputParameters.add(Float.parseFloat(fdpField.getText()));
+            configureJsonForAnalyzer();
+            OutputFeatureEnvy ofe = (OutputFeatureEnvy) callAnalyzer("FEATURE_ENVY", inputParameters);
+            if (ofe != null && !ofe.getFeatureEnvyResults().isEmpty()) {
+                ArrayList<MethodDataCodeSmell> classesWithFeatureEnviesFound = ofe.getFeatureEnvyResults().stream().map(f -> f.getMethodData()).collect(Collectors.toCollection(ArrayList::new));
+                ArrayList<FeatureEnvyDAO> methods = new ArrayList<>();
+                for (var fe : classesWithFeatureEnviesFound){
+                    FeatureEnvyDAO featureEnvy = new FeatureEnvyDAO(
+                            fe.getClassName(),
+                            fe.getName(),
+                            fe.getPossibleAccessors(false).size(),
+                            fe.getLAA(),
+                            fe.getFDP(),
+                            1,
+                            fe.getFile(),//Todo: In the analyzer get the path of the class
+                            fe.getFile(),
+                            new java.util.Date()
+                    );
+                    if(saveInDB) featureEnvy.save();
+                    methods.add(featureEnvy);
+                }
+                TableModel tableModel = new FeatureEnvyTableModel(methods);
+                ComparativeTable ct = new ComparativeTable(tableModel);
+                ct.drawTable();
+            }
+            System.out.println("Success" + ofe.toString());
+        }
+    }
+
+}

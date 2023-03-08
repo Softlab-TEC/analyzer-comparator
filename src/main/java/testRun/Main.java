@@ -1,8 +1,8 @@
 package testRun;
 
 import DTO.PMD.GodClassDTO;
-import Services.GodClassService;
-import UI.MainWindow;
+import services.GodClassService;
+import ui.MainWindow;
 
 public class Main {
     public static void getGoClasses(){
