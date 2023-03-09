@@ -13,7 +13,6 @@ import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -99,26 +98,7 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
         placeElementInPanel(tccLabel, tccField, "TCC::", 2);
     }
 
-    private String createFolder(){
-        try {
-            File directory = new File("Results");
-            if (!directory.exists()) {
-                directory.mkdir();
-            }
-            File file = new File(directory, "PMDoutput.txt");
-            if (file.createNewFile()) {
-                System.out.println("File created in Results folder: " + file.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
-            return file.getAbsolutePath();
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-            return "";
-        }
-    }
-
+    @Override
     public void showResultsTable(int analyzerId){
         String sql = "SELECT * FROM GODCLASS ORDER BY classname, analyzerid, insertdate";
         ArrayList<GodClassDAO> t = new ArrayList<>();
@@ -139,7 +119,7 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
         //Output: /Users/williamcasasola/Documents/TEC/Detector/test/
         try {
             if(!onlyAnalyzer) {
-                String path = outputPath.isEmpty() ?  createFolder() : outputPath +  "PMDoutput.txt";
+                String path = outputPath.isEmpty() ?  createFolder("PMDoutputGodClass.txt") : outputPath +  "PMDoutput.txt";
                 PMDExecutor pmdExecutor = new PMDExecutor();
                 pmdExecutor.executePMD(inputPath, path);
                 if (saveInDB) ReadPMFileAndSaveResults();

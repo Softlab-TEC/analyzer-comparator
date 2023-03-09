@@ -6,8 +6,8 @@ import ui.TableModel;
 import java.util.List;
 
 public class DataClassTableModel  extends TableModel {
-    public DataClassTableModel(List<DataClassDAO> featureEnvies){
-        super(featureEnvies);
+    public DataClassTableModel(List<DataClassDAO> dataClasses){
+        super(dataClasses, 4);
         smells = super.castList(DataClassDAO.class);
         customColumns = new String[] {"WOC", "NOPA", "NOAM", "WMC"};
         mergeColumns();

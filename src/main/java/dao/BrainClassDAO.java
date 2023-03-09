@@ -91,7 +91,7 @@ public class BrainClassDAO extends CodeSmellDAO {
         this.numberBrainMethods = numberBrainMethods;
     }
 
-    public ArrayList<BrainClassDAO> getGodClasses(String query){
+    public ArrayList<BrainClassDAO> getBrainClasses(String query){
         ArrayList<String> whereStatement = GetCodeSmellHelper.getWhereStatementByBasicProps(this);
         if(!whereStatement.isEmpty()){
             String where = " WHERE " + String.join("AND ", whereStatement);
@@ -126,14 +126,14 @@ public class BrainClassDAO extends CodeSmellDAO {
         return brainClasses;
     }
 
-    public ArrayList<BrainClassDAO> getGodClassesOnlyPMD(){
+    public ArrayList<BrainClassDAO> getBrainClassesOnlyPMD(){
         String query = "SELECT bc1.* FROM BRAINCLASS bc1 LEFT JOIN BRAINCLASS bc2 ON bc1.classname = bc2.classname AND bc2.analyzerid = 1 WHERE bc1.analyzerid = 2 AND bc2.analyzerid IS NULL;";
-        return getGodClasses(query);
+        return getBrainClasses(query);
     }
 
-    public ArrayList<BrainClassDAO> getGodClassesOnlyAnalyzer(){
+    public ArrayList<BrainClassDAO> getBrainClassesOnlyAnalyzer(){
         String query = "SELECT bc1.* FROM BRAINCLASS bc1 LEFT JOIN BRAINCLASS bc2 ON bc1.classname = bc2.classname AND bc2.analyzerid = 2 WHERE bc1.analyzerid = 1 AND bc2.analyzerid IS NULL";
-        return getGodClasses(query);
+        return getBrainClasses(query);
     }
 
     public void save(){

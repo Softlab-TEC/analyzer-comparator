@@ -8,7 +8,7 @@ import java.util.List;
 public class FeatureEnvyTableModel extends TableModel {
 
     public FeatureEnvyTableModel(List<FeatureEnvyDAO> featureEnvies){
-        super(featureEnvies);
+        super(featureEnvies, 3);
         smells = super.castList(FeatureEnvyDAO.class);
         customColumns = new String[]{"ATFD", "LAA", "FPD"};
         mergeColumns();

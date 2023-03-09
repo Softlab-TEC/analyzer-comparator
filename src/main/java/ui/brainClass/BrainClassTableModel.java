@@ -7,7 +7,7 @@ import java.util.List;
 
 public class BrainClassTableModel extends TableModel {
     public BrainClassTableModel(List<BrainClassDAO> brainClasses){
-        super(brainClasses);
+        super(brainClasses, 4);
         smells = super.castList(BrainClassDAO.class);
         customColumns = new String[]{"LOC", "WMC", "TCC", "# Brain methods"};
         mergeColumns();

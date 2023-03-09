@@ -41,6 +41,22 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
+    public void showResultsTable(int analyzerId){
+        String sql = "SELECT * FROM FEATUREENVY ORDER BY classname, methodname, analyzerid, insertdate";
+        ArrayList<FeatureEnvyDAO> t = new ArrayList<>();
+        FeatureEnvyDAO fe = new FeatureEnvyDAO();
+        switch (analyzerId){
+            case 0: t = fe.getFeatureEnvies(sql); break;
+            case 1: t = fe.getFeatureEnviesOnlyAnalyzer(); break;
+            case 2: t = fe.getFeatureEnviesOnlyPMD(); break;
+        }
+        TableModel tableModel = new FeatureEnvyTableModel(t);
+        ComparativeTable ct = new ComparativeTable(tableModel);
+        ct.drawTable();
+    }
+
+
+    @Override
     public void execute() {
         try {
             if(!onlyAnalyzer) {

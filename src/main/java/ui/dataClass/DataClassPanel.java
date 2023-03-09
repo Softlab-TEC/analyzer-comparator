@@ -9,6 +9,7 @@ import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.ComparativeTable;
 import ui.TableModel;
+import ui.featureEnvy.FeatureEnvyTableModel;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -47,6 +48,22 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
         placeElementInPanel(manyPublicLabel, manyPublicField, "Public Data (Many):", 3);
         placeElementInPanel(veryHighWmcLabel, veryHighWmcField, "WMC (Very High):", 4);
     }
+
+    @Override
+    public void showResultsTable(int analyzerId){
+        String sql = "SELECT * FROM DATACLASS ORDER BY classname, analyzerid, insertdate";
+        ArrayList<DataClassDAO> t = new ArrayList<>();
+        DataClassDAO dc = new DataClassDAO();
+        switch (analyzerId){
+            case 0: t = dc.getDataClasses(sql); break;
+            case 1: t = dc.getDataClassesOnlyAnalyzer(); break;
+            case 2: t = dc.getDataClassesOnlyPMD(); break;
+        }
+        TableModel tableModel = new DataClassTableModel(t);
+        ComparativeTable ct = new ComparativeTable(tableModel);
+        ct.drawTable();
+    }
+
 
     @Override
     public void execute() {
@@ -116,7 +133,6 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
                     classes.add(dataClass);
                 }
                 TableModel tableModel = new DataClassTableModel(classes);
-
                 ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();
             }

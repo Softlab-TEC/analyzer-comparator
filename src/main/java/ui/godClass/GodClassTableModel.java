@@ -8,7 +8,7 @@ import java.util.List;
 public class GodClassTableModel extends TableModel {
 
     public GodClassTableModel(List<GodClassDAO> godClasses){
-        super(godClasses);
+        super(godClasses, 3);
         smells = super.castList(GodClassDAO.class);
         customColumns = new String[]{"ATFD", "WMC", "TCC"};
         mergeColumns();

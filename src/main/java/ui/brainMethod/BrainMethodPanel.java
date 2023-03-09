@@ -1,6 +1,7 @@
 package ui.brainMethod;
 
 import dao.BrainMethodDAO;
+import dao.DataClassDAO;
 import metrics.codesmells.brainMethod.OutputBrainMethod;
 import metrics.codesmells.domain.MethodDataCodeSmell;
 import ui.CodeSmellGeneralPanel;
@@ -8,6 +9,7 @@ import ui.ComparativeTable;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
+import ui.dataClass.DataClassTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -42,6 +44,21 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
         placeElementInPanel(cycloLabel, cycloField, "Cyclo", 1);
         placeElementInPanel(maxNestingLabel, maxNestingField, "Max Nesting", 2);
         placeElementInPanel(noavLabel, noavField, "NOAV", 3);
+    }
+
+    @Override
+    public void showResultsTable(int analyzerId){
+        String sql = "SELECT * FROM BRAINMETHOD ORDER BY classname, methodname, analyzerid, insertdate";
+        ArrayList<BrainMethodDAO> t = new ArrayList<>();
+        BrainMethodDAO bm = new BrainMethodDAO();
+        switch (analyzerId){
+            case 0: t = bm.getBrainMethods(sql); break;
+            case 1: t = bm.getBrainMethodsOnlyAnalyzer(); break;
+            case 2: t = bm.getBrainMethodsOnlyPMD(); break;
+        }
+        ui.TableModel tableModel = new BrainMethodTableModel(t);
+        ComparativeTable ct = new ComparativeTable(tableModel);
+        ct.drawTable();
     }
 
     @Override

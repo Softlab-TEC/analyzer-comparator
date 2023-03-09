@@ -122,12 +122,12 @@ public class DataClassDAO extends CodeSmellDAO {
         return dataClasses;
     }
 
-    public ArrayList<DataClassDAO> getGodClassesOnlyPMD(){
+    public ArrayList<DataClassDAO> getDataClassesOnlyPMD(){
         String query = "SELECT dc1.* FROM DATACLASS dc1 LEFT JOIN DATACLASS dc2 ON dc1.classname = dc2.classname AND dc2.analyzerid = 1 WHERE dc1.analyzerid = 2 AND dc2.analyzerid IS NULL;";
         return getDataClasses(query);
     }
 
-    public ArrayList<DataClassDAO> getGodClassesOnlyAnalyzer(){
+    public ArrayList<DataClassDAO> getDataClassesOnlyAnalyzer(){
         String query = "SELECT dc1.* FROM DATACLASS dc1 LEFT JOIN DATACLASS dc2 ON dc1.classname = dc2.classname AND dc2.analyzerid = 2 WHERE dc1.analyzerid = 1 AND dc2.analyzerid IS NULL";
         return getDataClasses(query);
     }

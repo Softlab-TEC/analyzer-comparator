@@ -8,6 +8,7 @@ import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
+import ui.brainMethod.BrainMethodTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -38,6 +39,21 @@ public class BrainClassPanel  extends CodeSmellGeneralPanel {
         placeElementInPanel(locLabel, locField, "LOC", 1);
         placeElementInPanel(wmcLabel, wmcField, "WMC", 2);
         placeElementInPanel(tccLabel, tccField, "TCC", 3);
+    }
+
+    @Override
+    public void showResultsTable(int analyzerId){
+        String sql = "SELECT * FROM BRAINMETHOD ORDER BY classname, analyzerid, insertdate";
+        ArrayList<BrainClassDAO> t = new ArrayList<>();
+        BrainClassDAO bc = new BrainClassDAO();
+        switch (analyzerId){
+            case 0: t = bc.getBrainClasses(sql); break;
+            case 1: t = bc.getBrainClassesOnlyAnalyzer(); break;
+            case 2: t = bc.getBrainClassesOnlyPMD(); break;
+        }
+        ui.TableModel tableModel = new BrainClassTableModel(t);
+        ComparativeTable ct = new ComparativeTable(tableModel);
+        ct.drawTable();
     }
 
     @Override

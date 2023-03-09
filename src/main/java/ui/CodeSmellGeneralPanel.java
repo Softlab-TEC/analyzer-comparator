@@ -13,6 +13,7 @@ import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -172,6 +173,26 @@ public class CodeSmellGeneralPanel {
         panel.add(label, constraints);
         constraints.gridx = 1;
         panel.add(field, constraints);
+    }
+
+    protected String createFolder(String fileName){
+        try {
+            File directory = new File("Results");
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
+            File file = new File(directory, fileName);
+            if (file.createNewFile()) {
+                System.out.println("File created in Results folder: " + file.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+            return "";
+        }
     }
 
 }

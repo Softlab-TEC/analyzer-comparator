@@ -123,12 +123,12 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
         return featureEnvies;
     }
 
-    public ArrayList<FeatureEnvyDAO> getGodClassesOnlyPMD(){
+    public ArrayList<FeatureEnvyDAO> getFeatureEnviesOnlyPMD(){
         String query = "SELECT gc1.* FROM FEATUREENVY fe1 LEFT JOIN FEATUREENVY fe2 ON fe1.classname = fe2.classname AND fe2.analyzerid = 1 WHERE fe1.analyzerid = 2 AND fe2.analyzerid IS NULL;";
         return getFeatureEnvies(query);
     }
 
-    public ArrayList<FeatureEnvyDAO> getGodClassesOnlyAnalyzer(){
+    public ArrayList<FeatureEnvyDAO> getFeatureEnviesOnlyAnalyzer(){
         String query = "SELECT fe1.* FROM FEATUREENVY fe1 LEFT JOIN FEATUREENVY fe2 ON fe1.classname = fe2.classname AND fe2.analyzerid = 2 WHERE fe1.analyzerid = 1 AND fe2.analyzerid IS NULL";
         return getFeatureEnvies(query);
     }
