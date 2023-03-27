@@ -1,3 +1,7 @@
 /.apt_generated/
 /.apt_generated_tests/
 target/
+*.class
+*.lst
+src/.DS_Store
+.DS_Store
