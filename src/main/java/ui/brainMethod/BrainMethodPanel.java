@@ -1,7 +1,6 @@
 package ui.brainMethod;
 
 import dao.BrainMethodDAO;
-import dao.DataClassDAO;
 import metrics.codesmells.brainMethod.OutputBrainMethod;
 import metrics.codesmells.domain.MethodDataCodeSmell;
 import ui.CodeSmellGeneralPanel;
@@ -9,14 +8,12 @@ import ui.ComparativeTable;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
-import ui.dataClass.DataClassTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class BrainMethodPanel extends CodeSmellGeneralPanel {
     private static JTextField locField;
@@ -40,10 +37,10 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
         maxNestingField = initField(cycloField);
         noavField = initField(noavField);
 
-        placeElementInPanel(locLabel, locField, "LOC", 0);
-        placeElementInPanel(cycloLabel, cycloField, "Cyclo", 1);
-        placeElementInPanel(maxNestingLabel, maxNestingField, "Max Nesting", 2);
-        placeElementInPanel(noavLabel, noavField, "NOAV", 3);
+        locLabel = placeElementInPanel(locLabel, locField, "LOC", 0);
+        cycloLabel = placeElementInPanel(cycloLabel, cycloField, "Cyclo", 1);
+        maxNestingLabel = placeElementInPanel(maxNestingLabel, maxNestingField, "Max Nesting", 2);
+        noavLabel = placeElementInPanel(noavLabel, noavField, "NOAV", 3);
     }
 
     @Override
@@ -108,7 +105,7 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputBrainMethod ogc = (OutputBrainMethod) callAnalyzer("BRAIN_METHOD", inputParameters);
             if (ogc != null && !ogc.getBrainMethodResults().isEmpty()) {
-                ArrayList<MethodDataCodeSmell> brainMethodsFound = ogc.getBrainMethodResults().stream().map(b -> b.getMethodData()).collect(Collectors.toCollection(ArrayList::new));
+                ArrayList<MethodDataCodeSmell> brainMethodsFound = ogc.getBrainMethodResults();
                 ArrayList<BrainMethodDAO> methods = new ArrayList<>();
                 for (var brain : brainMethodsFound){
                     BrainMethodDAO brainMethod = new BrainMethodDAO(

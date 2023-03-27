@@ -166,13 +166,14 @@ public class CodeSmellGeneralPanel {
         return input;
     }
 
-    protected void placeElementInPanel(JLabel label, JTextField field, String name, int y){
+    protected JLabel placeElementInPanel(JLabel label, JTextField field, String name, int y){
         constraints.gridy = y;
         constraints.gridx = 0;
         label = new JLabel(name);
         panel.add(label, constraints);
         constraints.gridx = 1;
         panel.add(field, constraints);
+        return label;
     }
 
     protected String createFolder(String fileName){

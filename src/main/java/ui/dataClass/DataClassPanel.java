@@ -9,13 +9,11 @@ import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.ComparativeTable;
 import ui.TableModel;
-import ui.featureEnvy.FeatureEnvyTableModel;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class DataClassPanel extends CodeSmellGeneralPanel{
     private static JTextField wocField;
@@ -42,11 +40,11 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
         manyPublicField = initField(manyPublicField);
         veryHighWmcField = initField(veryHighWmcField);
 
-        placeElementInPanel(wocLabel, wocField, "WOC:", 0);
-        placeElementInPanel(fewPublicLabel, fewPublicField, "Public Data (Few):", 1);
-        placeElementInPanel(highWmcLabel, highWmcField, "WMC (High):", 2);
-        placeElementInPanel(manyPublicLabel, manyPublicField, "Public Data (Many):", 3);
-        placeElementInPanel(veryHighWmcLabel, veryHighWmcField, "WMC (Very High):", 4);
+        wocLabel = placeElementInPanel(wocLabel, wocField, "WOC:", 0);
+        fewPublicLabel = placeElementInPanel(fewPublicLabel, fewPublicField, "Public Data (Few):", 1);
+        highWmcLabel = placeElementInPanel(highWmcLabel, highWmcField, "WMC (High):", 2);
+        manyPublicLabel = placeElementInPanel(manyPublicLabel, manyPublicField, "Public Data (Many):", 3);
+        veryHighWmcLabel = placeElementInPanel(veryHighWmcLabel, veryHighWmcField, "WMC (Very High):", 4);
     }
 
     @Override
@@ -113,7 +111,7 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
             configureJsonForAnalyzer();
             OutputDataClass ogc = (OutputDataClass) callAnalyzer("DATA_CLASS", inputParameters);
             if (ogc != null && !ogc.getDataClassResults().isEmpty()) {
-                ArrayList<ClassDataCodeSmell> dataClassesFound = ogc.getDataClassResults().stream().map(g -> g.getClassData().second).collect(Collectors.toCollection(ArrayList::new));
+                ArrayList<ClassDataCodeSmell> dataClassesFound = ogc.getDataClassResults();
                 ArrayList<DataClassDAO> classes = new ArrayList<>();
 
                 for (var dataC : dataClassesFound){

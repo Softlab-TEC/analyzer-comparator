@@ -14,7 +14,6 @@ import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
     private static JTextField atfdField;
@@ -35,9 +34,9 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
         laaField = initField(laaField);
         fdpField = initField(fdpField);
 
-        placeElementInPanel(atfdLabel, atfdField, "ATFD:", 0);
-        placeElementInPanel(laaLabel, laaField, "LAA:", 1);
-        placeElementInPanel(fdpLabel, fdpField, "FDP:", 2);
+        atfdLabel = placeElementInPanel(atfdLabel, atfdField, "ATFD:", 0);
+        laaLabel = placeElementInPanel(laaLabel, laaField, "LAA:", 1);
+        fdpLabel = placeElementInPanel(fdpLabel, fdpField, "FDP:", 2);
     }
 
     @Override
@@ -100,7 +99,7 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputFeatureEnvy ofe = (OutputFeatureEnvy) callAnalyzer("FEATURE_ENVY", inputParameters);
             if (ofe != null && !ofe.getFeatureEnvyResults().isEmpty()) {
-                ArrayList<MethodDataCodeSmell> classesWithFeatureEnviesFound = ofe.getFeatureEnvyResults().stream().map(f -> f.getMethodData()).collect(Collectors.toCollection(ArrayList::new));
+                ArrayList<MethodDataCodeSmell> classesWithFeatureEnviesFound = ofe.getFeatureEnvyResults();
                 ArrayList<FeatureEnvyDAO> methods = new ArrayList<>();
                 for (var fe : classesWithFeatureEnviesFound){
                     FeatureEnvyDAO featureEnvy = new FeatureEnvyDAO(

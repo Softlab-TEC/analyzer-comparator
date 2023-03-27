@@ -18,7 +18,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
 
 public class GodClassPanel extends CodeSmellGeneralPanel {
     private static final String ADULT_RESPONSE = "Hello mature!";
@@ -93,9 +92,9 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
         tccField = initField(tccField);
         atfdField = initField(atfdField);
 
-        placeElementInPanel(atfdLabel, atfdField, "ATFD:", 0);
-        placeElementInPanel(wmcLabel, wmcField, "WMC:", 1);
-        placeElementInPanel(tccLabel, tccField, "TCC::", 2);
+        atfdLabel = placeElementInPanel(atfdLabel, atfdField, "ATFD:", 0);
+        wmcLabel = placeElementInPanel(wmcLabel, wmcField, "WMC:", 1);
+        tccLabel =placeElementInPanel(tccLabel, tccField, "TCC::", 2);
     }
 
     @Override
@@ -165,13 +164,13 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputGodClass ogc = (OutputGodClass) callAnalyzer("GOD_CLASS", inputParameters);
             if(ogc != null && !ogc.getGodClassResults().isEmpty()) {
-                ArrayList<ClassDataCodeSmell> godClassFound = ogc.getGodClassResults().stream().map(g -> g.getClassData().second).collect(Collectors.toCollection(ArrayList::new));
+                ArrayList<ClassDataCodeSmell> godClassFound = ogc.getGodClassResults();
                 ArrayList<GodClassDAO> classes = new ArrayList<>();
                 for (var god : godClassFound){
                     GodClassDAO godClass = new GodClassDAO(
                             god.getName(),
                             god.getWMC(),
-                            god.getPossibleAccessors(),
+                            god.getPossibleAccessorsTimesUsed(true),
                             god.getTCC(),
                             1,
                             god.getPath(),//Todo: In the analyzer get the path of the class

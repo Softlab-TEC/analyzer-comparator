@@ -8,14 +8,12 @@ import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
-import ui.brainMethod.BrainMethodTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class BrainClassPanel  extends CodeSmellGeneralPanel {
     private static JTextField locField;
@@ -36,9 +34,9 @@ public class BrainClassPanel  extends CodeSmellGeneralPanel {
         wmcField = initField(wmcField);
         tccField = initField(tccField);
 
-        placeElementInPanel(locLabel, locField, "LOC", 1);
-        placeElementInPanel(wmcLabel, wmcField, "WMC", 2);
-        placeElementInPanel(tccLabel, tccField, "TCC", 3);
+        locLabel = placeElementInPanel(locLabel, locField, "LOC", 1);
+        wmcLabel = placeElementInPanel(wmcLabel, wmcField, "WMC", 2);
+        tccLabel = placeElementInPanel(tccLabel, tccField, "TCC", 3);
     }
 
     @Override
@@ -101,7 +99,7 @@ public class BrainClassPanel  extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputBrainClass ogc = (OutputBrainClass) callAnalyzer("BRAIN_CLASS", inputParameters);
             if (ogc != null && !ogc.getBrainClassResult().isEmpty()) {
-                ArrayList<ClassDataCodeSmell> brainClassesFound = ogc.getBrainClassResult().stream().map(g -> g.getClassData().second).collect(Collectors.toCollection(ArrayList::new));
+                ArrayList<ClassDataCodeSmell> brainClassesFound = ogc.getBrainClassResult();
                 ArrayList<BrainClassDAO> classes = new ArrayList<>();
                 for (var brain : brainClassesFound){
                     BrainClassDAO godClass = new BrainClassDAO(
