@@ -1,0 +1,1 @@
+/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/hibernate/hibernate-4.2.2/src/hibernate-release-4.2.2.Final/project/hibernate-core/src/main/java/org/hibernate/cfg/HbmBinder.java:110:	GodClass:	Possible God Class (WMC=538, ATFD=881, TCC=3.064%)
