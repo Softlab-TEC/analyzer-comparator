@@ -1,6 +1,6 @@
-package ui.godClass;
+package ui.identity.godClass;
 
-import dao.GodClassDAO;
+import dao.identity.GodClassDAO;
 import ui.TableModel;
 
 import java.util.List;

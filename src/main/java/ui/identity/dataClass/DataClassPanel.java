@@ -1,6 +1,6 @@
-package ui.dataClass;
+package ui.identity.dataClass;
 
-import dao.DataClassDAO;
+import dao.identity.DataClassDAO;
 import metrics.codesmells.dataClass.OutputDataClass;
 import ui.CodeSmellGeneralPanel;
 import gastmappers.exceptions.UnsupportedLanguageException;
@@ -9,6 +9,7 @@ import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.ComparativeTable;
 import ui.TableModel;
+import utils.AnalyzerConstants;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -109,9 +110,9 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
             inputParameters.add(Integer.parseInt(manyPublicField.getText()));
             inputParameters.add(Integer.parseInt(veryHighWmcField.getText()));
             configureJsonForAnalyzer();
-            OutputDataClass ogc = (OutputDataClass) callAnalyzer("DATA_CLASS", inputParameters);
-            if (ogc != null && !ogc.getDataClassResults().isEmpty()) {
-                ArrayList<ClassDataCodeSmell> dataClassesFound = ogc.getDataClassResults();
+            OutputDataClass odc = (OutputDataClass) callAnalyzer("DATA_CLASS", inputParameters);
+            if (odc != null && !odc.getDataClassResults().isEmpty()) {
+                ArrayList<ClassDataCodeSmell> dataClassesFound = odc.getDataClassResults();
                 ArrayList<DataClassDAO> classes = new ArrayList<>();
 
                 for (var dataC : dataClassesFound){
@@ -121,7 +122,7 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
                             dataC.getNOPA(),
                             dataC.getNOAM(),
                             dataC.getWMC(),
-                            1,
+                            AnalyzerConstants.ANALYZER,
                             dataC.getPath(),//Todo: In the analyzer get the path of the class
                             dataC.getPath(),
                             new java.util.Date()
@@ -134,7 +135,7 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
                 ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();
             }
-            System.out.println("Success" + ogc.toString());
+            System.out.println("Success" + odc.toString());
         }
     }
 }

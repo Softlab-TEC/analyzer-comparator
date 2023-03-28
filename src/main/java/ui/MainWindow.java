@@ -1,10 +1,10 @@
 package ui;
 
-import ui.brainClass.BrainClassPanel;
-import ui.brainMethod.BrainMethodPanel;
-import ui.dataClass.DataClassPanel;
-import ui.featureEnvy.FeatureEnvyPanel;
-import ui.godClass.GodClassPanel;
+import ui.identity.brainClass.BrainClassPanel;
+import ui.identity.brainMethod.BrainMethodPanel;
+import ui.identity.dataClass.DataClassPanel;
+import ui.identity.featureEnvy.FeatureEnvyPanel;
+import ui.identity.godClass.GodClassPanel;
 
 import javax.swing.*;
 import java.awt.*;

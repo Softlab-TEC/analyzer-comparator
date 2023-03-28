@@ -1,6 +1,6 @@
-package ui.brainMethod;
+package ui.identity.brainMethod;
 
-import dao.BrainMethodDAO;
+import dao.identity.BrainMethodDAO;
 import metrics.codesmells.brainMethod.OutputBrainMethod;
 import metrics.codesmells.domain.MethodDataCodeSmell;
 import ui.CodeSmellGeneralPanel;
@@ -8,6 +8,7 @@ import ui.ComparativeTable;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
+import utils.AnalyzerConstants;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -103,19 +104,19 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
             inputParameters.add(Integer.parseInt(noavField.getText()));
 
             configureJsonForAnalyzer();
-            OutputBrainMethod ogc = (OutputBrainMethod) callAnalyzer("BRAIN_METHOD", inputParameters);
-            if (ogc != null && !ogc.getBrainMethodResults().isEmpty()) {
-                ArrayList<MethodDataCodeSmell> brainMethodsFound = ogc.getBrainMethodResults();
+            OutputBrainMethod obm = (OutputBrainMethod) callAnalyzer("BRAIN_METHOD", inputParameters);
+            if (obm != null && !obm.getBrainMethodResults().isEmpty()) {
+                ArrayList<MethodDataCodeSmell> brainMethodsFound = obm.getBrainMethodResults();
                 ArrayList<BrainMethodDAO> methods = new ArrayList<>();
                 for (var brain : brainMethodsFound){
                     BrainMethodDAO brainMethod = new BrainMethodDAO(
-                            brain.getName(),
-                            ""  ,
+                            brain.getClassName(),
+                            brain.getName() ,
                             brain.getLOC(),
                             brain.getCycloMatic(),
                             brain.getMaxNesting(),
                             brain.getPossibleAccessors(false).size(),
-                            1,
+                            AnalyzerConstants.ANALYZER,
                             brain.getFile(),//Todo: In the analyzer get the path of the class
                             brain.getFile(),
                             new java.util.Date()
@@ -129,7 +130,7 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
                 ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();
             }
-            System.out.println("Success" + ogc.toString());
+            System.out.println("Success" + obm.toString());
         }
     }
 }

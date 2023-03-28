@@ -1,5 +1,7 @@
 package dao;
 
+import dao.identity.GodClassDAO;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +26,7 @@ public class AnalizerDAO {
         this.name = name;
     }
 
-    public ArrayList<AnalizerDAO> getAnalizers(dao.GodClassDAO godClassDao){
+    public ArrayList<AnalizerDAO> getAnalizers(GodClassDAO godClassDao){
         String sql = "SELECT * FROM ANALYZER";
         AnalizerDAO analizer;
         ArrayList<AnalizerDAO> analizers = new ArrayList<>();

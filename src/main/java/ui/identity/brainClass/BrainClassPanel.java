@@ -1,6 +1,6 @@
-package ui.brainClass;
+package ui.identity.brainClass;
 
-import dao.BrainClassDAO;
+import dao.identity.BrainClassDAO;
 import metrics.codesmells.brainClass.OutputBrainClass;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
@@ -8,6 +8,7 @@ import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
+import utils.AnalyzerConstants;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class BrainClassPanel  extends CodeSmellGeneralPanel {
+public class BrainClassPanel extends CodeSmellGeneralPanel {
     private static JTextField locField;
     private static JTextField wmcField;
     private static JTextField tccField;
@@ -41,7 +42,7 @@ public class BrainClassPanel  extends CodeSmellGeneralPanel {
 
     @Override
     public void showResultsTable(int analyzerId){
-        String sql = "SELECT * FROM BRAINMETHOD ORDER BY classname, analyzerid, insertdate";
+        String sql = "SELECT * FROM BRAINCLASS ORDER BY classname, analyzerid, insertdate";
         ArrayList<BrainClassDAO> t = new ArrayList<>();
         BrainClassDAO bc = new BrainClassDAO();
         switch (analyzerId){
@@ -97,25 +98,25 @@ public class BrainClassPanel  extends CodeSmellGeneralPanel {
             inputParameters.add(Float.parseFloat(tccField.getText()));
 
             configureJsonForAnalyzer();
-            OutputBrainClass ogc = (OutputBrainClass) callAnalyzer("BRAIN_CLASS", inputParameters);
-            if (ogc != null && !ogc.getBrainClassResult().isEmpty()) {
-                ArrayList<ClassDataCodeSmell> brainClassesFound = ogc.getBrainClassResult();
+            OutputBrainClass obc = (OutputBrainClass) callAnalyzer("BRAIN_CLASS", inputParameters);
+            if (obc != null && !obc.getBrainClassResult().isEmpty()) {
+                ArrayList<ClassDataCodeSmell> brainClassesFound = obc.getBrainClassResult();
                 ArrayList<BrainClassDAO> classes = new ArrayList<>();
                 for (var brain : brainClassesFound){
-                    BrainClassDAO godClass = new BrainClassDAO(
+                    BrainClassDAO brainClass = new BrainClassDAO(
                             brain.getName(),
                             brain.getLOC(),
                             brain.getWMC(),
                             brain.getTCC(),
                             brain.getNumberOfBrainMethods(),
-                            1,
+                            AnalyzerConstants.ANALYZER,
                             brain.getPath(),//Todo: In the analyzer get the path of the class
                             brain.getPath(),
                             new java.util.Date()
                     );
 
-                    if(saveInDB) godClass.save();
-                    classes.add(godClass);
+                    if(saveInDB) brainClass.save();
+                    classes.add(brainClass);
                 }
                 TableModel tableModel = new BrainClassTableModel(classes);
 
@@ -123,7 +124,7 @@ public class BrainClassPanel  extends CodeSmellGeneralPanel {
                 ct.drawTable();
 
             }
-            System.out.println("Success" + ogc.toString());
+            System.out.println("Success" + obc.toString());
         }
     }
 }

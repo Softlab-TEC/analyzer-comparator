@@ -1,6 +1,6 @@
-package ui.featureEnvy;
+package ui.identity.featureEnvy;
 
-import dao.FeatureEnvyDAO;
+import dao.identity.FeatureEnvyDAO;
 import ui.TableModel;
 
 import java.util.List;

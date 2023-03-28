@@ -1,6 +1,6 @@
 package dataAccess;
 
-import dao.GodClassDAO;
+import dao.identity.GodClassDAO;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,6 +1,6 @@
-package ui.dataClass;
+package ui.identity.dataClass;
 
-import dao.DataClassDAO;
+import dao.identity.DataClassDAO;
 import ui.TableModel;
 
 import java.util.List;

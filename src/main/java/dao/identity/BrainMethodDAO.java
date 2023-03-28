@@ -1,4 +1,4 @@
-package dao;
+package dao.identity;
 
 import dao.helpers.CodeSmellDAO;
 import dao.helpers.GetCodeSmellHelper;

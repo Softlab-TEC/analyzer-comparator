@@ -1,6 +1,6 @@
 package services;
 
-import dao.GodClassDAO;
+import dao.identity.GodClassDAO;
 import DTO.PMD.GodClassDTO;
 import helpers.Converters;
 import java.util.ArrayList;

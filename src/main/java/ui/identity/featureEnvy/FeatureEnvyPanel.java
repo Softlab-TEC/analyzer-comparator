@@ -1,6 +1,6 @@
-package ui.featureEnvy;
+package ui.identity.featureEnvy;
 
-import dao.FeatureEnvyDAO;
+import dao.identity.FeatureEnvyDAO;
 import ui.CodeSmellGeneralPanel;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.domain.MethodDataCodeSmell;
@@ -9,6 +9,7 @@ import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.ComparativeTable;
 import ui.TableModel;
+import utils.AnalyzerConstants;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -108,7 +109,7 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
                             fe.getPossibleAccessors(false).size(),
                             fe.getLAA(),
                             fe.getFDP(),
-                            1,
+                            AnalyzerConstants.ANALYZER,
                             fe.getFile(),//Todo: In the analyzer get the path of the class
                             fe.getFile(),
                             new java.util.Date()

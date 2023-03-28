@@ -1,6 +1,6 @@
-package ui.brainClass;
+package ui.identity.brainClass;
 
-import dao.BrainClassDAO;
+import dao.identity.BrainClassDAO;
 import ui.TableModel;
 
 import java.util.List;

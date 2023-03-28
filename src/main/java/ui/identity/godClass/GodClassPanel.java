@@ -1,6 +1,6 @@
-package ui.godClass;
+package ui.identity.godClass;
 
-import dao.GodClassDAO;
+import dao.identity.GodClassDAO;
 import dataAccess.PMDExecutor;
 import dataAccess.PMDResultsReader;
 import ui.CodeSmellGeneralPanel;
@@ -10,6 +10,7 @@ import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.codesmells.godClass.OutputGodClass;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
+import utils.AnalyzerConstants;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -172,7 +173,7 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
                             god.getWMC(),
                             god.getPossibleAccessorsTimesUsed(true),
                             god.getTCC(),
-                            1,
+                            AnalyzerConstants.ANALYZER,
                             god.getPath(),//Todo: In the analyzer get the path of the class
                             god.getPath(),
                             new java.util.Date()

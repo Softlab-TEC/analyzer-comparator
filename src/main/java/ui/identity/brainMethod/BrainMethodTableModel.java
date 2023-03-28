@@ -1,6 +1,6 @@
-package ui.brainMethod;
+package ui.identity.brainMethod;
 
-import dao.BrainMethodDAO;
+import dao.identity.BrainMethodDAO;
 import ui.TableModel;
 
 import java.util.List;

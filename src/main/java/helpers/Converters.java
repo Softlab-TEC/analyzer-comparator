@@ -1,6 +1,6 @@
 package helpers;
 
-import dao.GodClassDAO;
+import dao.identity.GodClassDAO;
 import DTO.PMD.GodClassDTO;
 
 //Todo: Change this class for a mapper
