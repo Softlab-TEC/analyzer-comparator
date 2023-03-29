@@ -94,7 +94,6 @@ public class FatRepositoryPanel extends CodeSmellGeneralPanel {
                 for (var fat : fatRepositoriesFound){
                     FatRepositoryDAO repository = new FatRepositoryDAO(
                             fat.getName(),
-                            fat.getNumberEntities(""),
                             fat.getNumberOfBrainMethods(),
                             AnalyzerConstants.ANALYZER,
                             fat.getPath(),//Todo: In the analyzer get the path of the class

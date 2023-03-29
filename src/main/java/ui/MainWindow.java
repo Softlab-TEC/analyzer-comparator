@@ -1,10 +1,7 @@
 package ui;
 
-import ui.identity.brainClass.BrainClassPanel;
-import ui.identity.brainMethod.BrainMethodPanel;
-import ui.identity.dataClass.DataClassPanel;
-import ui.identity.featureEnvy.FeatureEnvyPanel;
-import ui.identity.godClass.GodClassPanel;
+import ui.identity.MainIdentity;
+import ui.mvc.MainMVC;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,9 +38,9 @@ public class MainWindow extends JFrame{
         mainPanel.revalidate();
     }
 
-    private void useNewPanel(CodeSmellGeneralPanel generalPanel) {
+    private void useNewPanel(JPanel smellsPanel) {
         mainPanel.remove(mainMenuPanel);
-        currentPanel = new ConfigurationMenuPanel(generalPanel);
+        currentPanel = smellsPanel;
         mainConstraints.gridy = 1;
         mainPanel.add(currentPanel, mainConstraints);
         mainPanel.repaint();
@@ -76,64 +73,35 @@ public class MainWindow extends JFrame{
         constraints.gridx = 0;
         constraints.gridy = 0;
 
-        JButton btnGodClass = new JButton("God Class");
-        btnGodClass.addActionListener(new BtnGodClassListener());
-        mainMenuPanel.add(btnGodClass, constraints);
+        JButton btnIdentity = new JButton("Identity");
+        btnIdentity.addActionListener(new BtnIdentityListener());
+        mainMenuPanel.add(btnIdentity, constraints);
 
-        JButton btnFeatureEnvy = new JButton("Feature Envy");
-        btnFeatureEnvy.addActionListener(new BtnFeatureEnvy());
+        JButton btnMVC = new JButton("MVC");
+        btnMVC.addActionListener(new BtnMVCListener());
         constraints.gridy = 1;
-        mainMenuPanel.add(btnFeatureEnvy, constraints);
+        mainMenuPanel.add(btnMVC, constraints);
 
-        JButton btnDataClass = new JButton("Data Class");
-        btnDataClass.addActionListener(new BtnDataClass());
-        constraints.gridy = 2;
-        mainMenuPanel.add(btnDataClass, constraints);
-
-        JButton btnBrainMethod = new JButton("Brain Method");
-        btnBrainMethod.addActionListener(new BtnBrainMethod());
-        constraints.gridy = 3;
-        mainMenuPanel.add(btnBrainMethod, constraints);
-
-        JButton btnBrainClass = new JButton("Brain Class");
-        btnBrainClass.addActionListener(new BtnBrainClass());
-        constraints.gridy = 4;
-        mainMenuPanel.add(btnBrainClass, constraints);
         return mainMenuPanel;
     }
 
     private class BtnMainMenuListener implements ActionListener{
-
         @Override
         public void actionPerformed(ActionEvent e) {
             reinitMainMenu();
         }
     }
 
-    private class BtnGodClassListener implements ActionListener {
+    private class BtnIdentityListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            useNewPanel(new GodClassPanel());
+            useNewPanel(new MainIdentity());
         }
     }
 
-    private class BtnFeatureEnvy implements ActionListener {
+    private class BtnMVCListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) { useNewPanel(new FeatureEnvyPanel()); }
+        public void actionPerformed(ActionEvent e) { useNewPanel(new MainMVC()); }
     }
 
-    private class BtnDataClass implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) { useNewPanel(new DataClassPanel());}
-    }
-
-    private class BtnBrainMethod implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {useNewPanel(new BrainMethodPanel());}
-    }
-
-    private class BtnBrainClass implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {useNewPanel(new BrainClassPanel());}
-    }
 }
