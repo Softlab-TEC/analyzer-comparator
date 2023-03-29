@@ -2,6 +2,7 @@ package dao.identity;
 
 import dao.helpers.CodeSmellDAO;
 import dao.helpers.GetCodeSmellHelper;
+import utils.AnalyzerConstants;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -138,12 +139,12 @@ public class BrainMethodDAO extends CodeSmellDAO {
     }
 
     public ArrayList<BrainMethodDAO> getBrainMethodsOnlyPMD(){
-        String query = "SELECT bm1.* FROM BRAINMETHOD bm1 LEFT JOIN BRAINMETHOD bm2 ON bm1.classname = bm2.classname AND bm1.methodname = bm2.methodname AND bm2.analyzerid = 1 WHERE bm1.analyzerid = 2 AND bm2.analyzerid IS NULL;";
+        String query = "SELECT bm1.* FROM BRAINMETHOD bm1 LEFT JOIN BRAINMETHOD bm2 ON bm1.classname = bm2.classname AND bm1.methodname = bm2.methodname AND bm2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE bm1.analyzerid = " + AnalyzerConstants.PMD + " AND bm2.analyzerid IS NULL;";
         return getBrainMethods(query);
     }
 
     public ArrayList<BrainMethodDAO> getBrainMethodsOnlyAnalyzer(){
-        String query = "SELECT bm1.* FROM BRAINMETHOD bm1 LEFT JOIN BRAINMETHOD bm2 ON bm1.classname = bm2.classname AND bm1.methodname = bm2.methodname AND bm2.analyzerid = 2 WHERE bm1.analyzerid = 1 AND bm2.analyzerid IS NULL";
+        String query = "SELECT bm1.* FROM BRAINMETHOD bm1 LEFT JOIN BRAINMETHOD bm2 ON bm1.classname = bm2.classname AND bm1.methodname = bm2.methodname AND bm2.analyzerid = " + AnalyzerConstants.PMD + " WHERE bm1.analyzerid = " + AnalyzerConstants.ANALYZER + " AND bm2.analyzerid IS NULL";
         return getBrainMethods(query);
     }
 

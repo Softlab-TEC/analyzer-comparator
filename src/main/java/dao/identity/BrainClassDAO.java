@@ -2,6 +2,8 @@ package dao.identity;
 
 import dao.helpers.CodeSmellDAO;
 import dao.helpers.GetCodeSmellHelper;
+import utils.AnalyzerConstants;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -127,12 +129,12 @@ public class BrainClassDAO extends CodeSmellDAO {
     }
 
     public ArrayList<BrainClassDAO> getBrainClassesOnlyPMD(){
-        String query = "SELECT bc1.* FROM BRAINCLASS bc1 LEFT JOIN BRAINCLASS bc2 ON bc1.classname = bc2.classname AND bc2.analyzerid = 1 WHERE bc1.analyzerid = 2 AND bc2.analyzerid IS NULL;";
+        String query = "SELECT bc1.* FROM BRAINCLASS bc1 LEFT JOIN BRAINCLASS bc2 ON bc1.classname = bc2.classname AND bc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE bc1.analyzerid = " + AnalyzerConstants.PMD + " AND bc2.analyzerid IS NULL;";
         return getBrainClasses(query);
     }
 
     public ArrayList<BrainClassDAO> getBrainClassesOnlyAnalyzer(){
-        String query = "SELECT bc1.* FROM BRAINCLASS bc1 LEFT JOIN BRAINCLASS bc2 ON bc1.classname = bc2.classname AND bc2.analyzerid = 2 WHERE bc1.analyzerid = 1 AND bc2.analyzerid IS NULL";
+        String query = "SELECT bc1.* FROM BRAINCLASS bc1 LEFT JOIN BRAINCLASS bc2 ON bc1.classname = bc2.classname AND bc2.analyzerid = " + AnalyzerConstants.PMD + " WHERE bc1.analyzerid = " + AnalyzerConstants.ANALYZER + " AND bc2.analyzerid IS NULL";
         return getBrainClasses(query);
     }
 

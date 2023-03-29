@@ -1,6 +1,6 @@
 package ui.mvc.brainController;
 
-import dao.mvc.BraomRepositoryDAO;
+import dao.mvc.BrainControllerDAO;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.domain.MVCDataCodeSmell;
 import metrics.codesmells.mvc.brainController.OutputBrainController;
@@ -34,8 +34,8 @@ public class BrainControllerPanel extends CodeSmellGeneralPanel {
     @Override
     public void showResultsTable(int analyzerId) {
         String sql = "SELECT * FROM BRAINCONTROLLER ORDER BY classname, analyzerid, insertdate";
-        ArrayList<BraomRepositoryDAO> t = new ArrayList<>();
-        BraomRepositoryDAO bc = new BraomRepositoryDAO();
+        ArrayList<BrainControllerDAO> t = new ArrayList<>();
+        BrainControllerDAO bc = new BrainControllerDAO();
         switch (analyzerId) {
             case 0:
                 t = bc.getBrainControllers(sql);
@@ -94,9 +94,9 @@ public class BrainControllerPanel extends CodeSmellGeneralPanel {
             OutputBrainController obc = (OutputBrainController) callAnalyzer("BRAIN_CONTROLLER", inputParameters);
             if (obc != null && !obc.getBrainControllerResults().isEmpty()) {
                 ArrayList<MVCDataCodeSmell> brainControllersFound = obc.getBrainControllerResults();
-                ArrayList<BraomRepositoryDAO> controllers = new ArrayList<>();
+                ArrayList<BrainControllerDAO> controllers = new ArrayList<>();
                 for (var brain : brainControllersFound) {
-                    BraomRepositoryDAO brainController = new BraomRepositoryDAO(
+                    BrainControllerDAO brainController = new BrainControllerDAO(
                             brain.getName(),
                             brain.getNFRFC(),
                             AnalyzerConstants.ANALYZER,

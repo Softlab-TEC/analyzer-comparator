@@ -75,7 +75,76 @@ CREATE TABLE BRAINMETHOD(
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
 
+CREATE TABLE PROMISCUOUSCONTROLLER(
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	classname TEXT NOT NULL,
+	NFRC INTEGER NOT NULL,
+	analyzerid INT NOT NULL,
+	projectname TEXT NOT NULL, 
+	path TEXT NOT NULL,
+	insertdate datetime default current_timestamp,
+	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
+);
+
+CREATE TABLE BRAINCONTROLLER(
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	classname TEXT NOT NULL,
+	NOR INTEGER NOT NULL,
+	NSD INTEGER NOT NULL,
+	analyzerid INT NOT NULL,
+	projectname TEXT NOT NULL, 
+	path TEXT NOT NULL,
+	insertdate datetime default current_timestamp,
+	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
+);
+
+CREATE TABLE MEDDLINGSERVICE(
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	classname TEXT NOT NULL,
+	persistanceDependencies INTEGER NOT NULL,
+	analyzerid INT NOT NULL,
+	projectname TEXT NOT NULL, 
+	path TEXT NOT NULL,
+	insertdate datetime default current_timestamp,
+	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
+);
+
+CREATE TABLE LABORIOUSREPOSITORYMETHOD(
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	classname TEXT NOT NULL,
+    methodname TEXT NOT NULL,
+	quantityPersistenceActions INTEGER NOT NULL,
+	analyzerid INT NOT NULL,
+	projectname TEXT NOT NULL, 
+	path TEXT NOT NULL,
+	insertdate datetime default current_timestamp,
+	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
+);
+
+CREATE TABLE BRAINREPOSITORY(
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	classname TEXT NOT NULL,
+	cyclo INTEGER NOT NULL,
+	sqlcomplexity INTEGER NOT NULL,
+	analyzerid INT NOT NULL,
+	projectname TEXT NOT NULL, 
+	path TEXT NOT NULL,
+	insertdate datetime default current_timestamp,
+	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
+);
+
+CREATE TABLE FATREPOSITORY(
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	classname TEXT NOT NULL,
+	entities INTEGER NOT NULL,
+	analyzerid INT NOT NULL,
+	projectname TEXT NOT NULL, 
+	path TEXT NOT NULL,
+	insertdate datetime default current_timestamp,
+	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
+);
 
 
 INSERT INTO  "ANALYZER" ("name") VALUES ('Analyzer');
 INSERT INTO  "ANALYZER" ("name") VALUES ('PMD');
+INSERT INTO  "ANALYZER" ("name") VALUES ('SPRINGLINT');

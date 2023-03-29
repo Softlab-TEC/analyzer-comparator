@@ -2,6 +2,7 @@ package dao.identity;
 
 import dao.helpers.CodeSmellDAO;
 import dao.helpers.GetCodeSmellHelper;
+import utils.AnalyzerConstants;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -111,12 +112,12 @@ public class GodClassDAO extends CodeSmellDAO {
     }
 
     public ArrayList<GodClassDAO> getGodClassesOnlyPMD(){
-        String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON gc1.classname = gc2.classname AND gc2.analyzerid = 1 WHERE gc1.analyzerid = 2 AND gc2.analyzerid IS NULL;";
+        String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON gc1.classname = gc2.classname AND gc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE gc1.analyzerid = " + AnalyzerConstants.PMD + " AND gc2.analyzerid IS NULL;";
         return getGodClasses(query);
     }
 
     public ArrayList<GodClassDAO> getGodClassesOnlyAnalyzer(){
-        String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON gc1.classname = gc2.classname AND gc2.analyzerid = 2 WHERE gc1.analyzerid = 1 AND gc2.analyzerid IS NULL";
+        String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON gc1.classname = gc2.classname AND gc2.analyzerid = " + AnalyzerConstants.PMD + " WHERE gc1.analyzerid = " + AnalyzerConstants.ANALYZER + " AND gc2.analyzerid IS NULL";
         return getGodClasses(query);
     }
 

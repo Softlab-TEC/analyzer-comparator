@@ -2,6 +2,8 @@ package dao.identity;
 
 import dao.helpers.CodeSmellDAO;
 import dao.helpers.GetCodeSmellHelper;
+import utils.AnalyzerConstants;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -123,12 +125,12 @@ public class DataClassDAO extends CodeSmellDAO {
     }
 
     public ArrayList<DataClassDAO> getDataClassesOnlyPMD(){
-        String query = "SELECT dc1.* FROM DATACLASS dc1 LEFT JOIN DATACLASS dc2 ON dc1.classname = dc2.classname AND dc2.analyzerid = 1 WHERE dc1.analyzerid = 2 AND dc2.analyzerid IS NULL;";
+        String query = "SELECT dc1.* FROM DATACLASS dc1 LEFT JOIN DATACLASS dc2 ON dc1.classname = dc2.classname AND dc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE dc1.analyzerid = " + AnalyzerConstants.PMD + " AND dc2.analyzerid IS NULL;";
         return getDataClasses(query);
     }
 
     public ArrayList<DataClassDAO> getDataClassesOnlyAnalyzer(){
-        String query = "SELECT dc1.* FROM DATACLASS dc1 LEFT JOIN DATACLASS dc2 ON dc1.classname = dc2.classname AND dc2.analyzerid = 2 WHERE dc1.analyzerid = 1 AND dc2.analyzerid IS NULL";
+        String query = "SELECT dc1.* FROM DATACLASS dc1 LEFT JOIN DATACLASS dc2 ON dc1.classname = dc2.classname AND dc2.analyzerid = " + AnalyzerConstants.PMD + " WHERE dc1.analyzerid = " + AnalyzerConstants.ANALYZER + " AND dc2.analyzerid IS NULL";
         return getDataClasses(query);
     }
 

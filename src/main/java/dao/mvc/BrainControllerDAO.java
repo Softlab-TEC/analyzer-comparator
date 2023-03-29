@@ -8,14 +8,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class BraomRepositoryDAO extends CodeSmellDAO {
+public class BrainControllerDAO extends CodeSmellDAO {
     private int nfrc;
 
-    public BraomRepositoryDAO(){
+    public BrainControllerDAO(){
         super();
     }
 
-    public BraomRepositoryDAO(
+    public BrainControllerDAO(
             int id,
             String className,
             int nfrc,
@@ -29,7 +29,7 @@ public class BraomRepositoryDAO extends CodeSmellDAO {
         this.nfrc = nfrc;
     }
 
-    public BraomRepositoryDAO(
+    public BrainControllerDAO(
             String className,
             int nfrc,
             int analyzerId,
@@ -41,7 +41,7 @@ public class BraomRepositoryDAO extends CodeSmellDAO {
         this.nfrc = nfrc;
     }
 
-    public BraomRepositoryDAO(String className, int analyzerId, Date insertDate){
+    public BrainControllerDAO(String className, int analyzerId, Date insertDate){
         super(className, analyzerId, insertDate);
     }
 
@@ -53,22 +53,22 @@ public class BraomRepositoryDAO extends CodeSmellDAO {
         this.nfrc = nfrc;
     }
 
-    public ArrayList<BraomRepositoryDAO> getBrainControllers(String query){
+    public ArrayList<BrainControllerDAO> getBrainControllers(String query){
         ArrayList<String> whereStatement = GetCodeSmellHelper.getWhereStatementByBasicProps(this);
         if(!whereStatement.isEmpty()){
             String where = " WHERE " + String.join("AND ", whereStatement);
             query += where;
         }
 
-        BraomRepositoryDAO brainController;
-        ArrayList<BraomRepositoryDAO> brainControllers = new ArrayList<>();
+        BrainControllerDAO brainController;
+        ArrayList<BrainControllerDAO> brainControllers = new ArrayList<>();
         try (Connection conn = connection.getConnection()) {
             PreparedStatement pstmt = conn.prepareStatement(query);
             GetCodeSmellHelper.preparedStatementByBasicProps(this, pstmt);
 
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()){
-                brainController = new BraomRepositoryDAO(
+                brainController = new BrainControllerDAO(
                         rs.getInt("id"),
                         rs.getString("classname"),
                         rs.getInt("nfrc"),
@@ -85,12 +85,12 @@ public class BraomRepositoryDAO extends CodeSmellDAO {
         return brainControllers;
     }
 
-    public ArrayList<BraomRepositoryDAO> getBrainControllersOnlySpringLint(){
+    public ArrayList<BrainControllerDAO> getBrainControllersOnlySpringLint(){
         String query = "SELECT bc1.* FROM BRAINCONTROLLER bc1 LEFT JOIN BRAINCONTROLLER bc2 ON lrm1.classname = bc2.classname AND bc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE bc1.analyzerid = " + AnalyzerConstants.SPRINGLINT + " AND bc1.analyzerid IS NULL;";
         return getBrainControllers(query);
     }
 
-    public ArrayList<BraomRepositoryDAO> getBrainControllersOnlyAnalyzer(){
+    public ArrayList<BrainControllerDAO> getBrainControllersOnlyAnalyzer(){
         String query = "SELECT bc1.* FROM BRAINCONTROLLER bc1 LEFT JOIN BRAINCONTROLLER bc2 ON lrm1.classname = bc2.classname AND bc2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE bc1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND bc1.analyzerid IS NULL";
         return getBrainControllers(query);
     }

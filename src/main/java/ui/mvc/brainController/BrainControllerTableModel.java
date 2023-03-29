@@ -1,22 +1,22 @@
 package ui.mvc.brainController;
 
-import dao.mvc.BraomRepositoryDAO;
+import dao.mvc.BrainControllerDAO;
 import ui.TableModel;
 
 import java.util.List;
 
 public class BrainControllerTableModel extends TableModel {
 
-    public BrainControllerTableModel(List<BraomRepositoryDAO> smells) {
+    public BrainControllerTableModel(List<BrainControllerDAO> smells) {
         super(smells, 2);
-        smells = super.castList(BraomRepositoryDAO.class);
+        smells = super.castList(BrainControllerDAO.class);
         customColumns = new String[]{"NFRC"};
         mergeColumns();
     }
 
     // The object to render in a cell
     public Object getValueAt(int row, int col) {
-        BraomRepositoryDAO brainController = (BraomRepositoryDAO) smells.get(row);
+        BrainControllerDAO brainController = (BrainControllerDAO) smells.get(row);
         switch(col) {
             case 0: return brainController.getAnalyzerId();
             case 1: return brainController.getClassName();
