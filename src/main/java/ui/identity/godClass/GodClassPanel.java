@@ -122,7 +122,7 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
                 String path = outputPath.isEmpty() ?  createFolder("PMDoutputGodClass.txt") : outputPath +  "PMDoutput.txt";
                 PMDExecutor pmdExecutor = new PMDExecutor();
                 pmdExecutor.executePMD(inputPath, path);
-                if (saveInDB) ReadPMFileAndSaveResults();
+                if (saveInDB) ReadPMFileAndSaveResults(path);
             }
             initAnalyzerAndSaveResults();
         } catch (ParseException ex) {
@@ -189,10 +189,10 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
         }
     }
 
-    public void ReadPMFileAndSaveResults(){
+    public void ReadPMFileAndSaveResults(String path){
         PMDResultsReader reader = new PMDResultsReader();
         try {
-            reader.readGodClass(outputPath.isEmpty() ? "/Users/williamcasasola/Documents/TEC/Detector/test/" : outputPath);
+            reader.readGodClass(path);
         } catch (IOException e) {
             e.printStackTrace();
         }

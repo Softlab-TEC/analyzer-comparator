@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PMDResultsReader {
-    File file = new File(getClass().getResource("/output.txt").getPath());
     String st;
 
     public void readGodClass(String sourcePath) throws IOException {
@@ -18,7 +17,7 @@ public class PMDResultsReader {
         int wmc;
         int atfd;
         float tcc;
-        File file  = sourcePath != null && !sourcePath.isEmpty() ? new File(sourcePath + "PMDoutput.txt") : this.file;
+        File file  =  new File(sourcePath + "PMDoutput.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         while((st = br.readLine()) != null){
