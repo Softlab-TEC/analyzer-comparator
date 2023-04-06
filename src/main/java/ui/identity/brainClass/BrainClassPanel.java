@@ -1,6 +1,7 @@
 package ui.identity.brainClass;
 
 import dao.identity.BrainClassDAO;
+import dataAccess.PMDExecutor;
 import metrics.codesmells.brainClass.OutputBrainClass;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
@@ -9,6 +10,7 @@ import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import utils.AnalyzerConstants;
+import utils.Metrics;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -28,6 +30,9 @@ public class BrainClassPanel extends CodeSmellGeneralPanel {
     public BrainClassPanel(){
         super();
         initialize();
+        resultFileName = "PMDBrainClassOutput.txt";
+        metricName = Metrics.BrainClass;
+        executor = new PMDExecutor();
     }
 
     public void initialize(){
@@ -53,38 +58,6 @@ public class BrainClassPanel extends CodeSmellGeneralPanel {
         ui.TableModel tableModel = new BrainClassTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel);
         ct.drawTable();
-    }
-
-    @Override
-    public void execute() {
-        try {
-            if(!onlyAnalyzer) {
-                JOptionPane.showMessageDialog(panel,
-                        "Feature not implemented yet! Running only Analyzer",
-                        "Not implemented",
-                        JOptionPane.WARNING_MESSAGE);
-            }
-            initAnalyzerAndSaveResults();
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-            System.out.println("Error 1");
-        } catch (UnsupportedMetricException unsupportedMetricException) {
-            unsupportedMetricException.printStackTrace();
-            System.out.println("Error 2");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            System.out.println("Error 3");
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-            System.out.println("Error 4");
-        } catch (ClassNotFoundException classNotFoundException) {
-            classNotFoundException.printStackTrace();
-            System.out.println("Error 5");
-        } catch (UnsupportedLanguageException unsupportedLanguageException) {
-            unsupportedLanguageException.printStackTrace();
-            System.out.println("Error 6");
-        }
-        System.out.println("No errors");
     }
 
     @Override

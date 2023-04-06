@@ -3,6 +3,7 @@ package ui;
 import Configurations.Configuration;
 import Configurations.InputPath;
 import com.google.gson.Gson;
+import dataAccess.IExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.Output;
 import metrics.exceptions.UnsupportedMetricException;
@@ -17,6 +18,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 public class CodeSmellGeneralPanel {
     protected GridBagConstraints constraints;
@@ -27,10 +30,15 @@ public class CodeSmellGeneralPanel {
     protected boolean useThreads;
     protected boolean saveInDB;
     protected boolean returnMetrics;
-    protected  String inputPath;
-    protected  String outputPath;
+    protected String inputPath;
+    protected String outputPath;
     protected static JPanel panel;
     protected ArrayList<InputPath> ip;
+    protected String errorMessage;
+    protected IExecutor executor;
+    protected String metricName;
+    protected String resultFileName;
+    protected String executorOutputPathName;
 
     public CodeSmellGeneralPanel(){
         panel = new JPanel(new GridBagLayout());
@@ -119,7 +127,54 @@ public class CodeSmellGeneralPanel {
         this.outputPath = outputPath;
     }
 
-    public void execute(){}
+    public void execute(){
+        //input: "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/hibernate/hibernate-4.2.2/src/hibernate-release-4.2.2.Final/project/hibernate-core/src/main/java/org/hibernate/cfg/HbmBinder.java"
+        //Output: /Users/williamcasasola/Documents/TEC/Detector/test/
+        try {
+            if(!onlyAnalyzer){
+                executorOutputPathName = outputPath.isEmpty() ?
+                    createFolder(resultFileName) : outputPath +  resultFileName;
+                executor.execute(inputPath, executorOutputPathName, metricName);
+                if (saveInDB) ReadPMFileAndSaveResults();
+            }
+            initAnalyzerAndSaveResults();
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            errorMessage = ex.getMessage();
+        } catch (UnsupportedMetricException unsupportedMetricException) {
+            unsupportedMetricException.printStackTrace();
+            errorMessage = unsupportedMetricException.getMessage();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            errorMessage = throwables.getMessage();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            errorMessage = ioException.getMessage();
+        } catch (ClassNotFoundException classNotFoundException) {
+            classNotFoundException.printStackTrace();
+            errorMessage = classNotFoundException.getMessage();
+        } catch (UnsupportedLanguageException unsupportedLanguageException) {
+            unsupportedLanguageException.printStackTrace();
+            errorMessage = unsupportedLanguageException.getMessage();
+        } catch (ExecutionException executionException) {
+            executionException.printStackTrace();
+            errorMessage = executionException.getMessage();
+        } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
+            errorMessage = interruptedException.getMessage();
+        } catch (TimeoutException timeoutException) {
+            timeoutException.printStackTrace();
+            errorMessage = timeoutException.getMessage();
+        }
+        catch (Exception ex){
+            errorMessage = ex.getMessage();
+        }
+        if(errorMessage != null && !errorMessage.isEmpty()){
+            JOptionPane.showMessageDialog(panel, errorMessage, "Error Found", JOptionPane.ERROR_MESSAGE);
+            errorMessage = "";
+        }
+        System.out.println("No errors");
+    }
 
     protected void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException{
 
@@ -195,6 +250,8 @@ public class CodeSmellGeneralPanel {
             return "";
         }
     }
+
+    public void ReadPMFileAndSaveResults(){}
 
 }
 

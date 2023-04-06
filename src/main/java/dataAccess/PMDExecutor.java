@@ -6,14 +6,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.*;
 
-public class PMDExecutor {
+public class PMDExecutor implements IExecutor {
 
     public PMDExecutor(){}
 
-    public void executePMD(String targetPath, String outputPath) throws IOException, ExecutionException, InterruptedException, TimeoutException {
+    public void execute(String targetPath, String outputPath, String metric) throws IOException, ExecutionException, InterruptedException, TimeoutException {
         StringBuilder command = new StringBuilder();
         command.append("alias pmd=\"$HOME/pmd-bin-6.48.0/bin/run.sh pmd\" \n");
-        command.append("pmd -d "+ targetPath + " -R category/java/design.xml/GodClass > "+ outputPath);
+        command.append("pmd -d "+ targetPath + " -R category/java/design.xml/"+ metric + " > " + outputPath);
 
         boolean isWindows = System.getProperty("os.name")
                 .toLowerCase().startsWith("windows");
@@ -32,4 +32,5 @@ public class PMDExecutor {
         assert exitCode == 0;
         future.get(10, TimeUnit.SECONDS);
     }
+
 }

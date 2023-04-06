@@ -11,14 +11,13 @@ import metrics.codesmells.godClass.OutputGodClass;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import utils.AnalyzerConstants;
+import utils.Metrics;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 
 public class GodClassPanel extends CodeSmellGeneralPanel {
     private static final String ADULT_RESPONSE = "Hello mature!";
@@ -38,6 +37,9 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
     public GodClassPanel() {
         super();
         initialize();
+        resultFileName = "PMDGodClassOutput.txt";
+        metricName = Metrics.GodClass;
+        executor = new PMDExecutor();
     }
 
     public static JTextField getWmcField() {
@@ -114,46 +116,6 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void execute() {
-        //input: "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/hibernate/hibernate-4.2.2/src/hibernate-release-4.2.2.Final/project/hibernate-core/src/main/java/org/hibernate/cfg/HbmBinder.java"
-        //Output: /Users/williamcasasola/Documents/TEC/Detector/test/
-        try {
-            if(!onlyAnalyzer) {
-                String path = outputPath.isEmpty() ?  createFolder("PMDoutputGodClass.txt") : outputPath +  "PMDoutput.txt";
-                PMDExecutor pmdExecutor = new PMDExecutor();
-                pmdExecutor.executePMD(inputPath, path);
-                if (saveInDB) ReadPMFileAndSaveResults(path);
-            }
-            initAnalyzerAndSaveResults();
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-            System.out.println("Error 1");
-        } catch (UnsupportedMetricException unsupportedMetricException) {
-            unsupportedMetricException.printStackTrace();
-            System.out.println("Error 2");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            System.out.println("Error 3");
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-            System.out.println("Error 4");
-        } catch (ClassNotFoundException classNotFoundException) {
-            classNotFoundException.printStackTrace();
-            System.out.println("Error 5");
-        } catch (UnsupportedLanguageException unsupportedLanguageException) {
-            unsupportedLanguageException.printStackTrace();
-            System.out.println("Error 6");
-        } catch (ExecutionException executionException) {
-            executionException.printStackTrace();
-        } catch (InterruptedException interruptedException) {
-            interruptedException.printStackTrace();
-        } catch (TimeoutException timeoutException) {
-            timeoutException.printStackTrace();
-        }
-        System.out.println("No errors");
-    }
-
-    @Override
     public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if(isAValidNumericInput(atfdField.getText(), atfdLabel.getText())
                 && isAValidNumericInput(wmcField.getText(), wmcLabel.getText())
@@ -178,7 +140,7 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
                             god.getPath(),
                             new java.util.Date()
                     );
-                    if(saveInDB) godClass.save();
+                    if(saveInDB && god.isSmell()) godClass.save();
                     classes.add(godClass);
                 }
                 TableModel tableModel = new GodClassTableModel(classes);
@@ -188,14 +150,12 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
             System.out.println("Success" + ogc.toString());
         }
     }
-
-    public void ReadPMFileAndSaveResults(String path){
+    public void ReadPMFileAndSaveResults(){
         PMDResultsReader reader = new PMDResultsReader();
         try {
-            reader.readGodClass(path);
+            reader.readGodClass(outputPath);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }
