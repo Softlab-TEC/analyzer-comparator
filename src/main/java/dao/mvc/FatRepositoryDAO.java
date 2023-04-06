@@ -91,7 +91,7 @@ public class FatRepositoryDAO extends CodeSmellDAO {
     }
 
     public ArrayList<FatRepositoryDAO> getFatRepositoriesOnlyAnalyzer(){
-        String query = "SELECT fr1.* FROM FATREPOSITORY fr1 LEFT JOIN FATREPOSITORY fr2 ON fr1.classname = fr2.classname AND fr2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE fr1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND fr1.analyzerid IS NULL";
+        String query = "SELECT fr1.* FROM FATREPOSITORY fr1 LEFT JOIN FATREPOSITORY fr2 ON fr1.classname = fr2.classname AND fr2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE fr1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND fr2.analyzerid IS NULL";
         return geFatRepositories(query);
     }
 

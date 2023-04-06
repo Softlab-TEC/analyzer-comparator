@@ -71,7 +71,7 @@ public class MeddlingServiceDAO extends CodeSmellDAO {
                 meddlingService = new MeddlingServiceDAO(
                         rs.getInt("id"),
                         rs.getString("classname"),
-                        rs.getInt("persistanceDependencies"),
+                        rs.getInt("persistenceDependencies"),
                         rs.getInt("analyzerid"),
                         rs.getString("projectname"),
                         rs.getString("path"),
@@ -91,7 +91,7 @@ public class MeddlingServiceDAO extends CodeSmellDAO {
     }
 
     public ArrayList<MeddlingServiceDAO> getMeddlingServicesOnlyAnalyzer(){
-        String query = "SELECT mc1.* FROM MEDDLINGSERVICE mc1 LEFT JOIN MEDDLINGSERVICE mc2 ON mc1.classname = mc2.classname AND mc2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE mc1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND mc1.analyzerid IS NULL";
+        String query = "SELECT mc1.* FROM MEDDLINGSERVICE mc1 LEFT JOIN MEDDLINGSERVICE mc2 ON mc1.classname = mc2.classname AND mc2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE mc1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND mc2.analyzerid IS NULL";
         return getMeddlingServices(query);
     }
 

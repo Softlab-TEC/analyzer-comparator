@@ -92,7 +92,7 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
     public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if(isAValidNumericInput(atfdField.getText(), atfdLabel.getText())
                 && isAValidNumericInput(laaField.getText(), laaLabel.getText())
-                && isAValidNumericInput(fdpLabel.getText(), fdpLabel.getText())) {
+                && isAValidNumericInput(fdpField.getText(), fdpLabel.getText())) {
             ArrayList<Number> inputParameters = new ArrayList<>();
             inputParameters.add(Integer.parseInt(atfdField.getText()));
             inputParameters.add(Float.parseFloat(laaField.getText()));

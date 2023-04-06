@@ -100,17 +100,17 @@ public class BrainRepositoryDAO extends CodeSmellDAO {
     }
 
     public ArrayList<BrainRepositoryDAO> getBrainRepositoriesOnlySpringLint(){
-        String query = "SELECT br1.* FROM BRAINREPOSITORY br1 LEFT JOIN BRAINREPOSITORY br2 ON lrm1.classname = br2.classname AND br2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE br1.analyzerid = " + AnalyzerConstants.SPRINGLINT + " AND br1.analyzerid IS NULL;";
+        String query = "SELECT br1.* FROM BRAINREPOSITORY br1 LEFT JOIN BRAINREPOSITORY br2 ON br1.classname = br2.classname AND br2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE br1.analyzerid = " + AnalyzerConstants.SPRINGLINT + " AND br1.analyzerid IS NULL;";
         return getBrainRepositories(query);
     }
 
     public ArrayList<BrainRepositoryDAO> getBrainRepositoriesOnlyAnalyzer(){
-        String query = "SELECT br1.* FROM BRAINREPOSITORY br1 LEFT JOIN BRAINREPOSITORY br2 ON lrm1.classname = br2.classname AND br2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE br1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND br1.analyzerid IS NULL";
+        String query = "SELECT br1.* FROM BRAINREPOSITORY br1 LEFT JOIN BRAINREPOSITORY br2 ON br1.classname = br2.classname AND br2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE br1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND br2.analyzerid IS NULL";
         return getBrainRepositories(query);
     }
 
     public void save(){
-        String sql = "INSERT INTO LABORIOUSREPOSITORYMETHOD(classname, cyclo, sqlComplexity, analyzerid, projectname, path)" +
+        String sql = "INSERT INTO BRAINREPOSITORY(classname, cyclo, sqlComplexity, analyzerid, projectname, path)" +
                 "VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 

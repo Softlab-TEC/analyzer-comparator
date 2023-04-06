@@ -87,7 +87,7 @@ public class FatRepositoryPanel extends CodeSmellGeneralPanel {
             inputParameters.add(Integer.parseInt(entitiesField.getText()));
 
             configureJsonForAnalyzer();
-            OutputFatRepository ofr = (OutputFatRepository) callAnalyzer("BRAIN_CLASS", inputParameters);
+            OutputFatRepository ofr = (OutputFatRepository) callAnalyzer("FAT_REPOSITORY", inputParameters);
             if (ofr != null && !ofr.getFatRepositoryResults().isEmpty()) {
                 ArrayList<MVCDataCodeSmell> fatRepositoriesFound = ofr.getFatRepositoryResults();
                 ArrayList<FatRepositoryDAO> repositories = new ArrayList<>();

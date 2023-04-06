@@ -1,17 +1,13 @@
 package ui.mvc.laboriousRepositoryMethod;
 
-import dao.identity.BrainClassDAO;
 import dao.mvc.LaboriousRepositoryMethodDAO;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.brainClass.OutputBrainClass;
-import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.codesmells.domain.MethodDataCodeSmell;
 import metrics.codesmells.mvc.laboriousRepositoryMethod.OutputLaboriousRepositoryMethod;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
-import ui.identity.brainClass.BrainClassTableModel;
 import utils.AnalyzerConstants;
 
 import javax.swing.*;
@@ -33,7 +29,7 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
     public void initialize(){
         persistenceActionsField = initField(persistenceActionsField);
 
-        persistenceActionsLabel = placeElementInPanel(persistenceActionsLabel, persistenceActionsField, "LOC", 1);
+        persistenceActionsLabel = placeElementInPanel(persistenceActionsLabel, persistenceActionsField, "Persistence", 1);
     }
 
     @Override
@@ -95,7 +91,7 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
                 ArrayList<MethodDataCodeSmell> laboriousRepoMethodsFound = olrm.getLabRepResults();
                 ArrayList<LaboriousRepositoryMethodDAO> methods = new ArrayList<>();
                 for (var repository : laboriousRepoMethodsFound){
-                    LaboriousRepositoryMethodDAO godClass = new LaboriousRepositoryMethodDAO(
+                    LaboriousRepositoryMethodDAO labRepoMethod = new LaboriousRepositoryMethodDAO(
                             repository.getClassName(),
                             repository.getName(),
                             repository.getNumberPersistenceActions(),
@@ -105,8 +101,8 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
                             new java.util.Date()
                     );
 
-                    if(saveInDB) godClass.save();
-                    methods.add(godClass);
+                    if(saveInDB) labRepoMethod.save();
+                    methods.add(labRepoMethod);
                 }
                 TableModel tableModel = new LaboriousRepositoryMethodTableModel(methods);
 

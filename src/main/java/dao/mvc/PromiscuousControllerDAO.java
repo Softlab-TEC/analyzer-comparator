@@ -105,7 +105,7 @@ public class PromiscuousControllerDAO extends CodeSmellDAO {
     }
 
     public ArrayList<PromiscuousControllerDAO> gettPromiscuousControllersOnlyAnalyzer(){
-        String query = "SELECT pc1.* FROM PROMISCUOUSCONTROLLER pc1 LEFT JOIN PROMISCUOUSCONTROLLER pc2 ON pc1.classname = pc2.classname AND pc2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE pc1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND pc1.analyzerid IS NULL";
+        String query = "SELECT pc1.* FROM PROMISCUOUSCONTROLLER pc1 LEFT JOIN PROMISCUOUSCONTROLLER pc2 ON pc1.classname = pc2.classname AND pc2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE pc1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND pc2.analyzerid IS NULL";
         return getPromiscuousControllers(query);
     }
 

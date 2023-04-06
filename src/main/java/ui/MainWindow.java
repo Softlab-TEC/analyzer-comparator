@@ -21,7 +21,7 @@ public class MainWindow extends JFrame{
     private void initialize() {
         this.setTitle("Analyzer-Comparator");
         this.setVisible(true);
-        this.setSize(550, 2000);
+        this.setSize(580, 2000);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         currentPanel = initializeMainMenuPanel();
         initMainPanel();

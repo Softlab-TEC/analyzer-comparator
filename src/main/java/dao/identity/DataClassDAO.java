@@ -136,7 +136,7 @@ public class DataClassDAO extends CodeSmellDAO {
 
     public void save(){
         String sql = "INSERT INTO DATACLASS(classname, woc, nopa, noam, wmc, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
             PreparedStatement pstmt1 = conn.prepareStatement(sql,

@@ -8,9 +8,9 @@ import java.util.List;
 public class FeatureEnvyTableModel extends TableModel {
 
     public FeatureEnvyTableModel(List<FeatureEnvyDAO> featureEnvies){
-        super(featureEnvies, 3);
+        super(featureEnvies, 4);
         smells = super.castList(FeatureEnvyDAO.class);
-        customColumns = new String[]{"ATFD", "LAA", "FPD"};
+        customColumns = new String[]{"Method Name", "ATFD", "LAA", "FPD"};
         mergeColumns();
     }
 
@@ -22,9 +22,10 @@ public class FeatureEnvyTableModel extends TableModel {
             case 1: return  featureEnvy.getClassName();
             case 2: return  featureEnvy.getPath();
             case 3: return  featureEnvy.getInsertDate();
-            case 4: return  featureEnvy.getAtfd();
-            case 5: return  featureEnvy.getLaa();
-            case 6: return  featureEnvy.getFdp();
+            case 4: return  featureEnvy.getMethodName();
+            case 5: return  featureEnvy.getAtfd();
+            case 6: return  featureEnvy.getLaa();
+            case 7: return  featureEnvy.getFdp();
             // to complete here...
             default: return null;
         }

@@ -17,7 +17,7 @@ public class PMDResultsReader {
         int wmc;
         int atfd;
         float tcc;
-        File file  =  new File(sourcePath + "PMDoutput.txt");
+        File file  =  new File(sourcePath);
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         while((st = br.readLine()) != null){
