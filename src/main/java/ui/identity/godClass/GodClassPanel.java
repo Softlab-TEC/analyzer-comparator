@@ -150,10 +150,12 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
             System.out.println("Success" + ogc.toString());
         }
     }
+
+    @Override
     public void ReadPMFileAndSaveResults(){
         PMDResultsReader reader = new PMDResultsReader();
         try {
-            reader.readGodClass(outputPath);
+            reader.readGodClass(executorOutputPathName);
         } catch (IOException e) {
             e.printStackTrace();
         }

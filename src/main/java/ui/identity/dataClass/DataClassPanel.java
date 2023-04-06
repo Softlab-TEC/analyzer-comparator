@@ -36,7 +36,7 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
         super();
         initialize();
         resultFileName = "PMDDataClassOutput.txt";
-        metricName = Metrics.FeatureEnvy;
+        metricName = Metrics.DataClass;
         executor = new PMDExecutor();
     }
 
@@ -111,10 +111,12 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
             System.out.println("Success" + odc.toString());
         }
     }
-    public void ReadPMFileAndSaveResults(String path){
+
+    @Override
+    public void ReadPMFileAndSaveResults(){
         PMDResultsReader reader = new PMDResultsReader();
         try {
-            reader.readGodClass(path);
+            reader.readDataClass(executorOutputPathName);
         } catch (IOException e) {
             e.printStackTrace();
         }

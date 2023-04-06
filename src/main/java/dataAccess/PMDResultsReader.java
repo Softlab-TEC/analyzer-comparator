@@ -1,6 +1,8 @@
 package dataAccess;
 
+import dao.identity.DataClassDAO;
 import dao.identity.GodClassDAO;
+import utils.AnalyzerConstants;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,11 +31,35 @@ public class PMDResultsReader {
                 wmc =  Integer.parseInt(getNumericMetric(data[5]));
                 atfd = Integer.parseInt(getNumericMetric(data[6]));
                 tcc =  Float.parseFloat(getNumericMetric(data[7]));
-                godClass = new GodClassDAO(className, wmc, atfd, tcc, 2, path, path, new java.util.Date());
+                godClass = new GodClassDAO(className, wmc, atfd, tcc, AnalyzerConstants.PMD, path, path, new java.util.Date());
                 godClass.save();
             }
         }
+    }
 
+    public void readDataClass(String sourcePath) throws IOException {
+        DataClassDAO dataClass;
+        float woc;
+        int nopa;
+        int noam;
+        int wmc;
+        File file  =  new File(sourcePath);
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+        while((st = br.readLine()) != null){
+            System.out.println(st);
+            if(!st.contains("PMDException")){
+                var data = st.split("\\s+");
+                String path = data[0];
+                String className = getClassName(path);
+                woc =  Float.parseFloat(getNumericMetric(data[5]));
+                nopa = Integer.parseInt(getNumericMetric(data[6]));
+                noam = Integer.parseInt(getNumericMetric(data[7]));
+                wmc =  Integer.parseInt(getNumericMetric(data[8]));
+                dataClass = new DataClassDAO(className, woc, nopa, noam, wmc, AnalyzerConstants.PMD, path, path, new java.util.Date());
+                dataClass.save();
+            }
+        }
     }
 
     public String getClassName(String data){
