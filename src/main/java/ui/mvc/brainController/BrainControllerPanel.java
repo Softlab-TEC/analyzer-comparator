@@ -76,7 +76,7 @@ public class BrainControllerPanel extends CodeSmellGeneralPanel {
                             new java.util.Date()
                     );
 
-                    if (saveInDB) brainController.save();
+                    if (saveInDB && brain.isSmell()) brainController.save();
                     controllers.add(brainController);
                 }
                 javax.swing.table.TableModel tableModel = new BrainControllerTableModel(controllers);

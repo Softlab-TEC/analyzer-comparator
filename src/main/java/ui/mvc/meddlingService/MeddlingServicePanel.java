@@ -72,7 +72,7 @@ public class MeddlingServicePanel extends CodeSmellGeneralPanel {
                             new java.util.Date()
                     );
 
-                    if(saveInDB) meddlingService.save();
+                    if(saveInDB && service.isSmell()) meddlingService.save();
                     services.add(meddlingService);
                 }
                 TableModel tableModel = new MeddlingServiceTableModel(services);

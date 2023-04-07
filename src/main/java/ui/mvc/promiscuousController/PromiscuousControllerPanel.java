@@ -86,7 +86,7 @@ public class PromiscuousControllerPanel extends CodeSmellGeneralPanel {
                             new java.util.Date()
                     );
 
-                    if (saveInDB) godClass.save();
+                    if (saveInDB && controller.isSmell()) godClass.save();
                     controllers.add(godClass);
                 }
                 TableModel tableModel = new PromiscuousControllerTableModel(controllers);

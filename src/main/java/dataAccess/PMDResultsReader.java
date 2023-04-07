@@ -52,10 +52,10 @@ public class PMDResultsReader {
                 var data = st.split("\\s+");
                 String path = data[0];
                 String className = getClassName(path);
-                woc =  Float.parseFloat(getNumericMetric(data[5]));
-                nopa = Integer.parseInt(getNumericMetric(data[6]));
-                noam = Integer.parseInt(getNumericMetric(data[7]));
-                wmc =  Integer.parseInt(getNumericMetric(data[8]));
+                woc =  Float.parseFloat(getNumericMetric(data[12]));
+                nopa = Integer.parseInt(getNumericMetric(data[13]));
+                noam = Integer.parseInt(getNumericMetric(data[14]));
+                wmc =  Integer.parseInt(getNumericMetric(data[15]));
                 dataClass = new DataClassDAO(className, woc, nopa, noam, wmc, AnalyzerConstants.PMD, path, path, new java.util.Date());
                 dataClass.save();
             }

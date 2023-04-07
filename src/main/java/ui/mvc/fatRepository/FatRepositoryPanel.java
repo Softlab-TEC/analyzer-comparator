@@ -71,7 +71,7 @@ public class FatRepositoryPanel extends CodeSmellGeneralPanel {
                             new java.util.Date()
                     );
 
-                    if(saveInDB) repository.save();
+                    if(saveInDB && fat.isSmell()) repository.save();
                     repositories.add(repository);
                 }
                 TableModel tableModel = new FatRepositoryTableModel(repositories);

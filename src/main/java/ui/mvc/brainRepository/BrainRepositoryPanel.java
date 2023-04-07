@@ -79,7 +79,7 @@ public class BrainRepositoryPanel extends CodeSmellGeneralPanel {
                             new java.util.Date()
                     );
 
-                    if(saveInDB) brain.save();
+                    if(saveInDB && repository.isSmell()) brain.save();
                     repositories.add(brain);
                 }
                 TableModel tableModel = new BrainRepositoryTableModel(repositories);

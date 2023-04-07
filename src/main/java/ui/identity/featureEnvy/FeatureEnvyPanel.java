@@ -86,7 +86,7 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
                             fe.getFile(),
                             new java.util.Date()
                     );
-                    if(saveInDB) featureEnvy.save();
+                    if(saveInDB && fe.isSmell()) featureEnvy.save();
                     methods.add(featureEnvy);
                 }
                 TableModel tableModel = new FeatureEnvyTableModel(methods);

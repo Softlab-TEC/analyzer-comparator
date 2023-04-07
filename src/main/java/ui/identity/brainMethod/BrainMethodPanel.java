@@ -95,7 +95,7 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
                             new java.util.Date()
                     );
 
-                    if(saveInDB) brainMethod.save();
+                    if(saveInDB && brain.isSmell()) brainMethod.save();
                     methods.add(brainMethod);
                 }
                 TableModel tableModel = new BrainMethodTableModel(methods);

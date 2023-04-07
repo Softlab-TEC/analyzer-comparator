@@ -72,7 +72,7 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
                             new java.util.Date()
                     );
 
-                    if(saveInDB) labRepoMethod.save();
+                    if(saveInDB && repository.isSmell()) labRepoMethod.save();
                     methods.add(labRepoMethod);
                 }
                 TableModel tableModel = new LaboriousRepositoryMethodTableModel(methods);

@@ -101,7 +101,7 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
                             new java.util.Date()
                     );
 
-                    if(saveInDB) dataClass.save();
+                    if(saveInDB && dataC.isSmell()) dataClass.save();
                     classes.add(dataClass);
                 }
                 TableModel tableModel = new DataClassTableModel(classes);
