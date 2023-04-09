@@ -23,12 +23,14 @@ public class BrainRepositoryTableModel extends TableModel {
             case 1:
                 return brainRepository.getClassName();
             case 2:
-                return brainRepository.getPath();
+                return brainRepository.getMainClassName();
             case 3:
-                return brainRepository.getInsertDate();
+                return brainRepository.getPath();
             case 4:
-                return brainRepository.getCyclo();
+                return brainRepository.getInsertDate();
             case 5:
+                return brainRepository.getCyclo();
+            case 6:
                 return brainRepository.getSqlComplexity();
             // to complete here...
             default:

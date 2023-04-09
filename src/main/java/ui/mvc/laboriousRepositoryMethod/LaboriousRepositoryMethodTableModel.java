@@ -23,10 +23,12 @@ public class LaboriousRepositoryMethodTableModel extends TableModel {
             case 1:
                 return laboriousRepoMethod.getClassName();
             case 2:
-                return laboriousRepoMethod.getPath();
+                return laboriousRepoMethod.getMainClassName();
             case 3:
-                return laboriousRepoMethod.getInsertDate();
+                return laboriousRepoMethod.getPath();
             case 4:
+                return laboriousRepoMethod.getInsertDate();
+            case 5:
                 return laboriousRepoMethod.getQuantityPersistenceActions();
             default:
                 return null;

@@ -71,6 +71,7 @@ public class BrainRepositoryPanel extends CodeSmellGeneralPanel {
                 for (var repository : brainClassesFound){
                     BrainRepositoryDAO brain = new BrainRepositoryDAO(
                             repository.getName(),
+                            repository.getMainClassName(),
                             repository.getWMC(),
                             repository.getMaxSQLComplexity(),
                             AnalyzerConstants.ANALYZER,

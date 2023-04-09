@@ -19,8 +19,9 @@ public class LaboriousRepositoryMethodDAO extends CodeSmellDAO {
 
     public LaboriousRepositoryMethodDAO(
             int id,
-            String methodName,
             String className,
+            String mainClassName,
+            String methodName,
             int quantityPersistenceActions,
             int analyzerId,
             String projectName,
@@ -28,13 +29,14 @@ public class LaboriousRepositoryMethodDAO extends CodeSmellDAO {
             java.util.Date insertDate
     )
     {
-        super(id, className, analyzerId, projectName, path, insertDate);
+        super(id, className, mainClassName, analyzerId, projectName, path, insertDate);
         this.methodName = methodName;
         this.quantityPersistenceActions = quantityPersistenceActions;
     }
 
     public LaboriousRepositoryMethodDAO(
             String className,
+            String mainClassName,
             String methodName,
             int quantityPersistenceActions,
             int analyzerId,
@@ -42,7 +44,7 @@ public class LaboriousRepositoryMethodDAO extends CodeSmellDAO {
             String path,
             java.util.Date insertDate
     ) {
-        super(className, analyzerId, projectName, path, insertDate);
+        super(className, mainClassName, analyzerId, projectName, path, insertDate);
         this.methodName = methodName;
         this.quantityPersistenceActions = quantityPersistenceActions;
     }
@@ -85,6 +87,7 @@ public class LaboriousRepositoryMethodDAO extends CodeSmellDAO {
                 laboriousRepoMethod = new LaboriousRepositoryMethodDAO(
                         rs.getInt("id"),
                         rs.getString("classname"),
+                        rs.getString("mainclassname"),
                         rs.getString("methodname"),
                         rs.getInt("quantityPersistenceActions"),
                         rs.getInt("analyzerid"),
@@ -111,19 +114,20 @@ public class LaboriousRepositoryMethodDAO extends CodeSmellDAO {
     }
 
     public void save(){
-        String sql = "INSERT INTO LABORIOUSREPOSITORYMETHOD(classname, methodname, quantityPersistenceActions, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO LABORIOUSREPOSITORYMETHOD(classname, mainclassname, methodname, quantityPersistenceActions, analyzerid, projectname, path)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
 
             pstmt1.setString(1, className);
-            pstmt1.setString(2, methodName);
-            pstmt1.setInt(3, quantityPersistenceActions);
-            pstmt1.setInt(4, analyzerId);
-            pstmt1.setString(5, projectName);
-            pstmt1.setString(6, path);
+            pstmt1.setString(2, mainClassName);
+            pstmt1.setString(3, methodName);
+            pstmt1.setInt(4, quantityPersistenceActions);
+            pstmt1.setInt(5, analyzerId);
+            pstmt1.setString(6, projectName);
+            pstmt1.setString(7, path);
 
             int rowAffected = pstmt1.executeUpdate();
 

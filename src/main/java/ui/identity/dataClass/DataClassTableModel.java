@@ -19,12 +19,13 @@ public class DataClassTableModel  extends TableModel {
         switch(col) {
             case 0: return dataClass.getAnalyzerId();
             case 1: return dataClass.getClassName();
-            case 2: return dataClass.getPath();
-            case 3: return dataClass.getInsertDate();
-            case 4: return dataClass.getWoc();
-            case 5: return dataClass.getNopa();
-            case 6: return dataClass.getNoam();
-            case 7: return dataClass.getWmc();
+            case 2: return dataClass.getMainClassName();
+            case 3: return dataClass.getPath();
+            case 4: return dataClass.getInsertDate();
+            case 5: return dataClass.getWoc();
+            case 6: return dataClass.getNopa();
+            case 7: return dataClass.getNoam();
+            case 8: return dataClass.getWmc();
             // to complete here...
             default: return null;
         }

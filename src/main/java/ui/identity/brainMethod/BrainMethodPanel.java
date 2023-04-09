@@ -84,11 +84,12 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
                 for (var brain : brainMethodsFound){
                     BrainMethodDAO brainMethod = new BrainMethodDAO(
                             brain.getClassName(),
+                            brain.getMainClassName(),
                             brain.getName() ,
                             brain.getLOC(),
                             brain.getCycloMatic(),
                             brain.getMaxNesting(),
-                            brain.getPossibleAccessors(false).size(),
+                            brain.getPossibleAccessors().size(),
                             AnalyzerConstants.ANALYZER,
                             brain.getFile(),//Todo: In the analyzer get the path of the class
                             brain.getFile(),

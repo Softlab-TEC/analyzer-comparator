@@ -21,6 +21,7 @@ public class BrainMethodDAO extends CodeSmellDAO {
 
     public BrainMethodDAO(int id,
                           String className,
+                          String mainClassName,
                           String methodName,
                           int loc,
                           int cyclo,
@@ -31,7 +32,7 @@ public class BrainMethodDAO extends CodeSmellDAO {
                           String path,
                           Date insertDate
     ) {
-        super(id, className, analyzerId, projectName, path, insertDate);
+        super(id, className, mainClassName, analyzerId, projectName, path, insertDate);
         this.methodName = methodName;
         this.loc = loc;
         this.cyclo = cyclo;
@@ -40,6 +41,7 @@ public class BrainMethodDAO extends CodeSmellDAO {
     }
 
     public BrainMethodDAO(String className,
+                          String mainClassName,
                           String methodName,
                           int loc,
                           int cyclo,
@@ -50,7 +52,7 @@ public class BrainMethodDAO extends CodeSmellDAO {
                        String path,
                        Date insertDate
     ){
-        super(className, analyzerId, projectName, path, insertDate);
+        super(className, mainClassName, analyzerId, projectName, path, insertDate);
         this.methodName = methodName;
         this.loc = loc;
         this.cyclo = cyclo;
@@ -120,6 +122,7 @@ public class BrainMethodDAO extends CodeSmellDAO {
                 brainMethod = new BrainMethodDAO(
                         rs.getInt("id"),
                         rs.getString("classname"),
+                        rs.getString("mainclassname"),
                         rs.getString("methodname"),
                         rs.getInt("loc"),
                         rs.getInt("cyclo"),
@@ -149,22 +152,23 @@ public class BrainMethodDAO extends CodeSmellDAO {
     }
 
     public void save(){
-        String sql = "INSERT INTO BRAINMETHOD(classname, methodname ,loc, cyclo, maxnesting, noav, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO BRAINMETHOD(classname, mainclassname, methodname ,loc, cyclo, maxnesting, noav, analyzerid, projectname, path)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
 
             pstmt1.setString(1, className);
-            pstmt1.setString(2, methodName);
-            pstmt1.setInt(3, loc);
-            pstmt1.setInt(4, cyclo);
-            pstmt1.setInt(5, maxNesting);
-            pstmt1.setInt(6, noav);
-            pstmt1.setInt(7, analyzerId);
-            pstmt1.setString(8, projectName);
-            pstmt1.setString(9, path);
+            pstmt1.setString(2, mainClassName);
+            pstmt1.setString(3, methodName);
+            pstmt1.setInt(4, loc);
+            pstmt1.setInt(5, cyclo);
+            pstmt1.setInt(6, maxNesting);
+            pstmt1.setInt(7, noav);
+            pstmt1.setInt(8, analyzerId);
+            pstmt1.setString(9, projectName);
+            pstmt1.setString(10, path);
 
             int rowAffected = pstmt1.executeUpdate();
 

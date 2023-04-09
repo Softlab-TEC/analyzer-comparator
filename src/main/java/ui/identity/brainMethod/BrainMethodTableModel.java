@@ -20,13 +20,14 @@ public class BrainMethodTableModel extends TableModel {
         switch (col) {
             case 0: return brianClass.getAnalyzerId();
             case 1: return  brianClass.getClassName();
-            case 2: return brianClass.getMethodName();
-            case 3: return  brianClass.getPath();
-            case 4: return  brianClass.getInsertDate();
-            case 5: return  brianClass.getLoc();
-            case 6: return  brianClass.getCyclo();
-            case 7: return  brianClass.getMaxNesting();
-            case 8: return  brianClass.getNoav();
+            case 2: return  brianClass.getMainClassName();
+            case 3: return brianClass.getMethodName();
+            case 4: return  brianClass.getPath();
+            case 5: return  brianClass.getInsertDate();
+            case 6: return  brianClass.getLoc();
+            case 7: return  brianClass.getCyclo();
+            case 8: return  brianClass.getMaxNesting();
+            case 9: return  brianClass.getNoav();
             // to complete here...
             default: return null;
         }

@@ -77,8 +77,9 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
                 for (var fe : classesWithFeatureEnviesFound){
                     FeatureEnvyDAO featureEnvy = new FeatureEnvyDAO(
                             fe.getClassName(),
+                            fe.getMainClassName(),
                             fe.getName(),
-                            fe.getPossibleAccessors(false).size(),
+                            fe.getPossibleAccessors().size(),
                             fe.getLAA(),
                             fe.getFDP(),
                             AnalyzerConstants.ANALYZER,

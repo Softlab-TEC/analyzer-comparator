@@ -64,6 +64,7 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
                 for (var repository : laboriousRepoMethodsFound){
                     LaboriousRepositoryMethodDAO labRepoMethod = new LaboriousRepositoryMethodDAO(
                             repository.getClassName(),
+                            repository.getMainClassName(),
                             repository.getName(),
                             repository.getNumberPersistenceActions(),
                             AnalyzerConstants.ANALYZER,

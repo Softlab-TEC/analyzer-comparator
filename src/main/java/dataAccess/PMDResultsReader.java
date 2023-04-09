@@ -31,7 +31,7 @@ public class PMDResultsReader {
                 wmc =  Integer.parseInt(getNumericMetric(data[5]));
                 atfd = Integer.parseInt(getNumericMetric(data[6]));
                 tcc =  Float.parseFloat(getNumericMetric(data[7]));
-                godClass = new GodClassDAO(className, wmc, atfd, tcc, AnalyzerConstants.PMD, path, path, new java.util.Date());
+                godClass = new GodClassDAO(className, className, wmc, atfd, tcc, AnalyzerConstants.PMD, path, path, new java.util.Date());
                 godClass.save();
             }
         }
@@ -56,7 +56,7 @@ public class PMDResultsReader {
                 nopa = Integer.parseInt(getNumericMetric(data[13]));
                 noam = Integer.parseInt(getNumericMetric(data[14]));
                 wmc =  Integer.parseInt(getNumericMetric(data[15]));
-                dataClass = new DataClassDAO(className, woc, nopa, noam, wmc, AnalyzerConstants.PMD, path, path, new java.util.Date());
+                dataClass = new DataClassDAO(className, className, woc, nopa, noam, wmc, AnalyzerConstants.PMD, path, path, new java.util.Date());
                 dataClass.save();
             }
         }

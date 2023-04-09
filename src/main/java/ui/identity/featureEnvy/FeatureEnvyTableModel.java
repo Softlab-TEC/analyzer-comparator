@@ -20,12 +20,13 @@ public class FeatureEnvyTableModel extends TableModel {
         switch (col) {
             case 0: return featureEnvy.getAnalyzerId();
             case 1: return  featureEnvy.getClassName();
-            case 2: return  featureEnvy.getPath();
-            case 3: return  featureEnvy.getInsertDate();
-            case 4: return  featureEnvy.getMethodName();
-            case 5: return  featureEnvy.getAtfd();
-            case 6: return  featureEnvy.getLaa();
-            case 7: return  featureEnvy.getFdp();
+            case 2: return  featureEnvy.getMainClassName();
+            case 3: return  featureEnvy.getPath();
+            case 4: return  featureEnvy.getInsertDate();
+            case 5: return  featureEnvy.getMethodName();
+            case 6: return  featureEnvy.getAtfd();
+            case 7: return  featureEnvy.getLaa();
+            case 8: return  featureEnvy.getFdp();
             // to complete here...
             default: return null;
         }

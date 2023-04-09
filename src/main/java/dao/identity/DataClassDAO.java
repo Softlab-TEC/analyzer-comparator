@@ -20,6 +20,7 @@ public class DataClassDAO extends CodeSmellDAO {
 
     public DataClassDAO(int id,
                         String className,
+                        String mainClassName,
                         float woc,
                         int nopa,
                         int noam,
@@ -30,7 +31,7 @@ public class DataClassDAO extends CodeSmellDAO {
                         Date insertDate
     )
     {
-        super(id, className, analyzerId, projectName, path, insertDate);
+        super(id, className, mainClassName, analyzerId, projectName, path, insertDate);
         this.woc = woc;
         this.nopa = nopa;
         this.noam = noam;
@@ -38,6 +39,7 @@ public class DataClassDAO extends CodeSmellDAO {
     }
 
     public DataClassDAO(String className,
+                        String mainClassName,
                         float woc,
                         int nopa,
                         int noam,
@@ -46,7 +48,7 @@ public class DataClassDAO extends CodeSmellDAO {
                         String projectName,
                         String path,
                         Date insertDate) {
-        super(className, analyzerId, projectName, path, insertDate);
+        super(className, mainClassName, analyzerId, projectName, path, insertDate);
         this.woc = woc;
         this.nopa = nopa;
         this.noam = noam;
@@ -107,6 +109,7 @@ public class DataClassDAO extends CodeSmellDAO {
                 dataClass = new DataClassDAO(
                         rs.getInt("id"),
                         rs.getString("classname"),
+                        rs.getString("mainclassname"),
                         rs.getFloat("woc"),
                         rs.getInt("nopa"),
                         rs.getInt("noam"),
@@ -125,31 +128,36 @@ public class DataClassDAO extends CodeSmellDAO {
     }
 
     public ArrayList<DataClassDAO> getDataClassesOnlyPMD(){
-        String query = "SELECT dc1.* FROM DATACLASS dc1 LEFT JOIN DATACLASS dc2 ON dc1.classname = dc2.classname AND dc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE dc1.analyzerid = " + AnalyzerConstants.PMD + " AND dc2.analyzerid IS NULL;";
+        String query = "SELECT dc1.* FROM DATACLASS dc1 LEFT JOIN DATACLASS dc2 ON " +
+                "(dc1.classname = dc2.classname OR dc1.mainclassname = dc2.mainclassname)" +
+                " AND dc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE dc1.analyzerid = " + AnalyzerConstants.PMD + " AND dc2.analyzerid IS NULL;";
         return getDataClasses(query);
     }
 
     public ArrayList<DataClassDAO> getDataClassesOnlyAnalyzer(){
-        String query = "SELECT dc1.* FROM DATACLASS dc1 LEFT JOIN DATACLASS dc2 ON dc1.classname = dc2.classname AND dc2.analyzerid = " + AnalyzerConstants.PMD + " WHERE dc1.analyzerid = " + AnalyzerConstants.ANALYZER + " AND dc2.analyzerid IS NULL";
+        String query = "SELECT dc1.* FROM DATACLASS dc1 LEFT JOIN DATACLASS dc2 ON " +
+                "(dc1.classname = dc2.classname  OR dc1.mainclassname = dc2.mainclassname)" +
+                " AND dc2.analyzerid = " + AnalyzerConstants.PMD + " WHERE dc1.analyzerid = " + AnalyzerConstants.ANALYZER + " AND dc2.analyzerid IS NULL";
         return getDataClasses(query);
     }
 
     public void save(){
-        String sql = "INSERT INTO DATACLASS(classname, woc, nopa, noam, wmc, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO DATACLASS(classname, mainclassname, woc, nopa, noam, wmc, analyzerid, projectname, path)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
 
             pstmt1.setString(1, className);
-            pstmt1.setFloat(2, woc);
-            pstmt1.setFloat(3, nopa);
-            pstmt1.setFloat(4, noam);
-            pstmt1.setInt(5, wmc);
-            pstmt1.setInt(6, analyzerId);
-            pstmt1.setString(7, projectName);
-            pstmt1.setString(8, path);
+            pstmt1.setString(2, mainClassName);
+            pstmt1.setFloat(3, woc);
+            pstmt1.setFloat(4, nopa);
+            pstmt1.setFloat(5, noam);
+            pstmt1.setInt(6, wmc);
+            pstmt1.setInt(7, analyzerId);
+            pstmt1.setString(8, projectName);
+            pstmt1.setString(9, path);
 
             int rowAffected = pstmt1.executeUpdate();
 

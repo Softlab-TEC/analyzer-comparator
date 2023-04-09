@@ -78,6 +78,7 @@ public class BrainClassPanel extends CodeSmellGeneralPanel {
                 for (var brain : brainClassesFound){
                     BrainClassDAO brainClass = new BrainClassDAO(
                             brain.getName(),
+                            brain.getMainClassName(),
                             brain.getLOC(),
                             brain.getWMC(),
                             brain.getTCC(),

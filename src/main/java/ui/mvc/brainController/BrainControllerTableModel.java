@@ -20,9 +20,10 @@ public class BrainControllerTableModel extends TableModel {
         switch(col) {
             case 0: return brainController.getAnalyzerId();
             case 1: return brainController.getClassName();
-            case 2: return brainController.getPath();
-            case 3: return brainController.getInsertDate();
-            case 4: return brainController.getNfrc();
+            case 2: return brainController.getMainClassName();
+            case 3: return brainController.getPath();
+            case 4: return brainController.getInsertDate();
+            case 5: return brainController.getNfrc();
             default: return null;
         }
     }

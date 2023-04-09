@@ -20,9 +20,10 @@ public class MeddlingServiceTableModel extends TableModel {
         switch(col) {
             case 0: return meddlingService.getAnalyzerId();
             case 1: return meddlingService.getClassName();
-            case 2: return meddlingService.getPath();
-            case 3: return meddlingService.getInsertDate();
-            case 4: return meddlingService.getPersistenceDependencies();
+            case 2: return meddlingService.getMainClassName();
+            case 3: return meddlingService.getPath();
+            case 4: return meddlingService.getInsertDate();
+            case 5: return meddlingService.getPersistenceDependencies();
             default: return null;
         }
     }

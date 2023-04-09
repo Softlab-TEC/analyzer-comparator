@@ -78,6 +78,7 @@ public class PromiscuousControllerPanel extends CodeSmellGeneralPanel {
                 for (var controller : promiscuousControllersFound) {
                     PromiscuousControllerDAO godClass = new PromiscuousControllerDAO(
                             controller.getName(),
+                            controller.getMainClassName(),
                             controller.getNumberOfRoutes(),
                             controller.getNumberOfServices(),
                             AnalyzerConstants.ANALYZER,

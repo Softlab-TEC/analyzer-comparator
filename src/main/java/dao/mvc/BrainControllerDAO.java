@@ -18,6 +18,7 @@ public class BrainControllerDAO extends CodeSmellDAO {
     public BrainControllerDAO(
             int id,
             String className,
+            String mainClassName,
             int nfrc,
             int analyzerId,
             String projectName,
@@ -25,19 +26,20 @@ public class BrainControllerDAO extends CodeSmellDAO {
             java.util.Date insertDate
     )
     {
-        super(id, className, analyzerId, projectName, path, insertDate);
+        super(id, className, mainClassName, analyzerId, projectName, path, insertDate);
         this.nfrc = nfrc;
     }
 
     public BrainControllerDAO(
             String className,
+            String mainClassName,
             int nfrc,
             int analyzerId,
             String projectName,
             String path,
             java.util.Date insertDate
     ) {
-        super(className, analyzerId, projectName, path, insertDate);
+        super(className, mainClassName, analyzerId, projectName, path, insertDate);
         this.nfrc = nfrc;
     }
 
@@ -71,6 +73,7 @@ public class BrainControllerDAO extends CodeSmellDAO {
                 brainController = new BrainControllerDAO(
                         rs.getInt("id"),
                         rs.getString("classname"),
+                        rs.getString("mainclassname"),
                         rs.getInt("nfrc"),
                         rs.getInt("analyzerid"),
                         rs.getString("projectname"),
@@ -96,18 +99,19 @@ public class BrainControllerDAO extends CodeSmellDAO {
     }
 
     public void save(){
-        String sql = "INSERT INTO BRAINCONTROLLER(classname, nfrc, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO BRAINCONTROLLER(classname, mainclassname, nfrc, analyzerid, projectname, path)" +
+                "VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
 
             pstmt1.setString(1, className);
-            pstmt1.setInt(2, nfrc);
-            pstmt1.setInt(3, analyzerId);
-            pstmt1.setString(4, projectName);
-            pstmt1.setString(5, path);
+            pstmt1.setString(2, mainClassName);
+            pstmt1.setInt(3, nfrc);
+            pstmt1.setInt(4, analyzerId);
+            pstmt1.setString(5, projectName);
+            pstmt1.setString(6, path);
 
             int rowAffected = pstmt1.executeUpdate();
 

@@ -69,6 +69,7 @@ public class BrainControllerPanel extends CodeSmellGeneralPanel {
                 for (var brain : brainControllersFound) {
                     BrainControllerDAO brainController = new BrainControllerDAO(
                             brain.getName(),
+                            brain.getMainClassName(),
                             brain.getNFRFC(),
                             AnalyzerConstants.ANALYZER,
                             brain.getPath(),//Todo: In the analyzer get the path of the class

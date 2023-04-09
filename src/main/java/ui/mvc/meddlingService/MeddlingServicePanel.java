@@ -65,6 +65,7 @@ public class MeddlingServicePanel extends CodeSmellGeneralPanel {
                 for (var service : meddlingServicesFound){
                     MeddlingServiceDAO meddlingService = new MeddlingServiceDAO(
                             service.getName(),
+                            service.getMainClassName(),
                             service.getNumberPersistenceDependencies(),
                             AnalyzerConstants.ANALYZER,
                             service.getPath(),//Todo: In the analyzer get the path of the class

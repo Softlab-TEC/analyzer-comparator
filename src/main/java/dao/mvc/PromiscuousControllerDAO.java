@@ -19,6 +19,7 @@ public class PromiscuousControllerDAO extends CodeSmellDAO {
     public PromiscuousControllerDAO(
             int id,
             String className,
+            String mainClassName,
             int nor,
             int nsd,
             int analyzerId,
@@ -27,13 +28,14 @@ public class PromiscuousControllerDAO extends CodeSmellDAO {
             java.util.Date insertDate
     )
     {
-        super(id, className, analyzerId, projectName, path, insertDate);
+        super(id, className, mainClassName, analyzerId, projectName, path, insertDate);
         this.nor = nor;
         this.nsd = nsd;
     }
 
     public PromiscuousControllerDAO(
             String className,
+            String mainClassName,
             int nor,
             int nsd,
             int analyzerId,
@@ -41,7 +43,7 @@ public class PromiscuousControllerDAO extends CodeSmellDAO {
             String path,
             java.util.Date insertDate
     ) {
-        super(className, analyzerId, projectName, path, insertDate);
+        super(className, mainClassName, analyzerId, projectName, path, insertDate);
         this.nor = nor;
         this.nsd = nsd;
     }
@@ -84,6 +86,7 @@ public class PromiscuousControllerDAO extends CodeSmellDAO {
                 promiscuousController = new PromiscuousControllerDAO(
                         rs.getInt("id"),
                         rs.getString("classname"),
+                        rs.getString("mainclassname"),
                         rs.getInt("nor"),
                         rs.getInt("nsd"),
                         rs.getInt("analyzerid"),
@@ -110,19 +113,20 @@ public class PromiscuousControllerDAO extends CodeSmellDAO {
     }
 
     public void save(){
-        String sql = "INSERT INTO PROMISCUOUSCONTROLLER(classname, nor, nsd, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO PROMISCUOUSCONTROLLER(classname, mainclassname, nor, nsd, analyzerid, projectname, path)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
 
             pstmt1.setString(1, className);
-            pstmt1.setInt(2, nor);
-            pstmt1.setInt(3, nsd);
-            pstmt1.setInt(4, analyzerId);
-            pstmt1.setString(5, projectName);
-            pstmt1.setString(6, path);
+            pstmt1.setString(2, mainClassName);
+            pstmt1.setInt(3, nor);
+            pstmt1.setInt(4, nsd);
+            pstmt1.setInt(5, analyzerId);
+            pstmt1.setString(6, projectName);
+            pstmt1.setString(7, path);
 
             int rowAffected = pstmt1.executeUpdate();
 

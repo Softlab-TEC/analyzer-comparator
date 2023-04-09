@@ -7,6 +7,7 @@ import java.util.Date;
 public class CodeSmellDAO {
     protected int id;
     protected String className;
+    protected String  mainClassName;
     protected int analyzerId;
     protected String projectName;
     protected String path;
@@ -17,12 +18,14 @@ public class CodeSmellDAO {
 
     public CodeSmellDAO(int id,
                         String className,
+                        String mainClassName,
                         int analyzerId,
                         String projectName,
                         String path,
                         Date insertDate) {
         this.id = id;
         this.className = className;
+        this.mainClassName = mainClassName;
         this.analyzerId = analyzerId;
         this.projectName = projectName;
         this.path = path;
@@ -30,11 +33,13 @@ public class CodeSmellDAO {
     }
 
     public CodeSmellDAO(String className,
+                        String mainClassName,
                         int analyzerId,
                         String projectName,
                         String path,
                         Date insertDate) {
         this.className = className;
+        this.mainClassName = mainClassName;
         this.analyzerId = analyzerId;
         this.projectName = projectName;
         this.path = path;
@@ -66,6 +71,10 @@ public class CodeSmellDAO {
     public void setClassName(String className) {
         this.className = className;
     }
+
+    public String getMainClassName() { return mainClassName; }
+
+    public void setMainClassName(String mainClassName) { this.mainClassName = mainClassName; }
 
     public int getAnalyzerId() {
         return analyzerId;

@@ -19,6 +19,7 @@ public class GodClassDAO extends CodeSmellDAO {
 
     public GodClassDAO(int id,
                        String className,
+                       String mainClassName,
                        int wmc,
                        int atfd,
                        float tcc,
@@ -28,13 +29,14 @@ public class GodClassDAO extends CodeSmellDAO {
                        Date insertDate
     )
     {
-        super(id, className, analyzerId, projectName, path, insertDate);
+        super(id, className, mainClassName, analyzerId, projectName, path, insertDate);
         this.wmc = wmc;
         this.atfd = atfd;
         this.tcc = tcc;
     }
 
     public GodClassDAO(String className,
+                       String mainClassName,
                        int wmc,
                        int atfd,
                        float tcc,
@@ -43,7 +45,7 @@ public class GodClassDAO extends CodeSmellDAO {
                        String path,
                        Date insertDate
     ){
-        super(className, analyzerId, projectName, path, insertDate);
+        super(className, mainClassName, analyzerId, projectName, path, insertDate);
         this.wmc = wmc;
         this.atfd = atfd;
         this.tcc = tcc;
@@ -95,6 +97,7 @@ public class GodClassDAO extends CodeSmellDAO {
                 godClass = new GodClassDAO(
                     rs.getInt("id"),
                     rs.getString("classname"),
+                    rs.getString("mainclassname"),
                     rs.getInt("wmc"),
                     rs.getInt("atfd"),
                     rs.getFloat("tcc"),
@@ -112,30 +115,35 @@ public class GodClassDAO extends CodeSmellDAO {
     }
 
     public ArrayList<GodClassDAO> getGodClassesOnlyPMD(){
-        String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON gc1.classname = gc2.classname AND gc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE gc1.analyzerid = " + AnalyzerConstants.PMD + " AND gc2.analyzerid IS NULL;";
+        String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON " +
+                "(gc1.classname = gc2.classname OR gc1.mainclassname = gc2.mainclassname)" +
+                " AND gc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE gc1.analyzerid = " + AnalyzerConstants.PMD + " AND gc2.analyzerid IS NULL;";
         return getGodClasses(query);
     }
 
     public ArrayList<GodClassDAO> getGodClassesOnlyAnalyzer(){
-        String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON gc1.classname = gc2.classname AND gc2.analyzerid = " + AnalyzerConstants.PMD + " WHERE gc1.analyzerid = " + AnalyzerConstants.ANALYZER + " AND gc2.analyzerid IS NULL";
+        String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON " +
+                "(gc1.classname = gc2.classname OR gc1.mainclassname = gc2.mainclassname)" +
+                " AND gc2.analyzerid = " + AnalyzerConstants.PMD + " WHERE gc1.analyzerid = " + AnalyzerConstants.ANALYZER + " AND gc2.analyzerid IS NULL";
         return getGodClasses(query);
     }
 
     public void save(){
-        String sql = "INSERT INTO GODCLASS(classname, wmc, atfd, tcc, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO GODCLASS(classname, mainclassname, wmc, atfd, tcc, analyzerid, projectname, path)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
             
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
 
             pstmt1.setString(1, className);
-            pstmt1.setInt(2, wmc);
-            pstmt1.setInt(3, atfd);
-            pstmt1.setFloat(4, tcc);
-            pstmt1.setInt(5, analyzerId);
-            pstmt1.setString(6, projectName);
-            pstmt1.setString(7, path);
+            pstmt1.setString(2, mainClassName);
+            pstmt1.setInt(3, wmc);
+            pstmt1.setInt(4, atfd);
+            pstmt1.setFloat(5, tcc);
+            pstmt1.setInt(6, analyzerId);
+            pstmt1.setString(7, projectName);
+            pstmt1.setString(8, path);
 
             int rowAffected = pstmt1.executeUpdate();
 

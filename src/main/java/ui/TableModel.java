@@ -14,7 +14,7 @@ public class TableModel<T extends CodeSmellDAO> extends AbstractTableModel {
 
     public TableModel(List<T> smells, int numberExtraColumns){
         this.smells = smells;
-        columns = new String[]{"Analizer", "Class Name", "Path",  "Date"};
+        columns = new String[]{"Analizer", "Class Name", "Main Class" ,"Path",  "Date"};
         temp = new String[columns.length + numberExtraColumns];
         System.arraycopy(columns, 0,  temp, 0 , columns.length);
     }

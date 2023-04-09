@@ -132,8 +132,9 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
                 for (var god : godClassFound){
                     GodClassDAO godClass = new GodClassDAO(
                             god.getName(),
+                            god.getMainClassName(),
                             god.getWMC(),
-                            god.getPossibleAccessorsTimesUsed(true),
+                            god.getPossibleAccessorsTimesUsed(),
                             god.getTCC(),
                             AnalyzerConstants.ANALYZER,
                             god.getPath(),//Todo: In the analyzer get the path of the class

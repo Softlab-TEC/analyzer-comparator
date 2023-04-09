@@ -19,12 +19,13 @@ public class BrainClassTableModel extends TableModel {
         switch(col) {
             case 0: return brainClass.getAnalyzerId();
             case 1: return brainClass.getClassName();
-            case 2: return brainClass.getPath();
-            case 3: return brainClass.getInsertDate();
-            case 4: return brainClass.getLoc();
-            case 5: return brainClass.getWmc();
-            case 6: return brainClass.getTcc();
-            case 7: return brainClass.getNumberBrainMethods();
+            case 2: return brainClass.getMainClassName();
+            case 3: return brainClass.getPath();
+            case 4: return brainClass.getInsertDate();
+            case 5: return brainClass.getLoc();
+            case 6: return brainClass.getWmc();
+            case 7: return brainClass.getTcc();
+            case 8: return brainClass.getNumberBrainMethods();
             // to complete here...
             default: return null;
         }

@@ -23,10 +23,12 @@ public class FatRepositoryTableModel extends TableModel {
             case 1:
                 return fatRepository.getClassName();
             case 2:
-                return fatRepository.getPath();
+                return fatRepository.getMainClassName();
             case 3:
-                return fatRepository.getInsertDate();
+                return fatRepository.getPath();
             case 4:
+                return fatRepository.getInsertDate();
+            case 5:
                 return fatRepository.getEntities();
             // to complete here...
             default:

@@ -91,6 +91,7 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
                 for (var dataC : dataClassesFound){
                     DataClassDAO dataClass = new DataClassDAO(
                             dataC.getName(),
+                            dataC.getMainClassName(),
                             dataC.getWOC(),
                             dataC.getNOPA(),
                             dataC.getNOAM(),
