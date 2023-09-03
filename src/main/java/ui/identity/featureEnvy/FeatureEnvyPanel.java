@@ -79,12 +79,13 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
                             fe.getClassName(),
                             fe.getMainClassName(),
                             fe.getName(),
-                            fe.getPossibleAccessors().size(),
+                            fe.calculatePossibleAccessors().size(),
                             fe.getLAA(),
                             fe.getFDP(),
                             AnalyzerConstants.ANALYZER,
                             fe.getFile(),//Todo: In the analyzer get the path of the class
                             fe.getFile(),
+                            language.toString(),
                             new java.util.Date()
                     );
                     if(saveInDB && fe.isSmell()) featureEnvy.save();

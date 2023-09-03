@@ -33,7 +33,7 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
         super();
         initialize();
         resultFileName = "PMDBrainMethodOutput.txt";
-        metricName = Metrics.BrainMethod;
+        super.metricName = Metrics.BrainMethod;
         executor = new PMDExecutor();
     }
 
@@ -89,10 +89,11 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
                             brain.getLOC(),
                             brain.getCycloMatic(),
                             brain.getMaxNesting(),
-                            brain.getPossibleAccessors().size(),
+                            brain.calculatePossibleAccessors().size(),
                             AnalyzerConstants.ANALYZER,
                             brain.getFile(),//Todo: In the analyzer get the path of the class
                             brain.getFile(),
+                            language.toString(),
                             new java.util.Date()
                     );
 

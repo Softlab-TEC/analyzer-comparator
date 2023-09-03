@@ -51,7 +51,7 @@ public class PromiscuousControllerPanel extends CodeSmellGeneralPanel {
                 t = pc.getPromiscuousControllers(sql);
                 break;
             case 1:
-                t = pc.gettPromiscuousControllersOnlyAnalyzer();
+                t = pc.getPromiscuousControllersOnlyAnalyzer();
                 break;
             case 2:
                 t = pc.getPromiscuousControllersOnlySpringLint();
@@ -84,6 +84,7 @@ public class PromiscuousControllerPanel extends CodeSmellGeneralPanel {
                             AnalyzerConstants.ANALYZER,
                             controller.getPath(),//Todo: In the analyzer get the path of the class
                             controller.getPath(),
+                            language.toString(),
                             new java.util.Date()
                     );
 

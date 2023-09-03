@@ -66,10 +66,11 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
                             repository.getClassName(),
                             repository.getMainClassName(),
                             repository.getName(),
-                            repository.getNumberPersistenceActions(),
+                            repository.calculateNumberPersistenceActions(language),
                             AnalyzerConstants.ANALYZER,
                             repository.getFile(),//Todo: In the analyzer get the path of the class
                             repository.getFile(),
+                            language.toString(),
                             new java.util.Date()
                     );
 

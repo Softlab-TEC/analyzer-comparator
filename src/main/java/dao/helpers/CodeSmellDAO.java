@@ -11,6 +11,7 @@ public class CodeSmellDAO {
     protected int analyzerId;
     protected String projectName;
     protected String path;
+    protected String language;
     protected Date insertDate;
     protected Connect connection;
 
@@ -22,6 +23,7 @@ public class CodeSmellDAO {
                         int analyzerId,
                         String projectName,
                         String path,
+                        String language,
                         Date insertDate) {
         this.id = id;
         this.className = className;
@@ -29,6 +31,7 @@ public class CodeSmellDAO {
         this.analyzerId = analyzerId;
         this.projectName = projectName;
         this.path = path;
+        this.language = language;
         this.insertDate = insertDate;
     }
 
@@ -37,12 +40,14 @@ public class CodeSmellDAO {
                         int analyzerId,
                         String projectName,
                         String path,
+                        String language,
                         Date insertDate) {
         this.className = className;
         this.mainClassName = mainClassName;
         this.analyzerId = analyzerId;
         this.projectName = projectName;
         this.path = path;
+        this.language = language;
         this.insertDate = insertDate;
     }
 
@@ -99,6 +104,10 @@ public class CodeSmellDAO {
     public void setPath(String path) {
         this.path = path;
     }
+
+    public void setLanguage(String language) { this.language = language; }
+
+    public String getLanguage() {return language; }
 
     public Date getInsertDate() {
         return insertDate;

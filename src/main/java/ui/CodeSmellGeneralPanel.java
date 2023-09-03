@@ -4,6 +4,7 @@ import Configurations.Configuration;
 import Configurations.InputPath;
 import com.google.gson.Gson;
 import dataAccess.IExecutor;
+import gastmappers.Language;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.Output;
 import metrics.exceptions.UnsupportedMetricException;
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeoutException;
 
 public class CodeSmellGeneralPanel {
     protected GridBagConstraints constraints;
+    protected Language language;
     protected boolean onlyAnalyzer;
     protected boolean isFolder;
     protected boolean isGastFile;
@@ -54,6 +56,10 @@ public class CodeSmellGeneralPanel {
     public static void setPanel(JPanel panel) {
         CodeSmellGeneralPanel.panel = panel;
     }
+
+    public Language getLanguage() { return language; }
+
+    public void setLanguage(Language language) { this.language = language; }
 
     public boolean isOnlyAnalyzer() {
         return onlyAnalyzer;
@@ -196,7 +202,7 @@ public class CodeSmellGeneralPanel {
     }
 
     public Output callAnalyzer(String codeSmellName, ArrayList<Number> inputParameters) throws UnsupportedMetricException, SQLException, ParseException, IOException, ClassNotFoundException, UnsupportedLanguageException {
-        Configuration config = new Configuration(codeSmellName, outputPath, inputParameters, returnMetrics, ip);
+        Configuration config = new Configuration(language, codeSmellName, outputPath, inputParameters, returnMetrics, ip);
         JSONParser jsonParser = new JSONParser();
         Gson gson = new Gson();
         String configString = "{\"metrics\": [" + gson.toJson(config) + "]}";

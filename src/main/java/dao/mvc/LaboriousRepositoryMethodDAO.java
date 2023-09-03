@@ -26,10 +26,11 @@ public class LaboriousRepositoryMethodDAO extends CodeSmellDAO {
             int analyzerId,
             String projectName,
             String path,
+            String language,
             java.util.Date insertDate
     )
     {
-        super(id, className, mainClassName, analyzerId, projectName, path, insertDate);
+        super(id, className, mainClassName, analyzerId, projectName, path, language, insertDate);
         this.methodName = methodName;
         this.quantityPersistenceActions = quantityPersistenceActions;
     }
@@ -42,9 +43,10 @@ public class LaboriousRepositoryMethodDAO extends CodeSmellDAO {
             int analyzerId,
             String projectName,
             String path,
+            String language,
             java.util.Date insertDate
     ) {
-        super(className, mainClassName, analyzerId, projectName, path, insertDate);
+        super(className, mainClassName, analyzerId, projectName, path, language, insertDate);
         this.methodName = methodName;
         this.quantityPersistenceActions = quantityPersistenceActions;
     }
@@ -93,6 +95,7 @@ public class LaboriousRepositoryMethodDAO extends CodeSmellDAO {
                         rs.getInt("analyzerid"),
                         rs.getString("projectname"),
                         rs.getString("path"),
+                        rs.getString("language"),
                         rs.getDate("insertdate")
                 );
                 laboriousRepoMethods.add(laboriousRepoMethod);
@@ -114,8 +117,8 @@ public class LaboriousRepositoryMethodDAO extends CodeSmellDAO {
     }
 
     public void save(){
-        String sql = "INSERT INTO LABORIOUSREPOSITORYMETHOD(classname, mainclassname, methodname, quantityPersistenceActions, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO LABORIOUSREPOSITORYMETHOD(classname, mainclassname, methodname, quantityPersistenceActions, analyzerid, projectname, path, language)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
@@ -128,6 +131,7 @@ public class LaboriousRepositoryMethodDAO extends CodeSmellDAO {
             pstmt1.setInt(5, analyzerId);
             pstmt1.setString(6, projectName);
             pstmt1.setString(7, path);
+            pstmt1.setString(8, language);
 
             int rowAffected = pstmt1.executeUpdate();
 

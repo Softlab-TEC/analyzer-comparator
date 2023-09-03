@@ -23,10 +23,11 @@ public class MeddlingServiceDAO extends CodeSmellDAO {
             int analyzerId,
             String projectName,
             String path,
+            String language,
             Date insertDate
     )
     {
-        super(id, className, mainClassName, analyzerId, projectName, path, insertDate);
+        super(id, className, mainClassName, analyzerId, projectName, path, language, insertDate);
         this.persistenceDependencies = persistenceDependencies;
     }
 
@@ -37,9 +38,10 @@ public class MeddlingServiceDAO extends CodeSmellDAO {
             int analyzerId,
             String projectName,
             String path,
+            String language,
             Date insertDate
     ) {
-        super(className, mainClassName, analyzerId, projectName, path, insertDate);
+        super(className, mainClassName, analyzerId, projectName, path, language, insertDate);
         this.persistenceDependencies = persistenceDependencies;
     }
 
@@ -78,6 +80,7 @@ public class MeddlingServiceDAO extends CodeSmellDAO {
                         rs.getInt("analyzerid"),
                         rs.getString("projectname"),
                         rs.getString("path"),
+                        rs.getString("language"),
                         rs.getDate("insertdate")
                 );
                 meddlingServices.add(meddlingService);
@@ -99,8 +102,8 @@ public class MeddlingServiceDAO extends CodeSmellDAO {
     }
 
     public void save(){
-        String sql = "INSERT INTO MEDDLINGSERVICE(classname, mainclassname,  persistenceDependencies, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO MEDDLINGSERVICE(classname, mainclassname,  persistenceDependencies, analyzerid, projectname, path, language)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
@@ -112,6 +115,7 @@ public class MeddlingServiceDAO extends CodeSmellDAO {
             pstmt1.setInt(4, analyzerId);
             pstmt1.setString(5, projectName);
             pstmt1.setString(6, path);
+            pstmt1.setString(7, language);
 
             int rowAffected = pstmt1.executeUpdate();
 

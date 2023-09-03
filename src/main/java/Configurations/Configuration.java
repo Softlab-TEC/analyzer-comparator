@@ -1,9 +1,11 @@
 package Configurations;
 
+import gastmappers.Language;
+
 import java.util.ArrayList;
 
 public class Configuration {
-    private String language;
+    private Language language;
     private String metricToApply;
     private String outputPath;
     private ArrayList<Number> inputParameters;
@@ -11,7 +13,7 @@ public class Configuration {
     private  Boolean returnMetrics;
 
 
-    public Configuration(String language, String metricToApply, String outputPath, ArrayList<Number> inputParameters, Boolean returnMetrics, ArrayList<InputPath> inputPaths) {
+    public Configuration(Language language, String metricToApply, String outputPath, ArrayList<Number> inputParameters, Boolean returnMetrics, ArrayList<InputPath> inputPaths) {
         this.language = language;
         this.metricToApply = metricToApply;
         this.outputPath = outputPath;
@@ -20,20 +22,11 @@ public class Configuration {
         this.inputPaths = inputPaths;
     }
 
-    public Configuration(String metricToApply, String outputPath, ArrayList<Number> inputParameters, Boolean returnMetrics, ArrayList<InputPath> inputPaths){
-        language = "JAVA";
-        this.metricToApply = metricToApply;
-        this.outputPath = outputPath;
-        this.inputParameters = inputParameters;
-        this.returnMetrics = returnMetrics;
-        this.inputPaths = inputPaths;
-    }
-
-    public String getLanguage() {
+    public Language getLanguage() {
         return language;
     }
 
-    public void setLanguage(String language) {
+    public void setLanguage(Language language) {
         this.language = language;
     }
 

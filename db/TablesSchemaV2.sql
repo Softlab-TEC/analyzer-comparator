@@ -25,6 +25,7 @@ CREATE TABLE GODCLASS(
 	analyzerid INT NOT NULL,
 	projectname TEXT NOT NULL, 
 	path TEXT NOT NULL,
+	language TEXT NOT NULL,
 	insertdate datetime default current_timestamp,
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
@@ -40,6 +41,7 @@ CREATE TABLE FEATUREENVY(
 	analyzerid INT NOT NULL,
 	projectname TEXT NOT NULL, 
 	path TEXT NOT NULL,
+	language TEXT NOT NULL,
 	insertdate datetime default current_timestamp,
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
@@ -56,6 +58,7 @@ CREATE TABLE DATACLASS(
 	analyzerid INT NOT NULL,
 	projectname TEXT NOT NULL, 
 	path TEXT NOT NULL,
+	language TEXT NOT NULL,
 	insertdate datetime default current_timestamp,
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
@@ -72,6 +75,7 @@ CREATE TABLE BRAINCLASS(
 	analyzerid INT NOT NULL,
 	projectname TEXT NOT NULL, 
 	path TEXT NOT NULL,
+	language TEXT NOT NULL,
 	insertdate datetime default current_timestamp,
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
@@ -88,6 +92,7 @@ CREATE TABLE BRAINMETHOD(
 	analyzerid INT NOT NULL,
 	projectname TEXT NOT NULL, 
 	path TEXT NOT NULL,
+	language TEXT NOT NULL,
 	insertdate datetime default current_timestamp,
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
@@ -101,6 +106,7 @@ CREATE TABLE PROMISCUOUSCONTROLLER(
 	analyzerid INT NOT NULL,
 	projectname TEXT NOT NULL, 
 	path TEXT NOT NULL,
+	language TEXT NOT NULL,
 	insertdate datetime default current_timestamp,
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
@@ -113,6 +119,7 @@ CREATE TABLE BRAINCONTROLLER(
 	analyzerid INT NOT NULL,
 	projectname TEXT NOT NULL, 
 	path TEXT NOT NULL,
+	language TEXT NOT NULL,
 	insertdate datetime default current_timestamp,
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
@@ -125,6 +132,7 @@ CREATE TABLE MEDDLINGSERVICE(
 	analyzerid INT NOT NULL,
 	projectname TEXT NOT NULL, 
 	path TEXT NOT NULL,
+	language TEXT NOT NULL,
 	insertdate datetime default current_timestamp,
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
@@ -138,6 +146,7 @@ CREATE TABLE LABORIOUSREPOSITORYMETHOD(
 	analyzerid INT NOT NULL,
 	projectname TEXT NOT NULL, 
 	path TEXT NOT NULL,
+	language TEXT NOT NULL,
 	insertdate datetime default current_timestamp,
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
@@ -151,6 +160,7 @@ CREATE TABLE BRAINREPOSITORY(
 	analyzerid INT NOT NULL,
 	projectname TEXT NOT NULL, 
 	path TEXT NOT NULL,
+	language TEXT NOT NULL,
 	insertdate datetime default current_timestamp,
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
@@ -163,10 +173,12 @@ CREATE TABLE FATREPOSITORY(
 	analyzerid INT NOT NULL,
 	projectname TEXT NOT NULL, 
 	path TEXT NOT NULL,
+	language TEXT NOT NULL,
 	insertdate datetime default current_timestamp,
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
 
 INSERT INTO  "ANALYZER" ("name") VALUES ('Analyzer');
 INSERT INTO  "ANALYZER" ("name") VALUES ('PMD');
-INSERT INTO  "ANALYZER" ("name") VALUES ('SPRINGLINT');
+INSERT INTO  "ANALYZER" ("name") VALUES ('SpringLint');
+INSERT INTO  "ANALYZER" ("name") VALUES ('JSpIRIT');

@@ -77,6 +77,7 @@ public class BrainRepositoryPanel extends CodeSmellGeneralPanel {
                             AnalyzerConstants.ANALYZER,
                             repository.getPath(),//Todo: In the analyzer get the path of the class
                             repository.getPath(),
+                            language.toString(),
                             new java.util.Date()
                     );
 

@@ -32,7 +32,6 @@ public class MeddlingServicePanel extends CodeSmellGeneralPanel {
 
     public void initialize(){
         persistenceDependenciesField = initField(persistenceDependenciesField);
-
         persistenceDependenciesLabel = placeElementInPanel(persistenceDependenciesLabel, persistenceDependenciesField, "# Persistence", 1);
     }
 
@@ -66,10 +65,11 @@ public class MeddlingServicePanel extends CodeSmellGeneralPanel {
                     MeddlingServiceDAO meddlingService = new MeddlingServiceDAO(
                             service.getName(),
                             service.getMainClassName(),
-                            service.getNumberPersistenceDependencies(),
+                            service.getNumberPersistenceDependencies(language),
                             AnalyzerConstants.ANALYZER,
                             service.getPath(),//Todo: In the analyzer get the path of the class
                             service.getPath(),
+                            language.toString(),
                             new java.util.Date()
                     );
 

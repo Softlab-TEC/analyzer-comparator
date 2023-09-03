@@ -1,4 +1,6 @@
 package ui;
+import gastmappers.Language;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,12 +23,14 @@ public class ConfigurationMenuPanel extends JPanel {
     private static Checkbox onlyAnalyzerToggle;
     private static Checkbox returnMetricsToggle;
     private static JLabel inputPathLabel;
+    private static JLabel languageLabel;
     private static JLabel outputPathLabel;
 
     CodeSmellGeneralPanel codeSmellGeneralPanel;
 
     public ConfigurationMenuPanel(CodeSmellGeneralPanel codeSmellDetector){
         this.codeSmellGeneralPanel = codeSmellDetector;
+        codeSmellGeneralPanel.setLanguage(Language.JAVA);
         setLayout(new GridBagLayout());
         initialize();
     }
@@ -36,13 +40,18 @@ public class ConfigurationMenuPanel extends JPanel {
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(10, 10, 10, 10);
 
-        inputPathLabel = new JLabel("Input Path:");
+        languageLabel = new JLabel("Language:");
         constraints.gridx = 0;
         constraints.gridy = 0;
+        add(languageLabel, constraints);
+
+        inputPathLabel = new JLabel("Input Path:");
+        constraints.gridx = 0;
+        constraints.gridy = 1;
         add(inputPathLabel, constraints);
 
         outputPathLabel = new JLabel("Output Path:");
-        constraints.gridy = 1;
+        constraints.gridy = 2;
         add(outputPathLabel, constraints);
 
         inputPathField = new JTextField();
@@ -63,49 +72,58 @@ public class ConfigurationMenuPanel extends JPanel {
         onlyAnalyzerToggle = new Checkbox("Run only Analyzer");
         returnMetricsToggle = new Checkbox("Return metrics");
 
+        String[] languagesString = { Language.JAVA.toString(), Language.CSHARP.toString() };
+
+        JComboBox langList = new JComboBox(languagesString);
+        langList.addActionListener(new ComboListener());
+
         constraints.gridx = 1;
         constraints.gridy = 0;
+        add(langList, constraints);
+
+        constraints.gridx = 1;
+        constraints.gridy = 1;
         add(inputPathField, constraints);
 
-        constraints.gridy = 1;
+        constraints.gridy = 2;
         add(outputPathField, constraints);
 
-        constraints.gridy = 2;
+        constraints.gridy = 3;
         constraints.gridx = 0;
         add(isFolderToggle, constraints);
         constraints.gridx = 1;
         add(isGastFileToggle, constraints);
-        constraints.gridy = 3;
+        constraints.gridy = 4;
         constraints.gridx = 0;
         add(useThreadsToggle, constraints);
         constraints.gridx = 1;
         add(isFromMemoryToggle, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 4;
+        constraints.gridy = 5;
         add(saveInDBToggle, constraints);
 
         constraints.gridx = 1;
         add(onlyAnalyzerToggle, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 5;
+        constraints.gridy = 6;
         add(returnMetricsToggle, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 6;
+        constraints.gridy = 7;
         add(codeSmellGeneralPanel.getPanel(),  constraints);
 
 
         constraints.gridx = 1;
-        constraints.gridy = 9;
+        constraints.gridy = 10;
         JButton btn = new JButton("Execute");
         btn.addActionListener(new BtnListenerExecutor());
         add(btn, constraints);
 
         JButton btnOnlyAnalyzer = new JButton("Only Analyzer");
         btnOnlyAnalyzer.addActionListener(new BtnListenerShowResultsTable(1));
-        constraints.gridy = 10;
+        constraints.gridy = 11;
         constraints.gridx = 0;
         add(btnOnlyAnalyzer, constraints);
 
@@ -117,7 +135,7 @@ public class ConfigurationMenuPanel extends JPanel {
         JButton btnShowAll = new JButton("Show All");
         btnShowAll.addActionListener(new BtnListenerShowResultsTable(0));
         constraints.gridx = 0;
-        constraints.gridy = 11;
+        constraints.gridy = 12;
         add(btnShowAll, constraints);
     }
 
@@ -153,6 +171,14 @@ public class ConfigurationMenuPanel extends JPanel {
         }
     }
 
+
+    public class ComboListener implements ActionListener {
+            public void actionPerformed (ActionEvent e){
+                JComboBox cb = (JComboBox) e.getSource();
+                String language = (String) cb.getSelectedItem();
+                codeSmellGeneralPanel.setLanguage(Language.valueOf(language));
+        }
+    }
     private class BtnListenerExecutor implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

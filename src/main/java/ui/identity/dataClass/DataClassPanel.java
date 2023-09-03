@@ -99,6 +99,7 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
                             AnalyzerConstants.ANALYZER,
                             dataC.getPath(),//Todo: In the analyzer get the path of the class
                             dataC.getPath(),
+                            language.toString(),
                             new java.util.Date()
                     );
 
@@ -117,7 +118,7 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
     public void ReadPMFileAndSaveResults(){
         PMDResultsReader reader = new PMDResultsReader();
         try {
-            reader.readDataClass(executorOutputPathName);
+            reader.readDataClass(executorOutputPathName, language.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

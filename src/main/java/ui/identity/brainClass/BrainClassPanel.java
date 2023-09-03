@@ -86,6 +86,7 @@ public class BrainClassPanel extends CodeSmellGeneralPanel {
                             AnalyzerConstants.ANALYZER,
                             brain.getPath(),//Todo: In the analyzer get the path of the class
                             brain.getPath(),
+                            language.toString(),
                             new java.util.Date()
                     );
 

@@ -28,10 +28,11 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
                           int analyzerId,
                           String projectName,
                           String path,
+                          String language,
                           Date insertDate
     )
     {
-        super(id, className, mainClassName, analyzerId, projectName, path, insertDate);
+        super(id, className, mainClassName, analyzerId, projectName, path, language, insertDate);
         this.atfd = atfd;
         this.laa = laa;
         this.fdp = fdp;
@@ -47,9 +48,10 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
                            int analyzerId,
                            String projectName,
                            String path,
+                          String language,
                            Date insertDate
     ) {
-        super(className, mainClassName, analyzerId, projectName, path, insertDate);
+        super(className, mainClassName, analyzerId, projectName, path, language, insertDate);
         this.atfd = atfd;
         this.laa = laa;
         this.fdp = fdp;
@@ -118,6 +120,7 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
                         rs.getInt("analyzerid"),
                         rs.getString("projectname"),
                         rs.getString("path"),
+                        rs.getString("language"),
                         rs.getDate("insertdate")
                 );
                 featureEnvies.add(featureEnvy);
@@ -139,8 +142,8 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
     }
 
     public void save(){
-        String sql = "INSERT INTO FEATUREENVY(classname, mainclassname, methodname , atfd, laa, fdp, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO FEATUREENVY(classname, mainclassname, methodname , atfd, laa, fdp, analyzerid, projectname, path, language)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
@@ -155,6 +158,7 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
             pstmt1.setInt(7, analyzerId);
             pstmt1.setString(8, projectName);
             pstmt1.setString(9, path);
+            pstmt1.setString(10, language);
 
             int rowAffected = pstmt1.executeUpdate();
 

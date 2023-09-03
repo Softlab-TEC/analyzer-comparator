@@ -134,11 +134,12 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
                             god.getName(),
                             god.getMainClassName(),
                             god.getWMC(),
-                            god.getPossibleAccessorsTimesUsed(),
+                            god.calculateATFD(),
                             god.getTCC(),
                             AnalyzerConstants.ANALYZER,
                             god.getPath(),//Todo: In the analyzer get the path of the class
                             god.getPath(),
+                            language.toString(),
                             new java.util.Date()
                     );
                     if(saveInDB && god.isSmell()) godClass.save();
@@ -156,7 +157,7 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
     public void ReadPMFileAndSaveResults(){
         PMDResultsReader reader = new PMDResultsReader();
         try {
-            reader.readGodClass(executorOutputPathName);
+            reader.readGodClass(executorOutputPathName, language.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

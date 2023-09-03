@@ -70,10 +70,11 @@ public class BrainControllerPanel extends CodeSmellGeneralPanel {
                     BrainControllerDAO brainController = new BrainControllerDAO(
                             brain.getName(),
                             brain.getMainClassName(),
-                            brain.getNFRFC(),
+                            brain.getRFC().getAsInt(),
                             AnalyzerConstants.ANALYZER,
                             brain.getPath(),//Todo: In the analyzer get the path of the class
                             brain.getPath(),
+                            language.toString(),
                             new java.util.Date()
                     );
 

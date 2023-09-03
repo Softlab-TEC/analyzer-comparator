@@ -11,6 +11,7 @@ import java.util.Date;
 public class PromiscuousControllerDAO extends CodeSmellDAO {
     private int nor;
     private int nsd;
+    private int id;
 
     public PromiscuousControllerDAO(){
         super();
@@ -25,12 +26,14 @@ public class PromiscuousControllerDAO extends CodeSmellDAO {
             int analyzerId,
             String projectName,
             String path,
+            String language,
             java.util.Date insertDate
     )
     {
-        super(id, className, mainClassName, analyzerId, projectName, path, insertDate);
+        super(id, className, mainClassName, analyzerId, projectName, path, language, insertDate);
         this.nor = nor;
         this.nsd = nsd;
+        this.id = id;
     }
 
     public PromiscuousControllerDAO(
@@ -41,9 +44,10 @@ public class PromiscuousControllerDAO extends CodeSmellDAO {
             int analyzerId,
             String projectName,
             String path,
+            String language,
             java.util.Date insertDate
     ) {
-        super(className, mainClassName, analyzerId, projectName, path, insertDate);
+        super(className, mainClassName, analyzerId, projectName, path, language, insertDate);
         this.nor = nor;
         this.nsd = nsd;
     }
@@ -92,6 +96,7 @@ public class PromiscuousControllerDAO extends CodeSmellDAO {
                         rs.getInt("analyzerid"),
                         rs.getString("projectname"),
                         rs.getString("path"),
+                        rs.getString("language"),
                         rs.getDate("insertdate")
                 );
                 promiscuousControllers.add(promiscuousController);
@@ -107,14 +112,14 @@ public class PromiscuousControllerDAO extends CodeSmellDAO {
         return getPromiscuousControllers(query);
     }
 
-    public ArrayList<PromiscuousControllerDAO> gettPromiscuousControllersOnlyAnalyzer(){
+    public ArrayList<PromiscuousControllerDAO> getPromiscuousControllersOnlyAnalyzer(){
         String query = "SELECT pc1.* FROM PROMISCUOUSCONTROLLER pc1 LEFT JOIN PROMISCUOUSCONTROLLER pc2 ON pc1.classname = pc2.classname AND pc2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE pc1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND pc2.analyzerid IS NULL";
         return getPromiscuousControllers(query);
     }
 
     public void save(){
-        String sql = "INSERT INTO PROMISCUOUSCONTROLLER(classname, mainclassname, nor, nsd, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO PROMISCUOUSCONTROLLER(classname, mainclassname, nor, nsd, analyzerid, projectname, path, language)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
@@ -127,6 +132,7 @@ public class PromiscuousControllerDAO extends CodeSmellDAO {
             pstmt1.setInt(5, analyzerId);
             pstmt1.setString(6, projectName);
             pstmt1.setString(7, path);
+            pstmt1.setString(8, language);
 
             int rowAffected = pstmt1.executeUpdate();
 

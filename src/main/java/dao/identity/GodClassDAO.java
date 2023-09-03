@@ -26,10 +26,11 @@ public class GodClassDAO extends CodeSmellDAO {
                        int analyzerId,
                        String projectName,
                        String path,
+                       String language,
                        Date insertDate
     )
     {
-        super(id, className, mainClassName, analyzerId, projectName, path, insertDate);
+        super(id, className, mainClassName, analyzerId, projectName, path, language, insertDate);
         this.wmc = wmc;
         this.atfd = atfd;
         this.tcc = tcc;
@@ -43,9 +44,10 @@ public class GodClassDAO extends CodeSmellDAO {
                        int analyzerId,
                        String projectName,
                        String path,
+                       String language,
                        Date insertDate
     ){
-        super(className, mainClassName, analyzerId, projectName, path, insertDate);
+        super(className, mainClassName, analyzerId, projectName, path, language, insertDate);
         this.wmc = wmc;
         this.atfd = atfd;
         this.tcc = tcc;
@@ -104,6 +106,7 @@ public class GodClassDAO extends CodeSmellDAO {
                     rs.getInt("analyzerid"),
                     rs.getString("projectname"),
                     rs.getString("path"),
+                    rs.getString("language"),
                     rs.getDate("insertdate")
                 );
                 godClasses.add(godClass);
@@ -129,8 +132,8 @@ public class GodClassDAO extends CodeSmellDAO {
     }
 
     public void save(){
-        String sql = "INSERT INTO GODCLASS(classname, mainclassname, wmc, atfd, tcc, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO GODCLASS(classname, mainclassname, wmc, atfd, tcc, analyzerid, projectname, path, language)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
             
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
@@ -144,6 +147,7 @@ public class GodClassDAO extends CodeSmellDAO {
             pstmt1.setInt(6, analyzerId);
             pstmt1.setString(7, projectName);
             pstmt1.setString(8, path);
+            pstmt1.setString(9, language);
 
             int rowAffected = pstmt1.executeUpdate();
 

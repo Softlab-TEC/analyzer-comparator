@@ -28,10 +28,11 @@ public class DataClassDAO extends CodeSmellDAO {
                         int analyzerId,
                         String projectName,
                         String path,
+                        String language,
                         Date insertDate
     )
     {
-        super(id, className, mainClassName, analyzerId, projectName, path, insertDate);
+        super(id, className, mainClassName, analyzerId, projectName, path, language, insertDate);
         this.woc = woc;
         this.nopa = nopa;
         this.noam = noam;
@@ -47,8 +48,9 @@ public class DataClassDAO extends CodeSmellDAO {
                         int analyzerId,
                         String projectName,
                         String path,
+                        String language,
                         Date insertDate) {
-        super(className, mainClassName, analyzerId, projectName, path, insertDate);
+        super(className, mainClassName, analyzerId, projectName, path, language, insertDate);
         this.woc = woc;
         this.nopa = nopa;
         this.noam = noam;
@@ -117,6 +119,7 @@ public class DataClassDAO extends CodeSmellDAO {
                         rs.getInt("analyzerid"),
                         rs.getString("projectname"),
                         rs.getString("path"),
+                        rs.getString("language"),
                         rs.getDate("insertdate")
                 );
                 dataClasses.add(dataClass);
@@ -142,8 +145,8 @@ public class DataClassDAO extends CodeSmellDAO {
     }
 
     public void save(){
-        String sql = "INSERT INTO DATACLASS(classname, mainclassname, woc, nopa, noam, wmc, analyzerid, projectname, path)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO DATACLASS(classname, mainclassname, woc, nopa, noam, wmc, analyzerid, projectname, path, language)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 
             PreparedStatement pstmt1 = conn.prepareStatement(sql,
@@ -158,6 +161,7 @@ public class DataClassDAO extends CodeSmellDAO {
             pstmt1.setInt(7, analyzerId);
             pstmt1.setString(8, projectName);
             pstmt1.setString(9, path);
+            pstmt1.setString(10, language);
 
             int rowAffected = pstmt1.executeUpdate();
 

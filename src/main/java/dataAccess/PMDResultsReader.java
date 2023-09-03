@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class PMDResultsReader {
     String st;
 
-    public void readGodClass(String sourcePath) throws IOException {
+    public void readGodClass(String sourcePath, String language) throws IOException {
         GodClassDAO godClass;
         int wmc;
         int atfd;
@@ -31,13 +31,13 @@ public class PMDResultsReader {
                 wmc =  Integer.parseInt(getNumericMetric(data[5]));
                 atfd = Integer.parseInt(getNumericMetric(data[6]));
                 tcc =  Float.parseFloat(getNumericMetric(data[7]));
-                godClass = new GodClassDAO(className, className, wmc, atfd, tcc, AnalyzerConstants.PMD, path, path, new java.util.Date());
+                godClass = new GodClassDAO(className, className, wmc, atfd, tcc, AnalyzerConstants.PMD, path, path, language, new java.util.Date());
                 godClass.save();
             }
         }
     }
 
-    public void readDataClass(String sourcePath) throws IOException {
+    public void readDataClass(String sourcePath, String language) throws IOException {
         DataClassDAO dataClass;
         float woc;
         int nopa;
@@ -56,7 +56,7 @@ public class PMDResultsReader {
                 nopa = Integer.parseInt(getNumericMetric(data[13]));
                 noam = Integer.parseInt(getNumericMetric(data[14]));
                 wmc =  Integer.parseInt(getNumericMetric(data[15]));
-                dataClass = new DataClassDAO(className, className, woc, nopa, noam, wmc, AnalyzerConstants.PMD, path, path, new java.util.Date());
+                dataClass = new DataClassDAO(className, className, woc, nopa, noam, wmc, AnalyzerConstants.PMD, path, path, language, new java.util.Date());
                 dataClass.save();
             }
         }

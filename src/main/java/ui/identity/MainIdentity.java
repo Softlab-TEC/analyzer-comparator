@@ -101,6 +101,7 @@ public class MainIdentity extends JPanel{
         return mainMenuPanel;
     }
 
+
     private class BtnMainIdentityMenuListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

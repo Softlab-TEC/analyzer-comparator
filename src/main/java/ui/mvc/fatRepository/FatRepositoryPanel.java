@@ -69,6 +69,7 @@ public class FatRepositoryPanel extends CodeSmellGeneralPanel {
                             AnalyzerConstants.ANALYZER,
                             fat.getPath(),//Todo: In the analyzer get the path of the class
                             fat.getPath(),
+                            language.toString(),
                             new java.util.Date()
                     );
 
