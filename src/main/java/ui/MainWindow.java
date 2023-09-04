@@ -21,7 +21,7 @@ public class MainWindow extends JFrame{
     private void initialize() {
         this.setTitle("Analyzer-Comparator");
         this.setVisible(true);
-        this.setSize(580, 2000);
+        this.setSize(780, 2000);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         currentPanel = initializeMainMenuPanel();
         initMainPanel();
@@ -56,6 +56,9 @@ public class MainWindow extends JFrame{
         mainConstraints.insets = new Insets(0, 10, 10, 10);
 
         JButton btnMainMenu = new JButton("Main Menu");
+        btnMainMenu.setBackground(Color.GRAY);
+        btnMainMenu.setOpaque(true);
+        btnMainMenu.setBorderPainted(false);
         btnMainMenu.addActionListener(new BtnMainMenuListener());
 
         mainConstraints.gridx = 0;

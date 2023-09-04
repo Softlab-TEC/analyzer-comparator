@@ -224,7 +224,7 @@ public class CodeSmellGeneralPanel {
 
     protected JTextField initField(JTextField input){
         input = new JTextField();
-        input.setPreferredSize(new Dimension(30, 30));
+        input.setPreferredSize(new Dimension(50, 20));
         return input;
     }
 

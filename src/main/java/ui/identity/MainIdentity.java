@@ -58,6 +58,9 @@ public class MainIdentity extends JPanel{
         mainConstraints.insets = new Insets(0, 10, 10, 10);
 
         JButton btnMainMenu = new JButton("Identity Menu");
+        btnMainMenu.setBackground(Color.LIGHT_GRAY);
+        btnMainMenu.setOpaque(true);
+        btnMainMenu.setBorderPainted(false);
         btnMainMenu.addActionListener(new BtnMainIdentityMenuListener());
 
         mainConstraints.gridx = 0;

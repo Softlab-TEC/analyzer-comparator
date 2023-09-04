@@ -118,6 +118,9 @@ public class ConfigurationMenuPanel extends JPanel {
         constraints.gridx = 1;
         constraints.gridy = 10;
         JButton btn = new JButton("Execute");
+        btn.setBackground(Color.RED);
+        btn.setOpaque(true);
+        btn.setBorderPainted(false);
         btn.addActionListener(new BtnListenerExecutor());
         add(btn, constraints);
 
