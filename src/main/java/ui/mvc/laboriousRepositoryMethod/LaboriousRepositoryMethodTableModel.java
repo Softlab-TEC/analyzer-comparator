@@ -8,9 +8,9 @@ import java.util.List;
 public class LaboriousRepositoryMethodTableModel extends TableModel {
 
     public LaboriousRepositoryMethodTableModel(List<LaboriousRepositoryMethodDAO> smells) {
-        super(smells, 1);
+        super(smells, 2);
         smells = super.castList(LaboriousRepositoryMethodDAO.class);
-        customColumns = new String[]{"# Actions"};
+        customColumns = new String[]{"Method name", "# Actions"};
         mergeColumns();
     }
 
@@ -29,6 +29,8 @@ public class LaboriousRepositoryMethodTableModel extends TableModel {
             case 4:
                 return laboriousRepoMethod.getInsertDate();
             case 5:
+                return laboriousRepoMethod.getMethodName();
+            case 6:
                 return laboriousRepoMethod.getQuantityPersistenceActions();
             default:
                 return null;
