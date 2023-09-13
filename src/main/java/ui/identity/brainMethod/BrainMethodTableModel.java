@@ -19,15 +19,16 @@ public class BrainMethodTableModel extends TableModel {
         BrainMethodDAO brianClass = (BrainMethodDAO) smells.get(row);
         switch (col) {
             case 0: return brianClass.getAnalyzerId();
-            case 1: return  brianClass.getClassName();
-            case 2: return  brianClass.getMainClassName();
-            case 3: return brianClass.getMethodName();
-            case 4: return  brianClass.getPath();
-            case 5: return  brianClass.getInsertDate();
-            case 6: return  brianClass.getLoc();
-            case 7: return  brianClass.getCyclo();
-            case 8: return  brianClass.getMaxNesting();
-            case 9: return  brianClass.getNoav();
+            case 1: return brianClass.getLanguage();
+            case 2: return  brianClass.getClassName();
+            case 3: return  brianClass.getMainClassName();
+            case 4: return brianClass.getMethodName();
+            case 5: return  brianClass.getPath();
+            case 6: return  brianClass.getInsertDate();
+            case 7: return  brianClass.getLoc();
+            case 8: return  brianClass.getCyclo();
+            case 9: return  brianClass.getMaxNesting();
+            case 10: return  brianClass.getNoav();
             // to complete here...
             default: return null;
         }

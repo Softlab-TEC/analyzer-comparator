@@ -19,13 +19,14 @@ public class GodClassTableModel extends TableModel {
         GodClassDAO godClass = (GodClassDAO) smells.get(row);
         switch(col) {
             case 0: return godClass.getAnalyzerId();
-            case 1: return godClass.getClassName();
-            case 2: return godClass.getMainClassName();
-            case 3: return godClass.getPath();
-            case 4: return godClass.getInsertDate();
-            case 5: return godClass.getAtfd();
-            case 6: return godClass.getWmc();
-            case 7: return godClass.getTcc();
+            case 1: return godClass.getLanguage();
+            case 2: return godClass.getClassName();
+            case 3: return godClass.getMainClassName();
+            case 4: return godClass.getPath();
+            case 5: return godClass.getInsertDate();
+            case 6: return godClass.getAtfd();
+            case 7: return godClass.getWmc();
+            case 8: return godClass.getTcc();
             // to complete here...
             default: return null;
         }

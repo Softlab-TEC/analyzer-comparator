@@ -18,20 +18,14 @@ public class BrainRepositoryTableModel extends TableModel {
     public Object getValueAt(int row, int col) {
         BrainRepositoryDAO brainRepository = (BrainRepositoryDAO) smells.get(row);
         switch (col) {
-            case 0:
-                return brainRepository.getAnalyzerId();
-            case 1:
-                return brainRepository.getClassName();
-            case 2:
-                return brainRepository.getMainClassName();
-            case 3:
-                return brainRepository.getPath();
-            case 4:
-                return brainRepository.getInsertDate();
-            case 5:
-                return brainRepository.getCyclo();
-            case 6:
-                return brainRepository.getSqlComplexity();
+            case 0: return brainRepository.getAnalyzerId();
+            case 1: return brainRepository.getLanguage();
+            case 2: return brainRepository.getClassName();
+            case 3: return brainRepository.getMainClassName();
+            case 4: return brainRepository.getPath();
+            case 5: return brainRepository.getInsertDate();
+            case 6: return brainRepository.getCyclo();
+            case 7: return brainRepository.getSqlComplexity();
             // to complete here...
             default:
                 return null;

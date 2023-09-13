@@ -19,11 +19,12 @@ public class BrainControllerTableModel extends TableModel {
         BrainControllerDAO brainController = (BrainControllerDAO) smells.get(row);
         switch(col) {
             case 0: return brainController.getAnalyzerId();
-            case 1: return brainController.getClassName();
-            case 2: return brainController.getMainClassName();
-            case 3: return brainController.getPath();
-            case 4: return brainController.getInsertDate();
-            case 5: return brainController.getNfrc();
+            case 1: return brainController.getLanguage();
+            case 2: return brainController.getClassName();
+            case 3: return brainController.getMainClassName();
+            case 4: return brainController.getPath();
+            case 5: return brainController.getInsertDate();
+            case 6: return brainController.getNfrc();
             default: return null;
         }
     }

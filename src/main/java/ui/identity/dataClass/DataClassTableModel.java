@@ -18,14 +18,15 @@ public class DataClassTableModel  extends TableModel {
         DataClassDAO dataClass = (DataClassDAO) smells.get(row);
         switch(col) {
             case 0: return dataClass.getAnalyzerId();
-            case 1: return dataClass.getClassName();
-            case 2: return dataClass.getMainClassName();
-            case 3: return dataClass.getPath();
-            case 4: return dataClass.getInsertDate();
-            case 5: return dataClass.getWoc();
-            case 6: return dataClass.getNopa();
-            case 7: return dataClass.getNoam();
-            case 8: return dataClass.getWmc();
+            case 1: return dataClass.getLanguage();
+            case 2: return dataClass.getClassName();
+            case 3: return dataClass.getMainClassName();
+            case 4: return dataClass.getPath();
+            case 5: return dataClass.getInsertDate();
+            case 6: return dataClass.getWoc();
+            case 7: return dataClass.getNopa();
+            case 8: return dataClass.getNoam();
+            case 9: return dataClass.getWmc();
             // to complete here...
             default: return null;
         }
