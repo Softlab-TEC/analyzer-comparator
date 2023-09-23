@@ -1,15 +1,14 @@
 package ui.mvc.brainRepository;
 
 import dao.mvc.BrainRepositoryDAO;
+import dao.mvc.Persistence;
 import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.domain.MVCDataCodeSmell;
 import metrics.codesmells.mvc.brainRepository.OutputBrainRepository;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
-import utils.AnalyzerConstants;
 import utils.Metrics;
 
 import javax.swing.*;
@@ -66,26 +65,10 @@ public class BrainRepositoryPanel extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputBrainRepository ogc = (OutputBrainRepository) callAnalyzer("BRAIN_REPOSITORY", inputParameters);
             if (ogc != null && !ogc.getBrainRepositoryResults().isEmpty()) {
-                ArrayList<MVCDataCodeSmell> brainClassesFound = ogc.getBrainRepositoryResults();
                 ArrayList<BrainRepositoryDAO> repositories = new ArrayList<>();
-                for (var repository : brainClassesFound){
-                    BrainRepositoryDAO brain = new BrainRepositoryDAO(
-                            repository.getName(),
-                            repository.getMainClassName(),
-                            repository.getWMC(),
-                            repository.getMaxSQLComplexity(),
-                            AnalyzerConstants.ANALYZER,
-                            repository.getPath(),//Todo: In the analyzer get the path of the class
-                            repository.getPath(),
-                            language.toString(),
-                            new java.util.Date()
-                    );
-
-                    if(saveInDB && repository.isSmell()) brain.save();
-                    repositories.add(brain);
-                }
+                Persistence persistence = new Persistence(saveInDB, language);
+                persistence.saveResults(ogc, repositories);
                 TableModel tableModel = new BrainRepositoryTableModel(repositories);
-
                 ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();
 

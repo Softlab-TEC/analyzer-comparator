@@ -1,15 +1,14 @@
 package ui.mvc.laboriousRepositoryMethod;
 
 import dao.mvc.LaboriousRepositoryMethodDAO;
+import dao.mvc.Persistence;
 import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.domain.MethodDataCodeSmell;
 import metrics.codesmells.mvc.laboriousRepositoryMethod.OutputLaboriousRepositoryMethod;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
-import utils.AnalyzerConstants;
 import utils.Metrics;
 
 import javax.swing.*;
@@ -55,28 +54,12 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
         if(isAValidNumericInput(persistenceActionsField.getText(), persistenceActionsLabel.getText())) {
             ArrayList<Number> inputParameters = new ArrayList<>();
             inputParameters.add(Integer.parseInt(persistenceActionsField.getText()));
-
             configureJsonForAnalyzer();
             OutputLaboriousRepositoryMethod olrm = (OutputLaboriousRepositoryMethod) callAnalyzer("LABORIOUS_REPOSITORY_METHOD", inputParameters);
             if (olrm != null && !olrm.getLabRepResults().isEmpty()) {
-                ArrayList<MethodDataCodeSmell> laboriousRepoMethodsFound = olrm.getLabRepResults();
                 ArrayList<LaboriousRepositoryMethodDAO> methods = new ArrayList<>();
-                for (var repository : laboriousRepoMethodsFound){
-                    LaboriousRepositoryMethodDAO labRepoMethod = new LaboriousRepositoryMethodDAO(
-                            repository.getClassName(),
-                            repository.getMainClassName(),
-                            repository.getName(),
-                            repository.getNumberPersistenceActions(),
-                            AnalyzerConstants.ANALYZER,
-                            repository.getFile(),//Todo: In the analyzer get the path of the class
-                            repository.getFile(),
-                            language.toString(),
-                            new java.util.Date()
-                    );
-
-                    if(saveInDB && repository.isSmell()) labRepoMethod.save();
-                    methods.add(labRepoMethod);
-                }
+                Persistence persistence = new Persistence(saveInDB, language);
+                persistence.saveResults(olrm, methods);
                 TableModel tableModel = new LaboriousRepositoryMethodTableModel(methods);
 
                 ComparativeTable ct = new ComparativeTable(tableModel);
@@ -86,4 +69,6 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
             System.out.println("Success" + olrm.toString());
         }
     }
+
+
 }

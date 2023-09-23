@@ -1,15 +1,14 @@
 package ui.mvc.promiscuousController;
 
+import dao.mvc.Persistence;
 import dao.mvc.PromiscuousControllerDAO;
 import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.domain.MVCDataCodeSmell;
 import metrics.codesmells.mvc.promiscuousController.OutputPromiscuousController;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
-import utils.AnalyzerConstants;
 import utils.Metrics;
 
 import javax.swing.*;
@@ -73,26 +72,10 @@ public class PromiscuousControllerPanel extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputPromiscuousController opc = (OutputPromiscuousController) callAnalyzer("PROMISCUOUS_CONTROLLER", inputParameters);
             if (opc != null && !opc.getPromiscuousControllerResults().isEmpty()) {
-                ArrayList<MVCDataCodeSmell> promiscuousControllersFound = opc.getPromiscuousControllerResults();
                 ArrayList<PromiscuousControllerDAO> controllers = new ArrayList<>();
-                for (var controller : promiscuousControllersFound) {
-                    PromiscuousControllerDAO godClass = new PromiscuousControllerDAO(
-                            controller.getName(),
-                            controller.getMainClassName(),
-                            controller.getNumberOfRoutes(),
-                            controller.getNumberOfServices(),
-                            AnalyzerConstants.ANALYZER,
-                            controller.getPath(),//Todo: In the analyzer get the path of the class
-                            controller.getPath(),
-                            language.toString(),
-                            new java.util.Date()
-                    );
-
-                    if (saveInDB && controller.isSmell()) godClass.save();
-                    controllers.add(godClass);
-                }
+                Persistence persistence = new Persistence(saveInDB, language);
+                persistence.saveResults(opc, controllers);
                 TableModel tableModel = new PromiscuousControllerTableModel(controllers);
-
                 ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();
 
@@ -100,4 +83,6 @@ public class PromiscuousControllerPanel extends CodeSmellGeneralPanel {
             System.out.println("Success" + opc.toString());
         }
     }
+
+
 }

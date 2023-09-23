@@ -1,15 +1,14 @@
 package ui.mvc.fatRepository;
 
 import dao.mvc.FatRepositoryDAO;
+import dao.mvc.Persistence;
 import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.domain.MVCDataCodeSmell;
 import metrics.codesmells.mvc.fatRepository.OutputFatRepository;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
-import utils.AnalyzerConstants;
 import utils.Metrics;
 
 import javax.swing.*;
@@ -59,23 +58,9 @@ public class FatRepositoryPanel extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputFatRepository ofr = (OutputFatRepository) callAnalyzer("FAT_REPOSITORY", inputParameters);
             if (ofr != null && !ofr.getFatRepositoryResults().isEmpty()) {
-                ArrayList<MVCDataCodeSmell> fatRepositoriesFound = ofr.getFatRepositoryResults();
                 ArrayList<FatRepositoryDAO> repositories = new ArrayList<>();
-                for (var fat : fatRepositoriesFound){
-                    FatRepositoryDAO repository = new FatRepositoryDAO(
-                            fat.getName(),
-                            fat.getMainClassName(),
-                            fat.getNumberEntities(),
-                            AnalyzerConstants.ANALYZER,
-                            fat.getPath(),//Todo: In the analyzer get the path of the class
-                            fat.getPath(),
-                            language.toString(),
-                            new java.util.Date()
-                    );
-
-                    if(saveInDB && fat.isSmell()) repository.save();
-                    repositories.add(repository);
-                }
+                Persistence persistence = new Persistence(saveInDB, language);
+                persistence.saveResults(ofr, repositories);
                 TableModel tableModel = new FatRepositoryTableModel(repositories);
 
                 ComparativeTable ct = new ComparativeTable(tableModel);

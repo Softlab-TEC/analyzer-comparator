@@ -9,6 +9,7 @@ import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.Output;
 import metrics.exceptions.UnsupportedMetricException;
 import metrics.run.ConfigurationReader;
+import org.antlr.v4.runtime.misc.Pair;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -199,6 +200,20 @@ public class CodeSmellGeneralPanel {
                         useThreads
                 )
         );
+    }
+
+    public ArrayList<Output> callAnalyzerAll(ArrayList<Pair<String, ArrayList<Number>>> inputParameters) throws UnsupportedMetricException, SQLException, ParseException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+        JSONParser jsonParser = new JSONParser();
+        Gson gson = new Gson();
+        ConfigurationReader cr = new ConfigurationReader();
+        StringBuilder configString = new StringBuilder("{\"metrics\": [");
+        for(Pair<String, ArrayList<Number>> thresholds : inputParameters){
+            Configuration config = new Configuration(language, thresholds.a, outputPath, thresholds.b, returnMetrics, ip);
+             configString.append(gson.toJson(config)) ;
+        }
+        configString.append("]}");
+        JSONObject configJSON = (JSONObject) jsonParser.parse(configString.toString());
+        return cr.processJSONConfigReturningOutputs(configJSON);
     }
 
     public Output callAnalyzer(String codeSmellName, ArrayList<Number> inputParameters) throws UnsupportedMetricException, SQLException, ParseException, IOException, ClassNotFoundException, UnsupportedLanguageException {

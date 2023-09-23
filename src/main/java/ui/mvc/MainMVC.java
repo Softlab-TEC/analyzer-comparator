@@ -106,6 +106,12 @@ public class MainMVC extends JPanel{
         btnFatRepository.addActionListener(new BtnLFatRepositoryListener());
         constraints.gridy = 5;
         mainMenuPanel.add(btnFatRepository, constraints);
+
+        JButton btnAllMVC = new JButton("All MVC");
+        btnAllMVC.addActionListener(new BtnAllMVCListener());
+        constraints.gridy = 6;
+        mainMenuPanel.add(btnAllMVC, constraints);
+
         return mainMenuPanel;
     }
 
@@ -155,6 +161,13 @@ public class MainMVC extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             useNewPanel(new FatRepositoryPanel());
+        }
+    }
+
+    private class BtnAllMVCListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            useNewPanel(new AllMVCPanel());
         }
     }
 }

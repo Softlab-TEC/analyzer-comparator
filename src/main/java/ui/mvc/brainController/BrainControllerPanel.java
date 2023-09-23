@@ -1,15 +1,15 @@
 package ui.mvc.brainController;
 
 import dao.mvc.BrainControllerDAO;
+import dao.mvc.Persistence;
 import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.domain.MVCDataCodeSmell;
 import metrics.codesmells.mvc.brainController.OutputBrainController;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
-import utils.AnalyzerConstants;
+import ui.TableModel;
 import utils.Metrics;
 
 import javax.swing.*;
@@ -64,25 +64,10 @@ public class BrainControllerPanel extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputBrainController obc = (OutputBrainController) callAnalyzer("BRAIN_CONTROLLER", inputParameters);
             if (obc != null && !obc.getBrainControllerResults().isEmpty()) {
-                ArrayList<MVCDataCodeSmell> brainControllersFound = obc.getBrainControllerResults();
                 ArrayList<BrainControllerDAO> controllers = new ArrayList<>();
-                for (var brain : brainControllersFound) {
-                    BrainControllerDAO brainController = new BrainControllerDAO(
-                            brain.getName(),
-                            brain.getMainClassName(),
-                            brain.getRFC().getAsInt(),
-                            AnalyzerConstants.ANALYZER,
-                            brain.getPath(),//Todo: In the analyzer get the path of the class
-                            brain.getPath(),
-                            language.toString(),
-                            new java.util.Date()
-                    );
-
-                    if (saveInDB && brain.isSmell()) brainController.save();
-                    controllers.add(brainController);
-                }
-                javax.swing.table.TableModel tableModel = new BrainControllerTableModel(controllers);
-
+                Persistence persistence = new Persistence(saveInDB, language);
+                persistence.saveResults(obc, controllers);
+                TableModel tableModel = new BrainControllerTableModel(controllers);
                 ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();
 
@@ -90,4 +75,5 @@ public class BrainControllerPanel extends CodeSmellGeneralPanel {
             System.out.println("Success" + obc.toString());
         }
     }
+
 }

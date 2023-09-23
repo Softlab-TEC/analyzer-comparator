@@ -1,15 +1,14 @@
 package ui.mvc.meddlingService;
 
 import dao.mvc.MeddlingServiceDAO;
+import dao.mvc.Persistence;
 import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.domain.MVCDataCodeSmell;
 import metrics.codesmells.mvc.meddlingService.OutputMeddlingService;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
-import utils.AnalyzerConstants;
 import utils.Metrics;
 
 import javax.swing.*;
@@ -59,25 +58,10 @@ public class MeddlingServicePanel extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputMeddlingService oms = (OutputMeddlingService) callAnalyzer("MEDDLING_SERVICE", inputParameters);
             if (oms != null && !oms.getMeddlingServiceResults().isEmpty()) {
-                ArrayList<MVCDataCodeSmell> meddlingServicesFound = oms.getMeddlingServiceResults();
                 ArrayList<MeddlingServiceDAO> services = new ArrayList<>();
-                for (var service : meddlingServicesFound){
-                    MeddlingServiceDAO meddlingService = new MeddlingServiceDAO(
-                            service.getName(),
-                            service.getMainClassName(),
-                            service.getNumberPersistenceDependencies(language),
-                            AnalyzerConstants.ANALYZER,
-                            service.getPath(),//Todo: In the analyzer get the path of the class
-                            service.getPath(),
-                            language.toString(),
-                            new java.util.Date()
-                    );
-
-                    if(saveInDB && service.isSmell()) meddlingService.save();
-                    services.add(meddlingService);
-                }
+                Persistence persistence = new Persistence(saveInDB, language);
+                persistence.saveResults(oms, services);
                 TableModel tableModel = new MeddlingServiceTableModel(services);
-
                 ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();
 
