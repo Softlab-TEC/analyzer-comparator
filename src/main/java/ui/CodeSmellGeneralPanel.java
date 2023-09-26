@@ -209,7 +209,7 @@ public class CodeSmellGeneralPanel {
         StringBuilder configString = new StringBuilder("{\"metrics\": [");
         for(Pair<String, ArrayList<Number>> thresholds : inputParameters){
             Configuration config = new Configuration(language, thresholds.a, outputPath, thresholds.b, returnMetrics, ip);
-             configString.append(gson.toJson(config)) ;
+             configString.append(gson.toJson(config) + ",") ;
         }
         configString.append("]}");
         JSONObject configJSON = (JSONObject) jsonParser.parse(configString.toString());

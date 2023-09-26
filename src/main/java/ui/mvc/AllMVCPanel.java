@@ -58,22 +58,28 @@ public class AllMVCPanel extends CodeSmellGeneralPanel {
         Persistence persistence = new Persistence(saveInDB, language);
         for (Output output: outputs) {
             if (output instanceof OutputPromiscuousController){
-               persistence.saveResults((OutputPromiscuousController)output, null);
+               persistence.saveResults((OutputPromiscuousController)output, new ArrayList<>());
+               continue;
             }
             if (output instanceof OutputBrainController){
-                persistence.saveResults((OutputBrainController)output, null);
+                persistence.saveResults((OutputBrainController)output, new ArrayList<>());
+                continue;
             }
             if (output instanceof OutputMeddlingService){
-                persistence.saveResults((OutputMeddlingService)output, null);
+                persistence.saveResults((OutputMeddlingService)output, new ArrayList<>());
+                continue;
             }
             if (output instanceof OutputBrainRepository){
-                persistence.saveResults((OutputBrainRepository)output, null);
+                persistence.saveResults((OutputBrainRepository)output, new ArrayList<>());
+                continue;
             }
             if (output instanceof OutputLaboriousRepositoryMethod){
-                persistence.saveResults((OutputLaboriousRepositoryMethod)output, null);
+                persistence.saveResults((OutputLaboriousRepositoryMethod)output, new ArrayList<>());
+                continue;
             }
             if (output instanceof OutputFatRepository){
-                persistence.saveResults((OutputFatRepository)output, null);
+                persistence.saveResults((OutputFatRepository)output, new ArrayList<>());
+                continue;
             }
         }
     }
