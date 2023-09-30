@@ -1,18 +1,16 @@
 package ui.identity.featureEnvy;
 
 import dao.identity.FeatureEnvyDAO;
+import dao.mvc.Persistence;
 import dataAccess.PMDExecutor;
 import ui.CodeSmellGeneralPanel;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.domain.MethodDataCodeSmell;
 import metrics.codesmells.featureEnvy.OutputFeatureEnvy;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.ComparativeTable;
 import ui.TableModel;
-import utils.AnalyzerConstants;
 import utils.Metrics;
-
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -72,26 +70,10 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputFeatureEnvy ofe = (OutputFeatureEnvy) callAnalyzer("FEATURE_ENVY", inputParameters);
             if (ofe != null && !ofe.getFeatureEnvyResults().isEmpty()) {
-                ArrayList<MethodDataCodeSmell> classesWithFeatureEnviesFound = ofe.getFeatureEnvyResults();
-                ArrayList<FeatureEnvyDAO> methods = new ArrayList<>();
-                for (var fe : classesWithFeatureEnviesFound){
-                    FeatureEnvyDAO featureEnvy = new FeatureEnvyDAO(
-                            fe.getClassName(),
-                            fe.getMainClassName(),
-                            fe.getName(),
-                            fe.calculatePossibleAccessors().size(),
-                            fe.getLAA(),
-                            fe.getFDP(),
-                            AnalyzerConstants.ANALYZER,
-                            fe.getFile(),//Todo: In the analyzer get the path of the class
-                            fe.getFile(),
-                            language.toString(),
-                            new java.util.Date()
-                    );
-                    if(saveInDB && fe.isSmell()) featureEnvy.save();
-                    methods.add(featureEnvy);
-                }
-                TableModel tableModel = new FeatureEnvyTableModel(methods);
+                ArrayList<FeatureEnvyDAO> envyMethods = new ArrayList<>();
+                Persistence persistence = new Persistence(saveInDB, language);
+                persistence.saveResults(ofe, envyMethods);
+                TableModel tableModel = new FeatureEnvyTableModel(envyMethods);
                 ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();
             }

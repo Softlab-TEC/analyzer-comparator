@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class AllMVCPanel extends CodeSmellGeneralPanel {
     public AllMVCPanel(){
         super();
-        resultFileName = "SpringLintFatRepositoryOutput.txt";
+        resultFileName = "AllMVC.txt";
         metricName = Metrics.AllMVC;
         executor = new SpringLintExecutor();
     }

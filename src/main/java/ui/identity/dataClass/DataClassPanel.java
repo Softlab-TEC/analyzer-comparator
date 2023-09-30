@@ -1,19 +1,17 @@
 package ui.identity.dataClass;
 
 import dao.identity.DataClassDAO;
+import dao.mvc.Persistence;
 import dataAccess.PMDExecutor;
 import dataAccess.PMDResultsReader;
 import metrics.codesmells.dataClass.OutputDataClass;
 import ui.CodeSmellGeneralPanel;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
 import ui.ComparativeTable;
 import ui.TableModel;
-import utils.AnalyzerConstants;
 import utils.Metrics;
-
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -85,28 +83,10 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
             configureJsonForAnalyzer();
             OutputDataClass odc = (OutputDataClass) callAnalyzer("DATA_CLASS", inputParameters);
             if (odc != null && !odc.getDataClassResults().isEmpty()) {
-                ArrayList<ClassDataCodeSmell> dataClassesFound = odc.getDataClassResults();
-                ArrayList<DataClassDAO> classes = new ArrayList<>();
-
-                for (var dataC : dataClassesFound){
-                    DataClassDAO dataClass = new DataClassDAO(
-                            dataC.getName(),
-                            dataC.getMainClassName(),
-                            dataC.getWOC(),
-                            dataC.getNOPA(),
-                            dataC.getNOAM(),
-                            dataC.getWMC(),
-                            AnalyzerConstants.ANALYZER,
-                            dataC.getPath(),//Todo: In the analyzer get the path of the class
-                            dataC.getPath(),
-                            language.toString(),
-                            new java.util.Date()
-                    );
-
-                    if(saveInDB && dataC.isSmell()) dataClass.save();
-                    classes.add(dataClass);
-                }
-                TableModel tableModel = new DataClassTableModel(classes);
+                ArrayList<DataClassDAO> dataClasses = new ArrayList<>();
+                Persistence persistence = new Persistence(saveInDB, language);
+                persistence.saveResults(odc, dataClasses);
+                TableModel tableModel = new DataClassTableModel(dataClasses);
                 ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();
             }

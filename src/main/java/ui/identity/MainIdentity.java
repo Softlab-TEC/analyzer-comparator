@@ -7,7 +7,6 @@ import ui.identity.brainMethod.BrainMethodPanel;
 import ui.identity.dataClass.DataClassPanel;
 import ui.identity.featureEnvy.FeatureEnvyPanel;
 import ui.identity.godClass.GodClassPanel;
-import ui.mvc.MainMVC;
 
 import javax.swing.*;
 import java.awt.*;
@@ -101,6 +100,12 @@ public class MainIdentity extends JPanel{
         btnBrainClass.addActionListener(new MainIdentity.BtnBrainClass());
         constraints.gridy = 4;
         mainMenuPanel.add(btnBrainClass, constraints);
+
+        JButton btnAllIdentity = new JButton("All Identity");
+        btnAllIdentity.addActionListener(new MainIdentity.BtnAllIdentityListener());
+        constraints.gridy = 5;
+        mainMenuPanel.add(btnAllIdentity, constraints);
+
         return mainMenuPanel;
     }
 
@@ -144,6 +149,12 @@ public class MainIdentity extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             useNewPanel(new BrainClassPanel());
+        }
+    }
+    private class BtnAllIdentityListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            useNewPanel(new AllIdentityPanel());
         }
     }
 }

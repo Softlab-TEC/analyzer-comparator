@@ -1,17 +1,15 @@
 package ui.identity.brainMethod;
 
 import dao.identity.BrainMethodDAO;
+import dao.mvc.Persistence;
 import dataAccess.PMDExecutor;
 import metrics.codesmells.brainMethod.OutputBrainMethod;
-import metrics.codesmells.domain.MethodDataCodeSmell;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
-import utils.AnalyzerConstants;
 import utils.Metrics;
-
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.io.IOException;
@@ -75,32 +73,13 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
             inputParameters.add(Integer.parseInt(cycloField.getText()));
             inputParameters.add(Integer.parseInt(maxNestingField.getText()));
             inputParameters.add(Integer.parseInt(noavField.getText()));
-
             configureJsonForAnalyzer();
             OutputBrainMethod obm = (OutputBrainMethod) callAnalyzer("BRAIN_METHOD", inputParameters);
             if (obm != null && !obm.getBrainMethodResults().isEmpty()) {
-                ArrayList<MethodDataCodeSmell> brainMethodsFound = obm.getBrainMethodResults();
-                ArrayList<BrainMethodDAO> methods = new ArrayList<>();
-                for (var brain : brainMethodsFound){
-                    BrainMethodDAO brainMethod = new BrainMethodDAO(
-                            brain.getClassName(),
-                            brain.getMainClassName(),
-                            brain.getName() ,
-                            brain.getLOC(),
-                            brain.getCycloMatic(),
-                            brain.getMaxNesting(),
-                            brain.calculatePossibleAccessors().size(),
-                            AnalyzerConstants.ANALYZER,
-                            brain.getFile(),//Todo: In the analyzer get the path of the class
-                            brain.getFile(),
-                            language.toString(),
-                            new java.util.Date()
-                    );
-
-                    if(saveInDB && brain.isSmell()) brainMethod.save();
-                    methods.add(brainMethod);
-                }
-                TableModel tableModel = new BrainMethodTableModel(methods);
+                ArrayList<BrainMethodDAO> brainMethods = new ArrayList<>();
+                Persistence persistence = new Persistence(saveInDB, language);
+                persistence.saveResults(obm, brainMethods);
+                TableModel tableModel = new BrainMethodTableModel(brainMethods);
 
                 ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();

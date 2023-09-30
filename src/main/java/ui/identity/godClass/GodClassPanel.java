@@ -1,18 +1,16 @@
 package ui.identity.godClass;
 
 import dao.identity.GodClassDAO;
+import dao.mvc.Persistence;
 import dataAccess.PMDExecutor;
 import dataAccess.PMDResultsReader;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.codesmells.godClass.OutputGodClass;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
-import utils.AnalyzerConstants;
 import utils.Metrics;
-
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.io.IOException;
@@ -127,25 +125,10 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputGodClass ogc = (OutputGodClass) callAnalyzer("GOD_CLASS", inputParameters);
             if(ogc != null && !ogc.getGodClassResults().isEmpty()) {
-                ArrayList<ClassDataCodeSmell> godClassFound = ogc.getGodClassResults();
-                ArrayList<GodClassDAO> classes = new ArrayList<>();
-                for (var god : godClassFound){
-                    GodClassDAO godClass = new GodClassDAO(
-                            god.getName(),
-                            god.getMainClassName(),
-                            god.getWMC(),
-                            god.calculateATFD(),
-                            god.getTCC(),
-                            AnalyzerConstants.ANALYZER,
-                            god.getPath(),//Todo: In the analyzer get the path of the class
-                            god.getPath(),
-                            language.toString(),
-                            new java.util.Date()
-                    );
-                    if(saveInDB && god.isSmell()) godClass.save();
-                    classes.add(godClass);
-                }
-                TableModel tableModel = new GodClassTableModel(classes);
+                ArrayList<GodClassDAO> godClasses = new ArrayList<>();
+                Persistence persistence = new Persistence(saveInDB, language);
+                persistence.saveResults(ogc, godClasses);
+                TableModel tableModel = new GodClassTableModel(godClasses);
                 ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();
             }

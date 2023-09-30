@@ -1,17 +1,15 @@
 package ui.identity.brainClass;
 
 import dao.identity.BrainClassDAO;
+import dao.mvc.Persistence;
 import dataAccess.PMDExecutor;
 import metrics.codesmells.brainClass.OutputBrainClass;
 import ui.CodeSmellGeneralPanel;
 import ui.ComparativeTable;
 import gastmappers.exceptions.UnsupportedLanguageException;
-import metrics.codesmells.domain.ClassDataCodeSmell;
 import metrics.exceptions.UnsupportedMetricException;
 import org.json.simple.parser.ParseException;
-import utils.AnalyzerConstants;
 import utils.Metrics;
-
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.io.IOException;
@@ -73,27 +71,10 @@ public class BrainClassPanel extends CodeSmellGeneralPanel {
             configureJsonForAnalyzer();
             OutputBrainClass obc = (OutputBrainClass) callAnalyzer("BRAIN_CLASS", inputParameters);
             if (obc != null && !obc.getBrainClassResult().isEmpty()) {
-                ArrayList<ClassDataCodeSmell> brainClassesFound = obc.getBrainClassResult();
-                ArrayList<BrainClassDAO> classes = new ArrayList<>();
-                for (var brain : brainClassesFound){
-                    BrainClassDAO brainClass = new BrainClassDAO(
-                            brain.getName(),
-                            brain.getMainClassName(),
-                            brain.getLOC(),
-                            brain.getWMC(),
-                            brain.getTCC(),
-                            brain.getNumberOfBrainMethods(),
-                            AnalyzerConstants.ANALYZER,
-                            brain.getPath(),//Todo: In the analyzer get the path of the class
-                            brain.getPath(),
-                            language.toString(),
-                            new java.util.Date()
-                    );
-
-                    if(saveInDB  && brain.isSmell()) brainClass.save();
-                    classes.add(brainClass);
-                }
-                TableModel tableModel = new BrainClassTableModel(classes);
+                ArrayList<BrainClassDAO> brainClasses = new ArrayList<>();
+                Persistence persistence = new Persistence(saveInDB, language);
+                persistence.saveResults(obc, brainClasses);
+                TableModel tableModel = new BrainClassTableModel(brainClasses);
 
                 ComparativeTable ct = new ComparativeTable(tableModel);
                 ct.drawTable();
