@@ -1,2 +1,2 @@
-alias pmd="$HOME/pmd-bin-6.48.0/bin/run.sh pmd"
-pmd -d ../../../Qualitas_Corpus/QualitasCorpus-20130901r/Systems/hibernate/hibernate-4.2.2/src/hibernate-release-4.2.2.Final/ -R category/java/design.xml/GodClass > output.txt
+alias pmd="$HOME/pmd-bin-7.0.0-rc4/bin/pmd"
+pmd check -d ../../../Qualitas_Corpus/QualitasCorpus-20130901r/Systems/hibernate/hibernate-4.2.2/src/hibernate-release-4.2.2.Final/ -R category/java/design.xml/GodClass > output.txt

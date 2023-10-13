@@ -31,29 +31,44 @@ public class Metrics {
 
     public static final ArrayList<Number> GodClassThresholds = new ArrayList<>(){
         {
-            add(1);
+            add(5);
+            add(47);
+            add(33);
         }
     };
     public static final ArrayList<Number> DataClassThresholds = new ArrayList<>(){
         {
-            add(1);
+            add(33);
+            add(3);
+            add(31);
+            add(5);
+            add(47);
         }
     };
     public static final ArrayList<Number> BrainClassThresholds = new ArrayList<>(){
         {
-            add(1);
+            add(175);
+            add(44);
+            add(50);
+            add(58);
+            add(4);
+            add(3);
+            add(7);
         }
     };
     public static final ArrayList<Number> BrainMethodThresholds = new ArrayList<>(){
         {
-            add(1);
+            add(58);
+            add(4);
+            add(3);
+            add(7);
         }
     };
     public static final ArrayList<Number> FeatureEnvyThresholds = new ArrayList<>(){
         {
-            add(1);
-            add(1);
-
+            add(2);
+            add(33);
+            add(2);
         }
     };
     public static final ArrayList<Number> PromiscuousControllerThresholds = new ArrayList<>(){
