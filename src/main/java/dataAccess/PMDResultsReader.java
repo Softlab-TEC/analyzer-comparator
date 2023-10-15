@@ -24,7 +24,7 @@ public class PMDResultsReader {
 
         while((st = br.readLine()) != null){
             System.out.println(st);
-            if(!st.contains("PMDException")){
+            if(!st.contains("PMDException") && !st.contains("ParseException")){
                 var data = st.split("\\s+");
                 String path = data[0];
                 String className = getClassName(path);
@@ -48,7 +48,7 @@ public class PMDResultsReader {
 
         while((st = br.readLine()) != null){
             System.out.println(st);
-            if(!st.contains("PMDException")){
+            if(!st.contains("PMDException") && !st.contains("ParseException")){
                 var data = st.split("\\s+");
                 String path = data[0];
                 String className = getClassName(path);
