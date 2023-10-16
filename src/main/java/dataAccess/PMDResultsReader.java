@@ -26,11 +26,12 @@ public class PMDResultsReader {
             System.out.println(st);
             if(!st.contains("PMDException") && !st.contains("ParseException")){
                 var data = st.split("\\s+");
+                var metrics = getMetricsArray("GodClass:");
                 String path = data[0];
                 String className = getClassName(path);
-                wmc =  Integer.parseInt(getNumericMetric(data[5]));
-                atfd = Integer.parseInt(getNumericMetric(data[6]));
-                tcc =  Float.parseFloat(getNumericMetric(data[7]));
+                wmc =  Integer.parseInt(getNumericMetric(metrics[4]));
+                atfd = Integer.parseInt(getNumericMetric(metrics[5]));
+                tcc =  Float.parseFloat(getNumericMetric(metrics[6]));
                 godClass = new GodClassDAO(className, className, wmc, atfd, tcc, AnalyzerConstants.PMD, path, path, language, new java.util.Date());
                 godClass.save();
             }
@@ -50,12 +51,14 @@ public class PMDResultsReader {
             System.out.println(st);
             if(!st.contains("PMDException") && !st.contains("ParseException")){
                 var data = st.split("\\s+");
+
+                var metrics = getMetricsArray("DataClass:");
                 String path = data[0];
                 String className = getClassName(path);
-                woc =  Float.parseFloat(getNumericMetric(data[12]));
-                nopa = Integer.parseInt(getNumericMetric(data[13]));
-                noam = Integer.parseInt(getNumericMetric(data[14]));
-                wmc =  Integer.parseInt(getNumericMetric(data[15]));
+                woc =  Float.parseFloat(getNumericMetric(metrics[11]));
+                nopa = Integer.parseInt(getNumericMetric(metrics[12]));
+                noam = Integer.parseInt(getNumericMetric(metrics[13]));
+                wmc =  Integer.parseInt(getNumericMetric(metrics[14]));
                 dataClass = new DataClassDAO(className, className, woc, nopa, noam, wmc, AnalyzerConstants.PMD, path, path, language, new java.util.Date());
                 dataClass.save();
             }
@@ -75,5 +78,11 @@ public class PMDResultsReader {
         Pattern numericPattern =  Pattern.compile("[0-9]+([.][0-9]*)?|[.][0-9]+");
         Matcher matcher = numericPattern.matcher(data);
         return matcher.find() ? matcher.group(0) : "0";
+    }
+
+    private String[] getMetricsArray(String divisorName){
+        String[] metricsSection = st.split(divisorName);
+        String[] metrics = metricsSection[1].split("\\s+");
+        return metrics;
     }
 }
