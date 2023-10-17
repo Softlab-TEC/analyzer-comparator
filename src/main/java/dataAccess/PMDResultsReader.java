@@ -24,16 +24,18 @@ public class PMDResultsReader {
 
         while((st = br.readLine()) != null){
             System.out.println(st);
-            if(!st.contains("PMDException") && !st.contains("ParseException")){
+            if(isNotAnErrorOrMessageLine()){
                 var data = st.split("\\s+");
                 var metrics = getMetricsArray("GodClass:");
-                String path = data[0];
-                String className = getClassName(path);
-                wmc =  Integer.parseInt(getNumericMetric(metrics[4]));
-                atfd = Integer.parseInt(getNumericMetric(metrics[5]));
-                tcc =  Float.parseFloat(getNumericMetric(metrics[6]));
-                godClass = new GodClassDAO(className, className, wmc, atfd, tcc, AnalyzerConstants.PMD, path, path, language, new java.util.Date());
-                godClass.save();
+                if(data.length > 1 && metrics.length > 1) {
+                    String path = data[0];
+                    String className = getClassName(path);
+                    wmc = Integer.parseInt(getNumericMetric(metrics[4]));
+                    atfd = Integer.parseInt(getNumericMetric(metrics[5]));
+                    tcc = Float.parseFloat(getNumericMetric(metrics[6]));
+                    godClass = new GodClassDAO(className, className, wmc, atfd, tcc, AnalyzerConstants.PMD, path, path, language, new java.util.Date());
+                    godClass.save();
+                }
             }
         }
     }
@@ -49,18 +51,19 @@ public class PMDResultsReader {
 
         while((st = br.readLine()) != null){
             System.out.println(st);
-            if(!st.contains("PMDException") && !st.contains("ParseException")){
+            if(isNotAnErrorOrMessageLine()){
                 var data = st.split("\\s+");
-
                 var metrics = getMetricsArray("DataClass:");
-                String path = data[0];
-                String className = getClassName(path);
-                woc =  Float.parseFloat(getNumericMetric(metrics[11]));
-                nopa = Integer.parseInt(getNumericMetric(metrics[12]));
-                noam = Integer.parseInt(getNumericMetric(metrics[13]));
-                wmc =  Integer.parseInt(getNumericMetric(metrics[14]));
-                dataClass = new DataClassDAO(className, className, woc, nopa, noam, wmc, AnalyzerConstants.PMD, path, path, language, new java.util.Date());
-                dataClass.save();
+                if(data.length > 1 && metrics.length > 1){
+                    String path = data[0];
+                    String className = getClassName(path);
+                    woc =  Float.parseFloat(getNumericMetric(metrics[11]));
+                    nopa = Integer.parseInt(getNumericMetric(metrics[12]));
+                    noam = Integer.parseInt(getNumericMetric(metrics[13]));
+                    wmc =  Integer.parseInt(getNumericMetric(metrics[14]));
+                    dataClass = new DataClassDAO(className, className, woc, nopa, noam, wmc, AnalyzerConstants.PMD, path, path, language, new java.util.Date());
+                    dataClass.save();
+                }
             }
         }
     }
@@ -84,5 +87,13 @@ public class PMDResultsReader {
         String[] metricsSection = st.split(divisorName);
         String[] metrics = metricsSection[1].split("\\s+");
         return metrics;
+    }
+
+    private boolean isNotAnErrorOrMessageLine(){
+        return !st.contains("PMDException")
+                && !st.contains("ParseException")
+                && !st.contains("Was expecting:")
+                && !st.contains("<IDENTIFIER>")
+                && !st.contains("Was expecting one of:");
     }
 }
