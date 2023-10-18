@@ -13,7 +13,7 @@ public class PMDExecutor implements IExecutor {
     public void execute(String targetPath, String outputPath, String metric) throws IOException, ExecutionException, InterruptedException, TimeoutException {
         StringBuilder command = new StringBuilder();
         command.append("alias pmd=\"$HOME/pmd-bin-7.0.0-rc4/bin/pmd\" \n");
-        command.append("pmd check -d "+ targetPath + " -R category/java/design.xml/"+ metric + " > " + outputPath);
+        command.append("pmd check -d \""+ targetPath + "\" -R category/java/design.xml/"+ metric + " > " + outputPath);
 
         boolean isWindows = System.getProperty("os.name")
                 .toLowerCase().startsWith("windows");

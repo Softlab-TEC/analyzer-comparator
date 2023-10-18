@@ -2,6 +2,7 @@ package dataAccess;
 
 import dao.identity.DataClassDAO;
 import dao.identity.GodClassDAO;
+import org.antlr.v4.runtime.misc.Pair;
 import utils.AnalyzerConstants;
 
 import java.io.BufferedReader;
@@ -25,10 +26,10 @@ public class PMDResultsReader {
         while((st = br.readLine()) != null){
             System.out.println(st);
             if(isNotAnErrorOrMessageLine()){
-                var data = st.split("\\s+");
-                var metrics = getMetricsArray("GodClass:");
-                if(data.length > 1 && metrics.length > 1) {
-                    String path = data[0];
+                Pair<String, String[]> pathAndMetrics = getPathAndMetrics("GodClass:");
+                if(pathAndMetrics != null) {
+                    String path = pathAndMetrics.a;
+                    String[] metrics = pathAndMetrics.b;
                     String className = getClassName(path);
                     wmc = Integer.parseInt(getNumericMetric(metrics[4]));
                     atfd = Integer.parseInt(getNumericMetric(metrics[5]));
@@ -48,14 +49,13 @@ public class PMDResultsReader {
         int wmc;
         File file  =  new File(sourcePath);
         BufferedReader br = new BufferedReader(new FileReader(file));
-
         while((st = br.readLine()) != null){
             System.out.println(st);
             if(isNotAnErrorOrMessageLine()){
-                var data = st.split("\\s+");
-                var metrics = getMetricsArray("DataClass:");
-                if(data.length > 1 && metrics.length > 1){
-                    String path = data[0];
+                Pair<String, String[]> pathAndMetrics = getPathAndMetrics("DataClass:");
+                if(pathAndMetrics != null) {
+                    String path = pathAndMetrics.a;
+                    String[] metrics = pathAndMetrics.b;
                     String className = getClassName(path);
                     woc =  Float.parseFloat(getNumericMetric(metrics[11]));
                     nopa = Integer.parseInt(getNumericMetric(metrics[12]));
@@ -83,9 +83,20 @@ public class PMDResultsReader {
         return matcher.find() ? matcher.group(0) : "0";
     }
 
-    private String[] getMetricsArray(String divisorName){
-        String[] metricsSection = st.split(divisorName);
-        String[] metrics = metricsSection[1].split("\\s+");
+    private Pair<String, String[]> getPathAndMetrics(String divisorName){
+        String[] pathAndMetrics = st.split(divisorName);
+        if(pathAndMetrics.length > 0){
+            String[] metrics = getMetricsArray(pathAndMetrics[1]);
+            String[] pathSection = pathAndMetrics[0].split(":");
+            if(metrics.length > 1 && pathSection.length > 1){
+                return new Pair<>(pathSection[0], metrics);
+            }
+        }
+        return null;
+    }
+
+    private String[] getMetricsArray(String metricsSection){
+        String[] metrics = metricsSection.split("\\s+");
         return metrics;
     }
 
