@@ -145,7 +145,7 @@ public class BrainClassDAO extends CodeSmellDAO {
     }
 
     public void save(){
-        String sql = "INSERT INTO BRAINCLASS(classname, mainclaaname, loc, wmc, tcc, numberbrainmethods, analyzerid, projectname, path, language)" +
+        String sql = "INSERT INTO BRAINCLASS(classname, mainclassname, loc, wmc, tcc, numberbrainmethods, analyzerid, projectname, path, language)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connection.getConnection()){
 

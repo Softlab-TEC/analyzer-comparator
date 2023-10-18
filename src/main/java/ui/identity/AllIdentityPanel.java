@@ -9,7 +9,6 @@ import metrics.codesmells.brainMethod.OutputBrainMethod;
 import metrics.codesmells.dataClass.OutputDataClass;
 import metrics.codesmells.featureEnvy.OutputFeatureEnvy;
 import metrics.codesmells.godClass.OutputGodClass;
-import metrics.codesmells.mvc.fatRepository.OutputFatRepository;
 import metrics.exceptions.UnsupportedMetricException;
 import org.antlr.v4.runtime.misc.Pair;
 import org.json.simple.parser.ParseException;
@@ -69,10 +68,6 @@ public class AllIdentityPanel extends CodeSmellGeneralPanel {
             }
             if (output instanceof OutputFeatureEnvy){
                 persistence.saveResults((OutputFeatureEnvy)output, new ArrayList<>());
-                continue;
-            }
-            if (output instanceof OutputFatRepository){
-                persistence.saveResults((OutputFatRepository)output, new ArrayList<>());
                 continue;
             }
         }
