@@ -58,7 +58,7 @@ public class JSpIRITResultsReader {
         }
     }
         private void saveGodClass(CSVRecord smellLine){
-        String projectName = smellLine.get("Smell");
+        String projectName = smellLine.get("Project");
         String className =  smellLine.get("Location");
         String path =  smellLine.get("Path");
         GodClassDAO godClass = new GodClassDAO(className, className, AnalyzerConstants.JSPIRIT, projectName, path, language, new java.util.Date());
@@ -66,7 +66,7 @@ public class JSpIRITResultsReader {
     }
 
     private void saveDataClass(CSVRecord smellLine){
-        String projectName = smellLine.get("Smell");
+        String projectName = smellLine.get("Project");
         String className =  smellLine.get("Location");
         String path =  smellLine.get("Path");
         DataClassDAO dataClass = new DataClassDAO(className, className, AnalyzerConstants.JSPIRIT, projectName, path, language, new java.util.Date());
@@ -74,7 +74,7 @@ public class JSpIRITResultsReader {
     }
 
     private void saveBrainClass(CSVRecord smellLine){
-        String projectName = smellLine.get("Smell");
+        String projectName = smellLine.get("Project");
         String className =  smellLine.get("Location");
         String path =  smellLine.get("Path");
         BrainClassDAO brainClass = new BrainClassDAO(className, className, AnalyzerConstants.JSPIRIT, projectName, path, language, new java.util.Date());
@@ -82,7 +82,7 @@ public class JSpIRITResultsReader {
     }
 
     private void saveBrainMethod(CSVRecord smellLine){
-        String projectName = smellLine.get("Smell");
+        String projectName = smellLine.get("Project");
         String[] location =  smellLine.get("Location").split("\\.");
         String className = location[0];
         String methodName = location[1];
@@ -92,7 +92,7 @@ public class JSpIRITResultsReader {
     }
 
     private void saveFeatureEnvy(CSVRecord smellLine){
-        String projectName = smellLine.get("Smell");
+        String projectName = smellLine.get("Project");
         String[] location =  smellLine.get("Location").split("\\.");
         String className = location[0];
         String methodName = location[1];        String path =  smellLine.get("Path");
