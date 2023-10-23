@@ -122,7 +122,7 @@ public class Persistence {
                 fe.getMainClassName(),
                 fe.getName(),
                 fe.calculatePossibleAccessors().size(),
-                fe.getLAA(),
+                fe.calculateLAA(),
                 fe.getFDP(),
                 AnalyzerConstants.ANALYZER,
                 fe.getFile(),//Todo: In the analyzer get the path of the class

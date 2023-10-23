@@ -85,6 +85,11 @@ public class MainWindow extends JFrame{
         constraints.gridy = 1;
         mainMenuPanel.add(btnMVC, constraints);
 
+        JButton readSave = new JButton("Read and Save Results");
+        readSave.addActionListener(new BtnReadSaveListener());
+        constraints.gridy = 2;
+        mainMenuPanel.add(readSave, constraints);
+
         return mainMenuPanel;
     }
 
@@ -105,6 +110,11 @@ public class MainWindow extends JFrame{
     private class BtnMVCListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) { useNewPanel(new MainMVC()); }
+    }
+
+    private class BtnReadSaveListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) { useNewPanel(new ReadSavePanel().getPanel()); }
     }
 
 }

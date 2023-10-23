@@ -61,6 +61,17 @@ public class BrainClassDAO extends CodeSmellDAO {
         this.numberBrainMethods = numberBrainMethods;
     }
 
+    public BrainClassDAO(String className,
+                       String mainClassName,
+                       int analyzerId,
+                       String projectName,
+                       String path,
+                       String language,
+                       Date insertDate
+    ){
+        super(className, mainClassName, analyzerId, projectName, path, language, insertDate);
+    }
+
     public BrainClassDAO(String className, int analyzerId, Date insertDate){
         super(className, analyzerId, insertDate);
     }

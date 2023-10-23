@@ -58,6 +58,19 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
         this.methodName = methodNAme;
     }
 
+    public FeatureEnvyDAO(String className,
+                          String mainClassName,
+                          String methodName,
+                          int analyzerId,
+                          String projectName,
+                          String path,
+                          String language,
+                          Date insertDate
+    ){
+        super(className, mainClassName, analyzerId, projectName, path, language, insertDate);
+        this.methodName = methodName;
+    }
+
     public FeatureEnvyDAO(String className, int analyzerId, Date insertDate){
         super(className, analyzerId, insertDate);
     }

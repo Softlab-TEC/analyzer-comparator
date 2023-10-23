@@ -57,6 +57,17 @@ public class DataClassDAO extends CodeSmellDAO {
         this.wmc = wmc;
     }
 
+    public DataClassDAO(String className,
+                       String mainClassName,
+                       int analyzerId,
+                       String projectName,
+                       String path,
+                       String language,
+                       Date insertDate
+    ){
+        super(className, mainClassName, analyzerId, projectName, path, language, insertDate);
+    }
+
     public DataClassDAO(String className, int analyzerId, Date insertDate){
         super(className, analyzerId, insertDate);
     }

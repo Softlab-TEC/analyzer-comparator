@@ -62,6 +62,19 @@ public class BrainMethodDAO extends CodeSmellDAO {
         this.noav = noav;
     }
 
+    public BrainMethodDAO(String className,
+                       String mainClassName,
+                       String methodName,
+                       int analyzerId,
+                       String projectName,
+                       String path,
+                       String language,
+                       Date insertDate
+    ){
+        super(className, mainClassName, analyzerId, projectName, path, language, insertDate);
+        this.methodName = methodName;
+    }
+
     public BrainMethodDAO(String className, int analyzerId, Date insertDate){
         super(className, analyzerId, insertDate);
     }

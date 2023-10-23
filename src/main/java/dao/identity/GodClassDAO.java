@@ -53,6 +53,18 @@ public class GodClassDAO extends CodeSmellDAO {
         this.tcc = tcc;
     }
 
+    public GodClassDAO(String className,
+                       String mainClassName,
+                       int analyzerId,
+                       String projectName,
+                       String path,
+                       String language,
+                       Date insertDate
+    ){
+        super(className, mainClassName, analyzerId, projectName, path, language, insertDate);
+    }
+
+
     public GodClassDAO(String className, int analyzerId, Date insertDate){
         super(className, analyzerId, insertDate);
     }
