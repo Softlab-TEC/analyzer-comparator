@@ -1,7 +1,6 @@
 package ui.identity;
 
 import dao.mvc.Persistence;
-import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.Output;
 import metrics.codesmells.brainClass.OutputBrainClass;
@@ -24,7 +23,6 @@ public class AllIdentityPanel extends CodeSmellGeneralPanel {
         super();
         resultFileName = "AllIdentity.txt";
         metricName = Metrics.AllIdentity;
-        executor = new SpringLintExecutor();
     }
 
     private ArrayList<Pair<String, ArrayList<Number>>> getMVCParameters(){

@@ -2,7 +2,6 @@ package ui.mvc.promiscuousController;
 
 import dao.mvc.Persistence;
 import dao.mvc.PromiscuousControllerDAO;
-import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.mvc.promiscuousController.OutputPromiscuousController;
 import metrics.exceptions.UnsupportedMetricException;
@@ -29,7 +28,6 @@ public class PromiscuousControllerPanel extends CodeSmellGeneralPanel {
         initialize();
         resultFileName = "SpringLintPromiscuousControllerOutput.txt";
         metricName = Metrics.PromiscuousController;
-        executor = new SpringLintExecutor();
     }
 
     public void initialize() {

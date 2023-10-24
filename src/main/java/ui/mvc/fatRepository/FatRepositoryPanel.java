@@ -2,7 +2,6 @@ package ui.mvc.fatRepository;
 
 import dao.mvc.FatRepositoryDAO;
 import dao.mvc.Persistence;
-import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.mvc.fatRepository.OutputFatRepository;
 import metrics.exceptions.UnsupportedMetricException;
@@ -26,7 +25,6 @@ public class FatRepositoryPanel extends CodeSmellGeneralPanel {
         initialize();
         resultFileName = "SpringLintFatRepositoryOutput.txt";
         metricName = Metrics.FatRepository;
-        executor = new SpringLintExecutor();
     }
 
     public void initialize(){

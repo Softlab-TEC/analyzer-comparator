@@ -2,7 +2,6 @@ package ui.mvc.meddlingService;
 
 import dao.mvc.MeddlingServiceDAO;
 import dao.mvc.Persistence;
-import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.mvc.meddlingService.OutputMeddlingService;
 import metrics.exceptions.UnsupportedMetricException;
@@ -26,7 +25,6 @@ public class MeddlingServicePanel extends CodeSmellGeneralPanel {
         initialize();
         resultFileName = "SpringLintMeddlingServiceOutput.txt";
         metricName = Metrics.MeddlingService;
-        executor = new SpringLintExecutor();
     }
 
     public void initialize(){

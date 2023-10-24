@@ -2,7 +2,6 @@ package ui.mvc.brainController;
 
 import dao.mvc.BrainControllerDAO;
 import dao.mvc.Persistence;
-import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.mvc.brainController.OutputBrainController;
 import metrics.exceptions.UnsupportedMetricException;
@@ -26,7 +25,6 @@ public class BrainControllerPanel extends CodeSmellGeneralPanel {
         initialize();
         resultFileName = "SpringLintBrainControllerOutput.txt";
         metricName = Metrics.BrainController;
-        executor = new SpringLintExecutor();
     }
 
     public void initialize() {

@@ -1,6 +1,7 @@
 package ui;
 
 import dataAccess.JSpIRITResultsReader;
+import dataAccess.SpringLintResultsReader;
 import gastmappers.Language;
 
 import javax.swing.*;
@@ -128,6 +129,9 @@ public class ReadSavePanel {
                 if(selectedTool.equals("JSpIRIT")){
                     JSpIRITResultsReader jspiritReader = new JSpIRITResultsReader();
                     jspiritReader.readResult(inputPath, language);
+                }else{
+                    SpringLintResultsReader springLintReader = new SpringLintResultsReader();
+                    springLintReader.readResult(inputPath, language);
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();

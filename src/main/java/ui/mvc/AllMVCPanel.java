@@ -1,7 +1,6 @@
 package ui.mvc;
 
 import dao.mvc.Persistence;
-import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.Output;
 import metrics.codesmells.mvc.brainController.OutputBrainController;
@@ -25,7 +24,6 @@ public class AllMVCPanel extends CodeSmellGeneralPanel {
         super();
         resultFileName = "AllMVC.txt";
         metricName = Metrics.AllMVC;
-        executor = new SpringLintExecutor();
     }
 
     @Override

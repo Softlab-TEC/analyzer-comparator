@@ -2,7 +2,6 @@ package ui.mvc.laboriousRepositoryMethod;
 
 import dao.mvc.LaboriousRepositoryMethodDAO;
 import dao.mvc.Persistence;
-import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.mvc.laboriousRepositoryMethod.OutputLaboriousRepositoryMethod;
 import metrics.exceptions.UnsupportedMetricException;
@@ -26,7 +25,6 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
         initialize();
         resultFileName = "SpringLintLaboriousRepositoryMethodOutput.txt";
         metricName = Metrics.LaboriousRepositoryMethod;
-        executor = new SpringLintExecutor();
     }
 
     public void initialize(){

@@ -2,7 +2,6 @@ package ui.mvc.brainRepository;
 
 import dao.mvc.BrainRepositoryDAO;
 import dao.mvc.Persistence;
-import dataAccess.SpringLintExecutor;
 import gastmappers.exceptions.UnsupportedLanguageException;
 import metrics.codesmells.mvc.brainRepository.OutputBrainRepository;
 import metrics.exceptions.UnsupportedMetricException;
@@ -29,7 +28,6 @@ public class BrainRepositoryPanel extends CodeSmellGeneralPanel {
         initialize();
         resultFileName = "SpringLintPBrainRepositoryOutput.txt";
         metricName = Metrics.BrainRepository;
-        executor = new SpringLintExecutor();
     }
 
     public void initialize(){
