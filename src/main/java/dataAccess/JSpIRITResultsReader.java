@@ -15,6 +15,7 @@ public class JSpIRITResultsReader {
     String language;
     public void readResult(String inputPath, String language) throws IOException {
         this.language = language;
+        int numberOfFilesProcessed = 0;
         File directory = new File(inputPath);
 
         if (directory.isDirectory()) {
@@ -24,12 +25,13 @@ public class JSpIRITResultsReader {
             if (files != null) {
                 for (File file : files) {
                     if (file.isFile() && file.getName().endsWith(".csv")) {
+                        numberOfFilesProcessed ++;
                         try {
                             FileReader fileReader = new FileReader(file);
                             CSVParser csvParser = CSVFormat.EXCEL.withDelimiter(';').withHeader().parse(fileReader);
                             // Access rows based on column name
                             for (CSVRecord record : csvParser) {
-                                switch (record.get("Smell")) {
+                                switch (record.get("Smell").trim()) {
                                     case "God Class":
                                         saveGodClass(record);
                                         break;
@@ -49,6 +51,7 @@ public class JSpIRITResultsReader {
                                         break;
                                 }
                             }
+                            System.out.println("Successfully file: " + file.getName() + " processed. File processed number: " + numberOfFilesProcessed );
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -58,44 +61,45 @@ public class JSpIRITResultsReader {
         }
     }
         private void saveGodClass(CSVRecord smellLine){
-        String projectName = smellLine.get("Project");
-        String className =  smellLine.get("Location");
-        String path =  smellLine.get("Path");
+        String projectName = smellLine.get("Project").trim();
+        String className =  smellLine.get("Location").trim();
+        String path =  smellLine.get("Path").trim();
         GodClassDAO godClass = new GodClassDAO(className, className, AnalyzerConstants.JSPIRIT, projectName, path, language, new java.util.Date());
         godClass.save();
     }
 
     private void saveDataClass(CSVRecord smellLine){
-        String projectName = smellLine.get("Project");
-        String className =  smellLine.get("Location");
-        String path =  smellLine.get("Path");
+        String projectName = smellLine.get("Project").trim();
+        String className =  smellLine.get("Location").trim();
+        String path =  smellLine.get("Path").trim();
         DataClassDAO dataClass = new DataClassDAO(className, className, AnalyzerConstants.JSPIRIT, projectName, path, language, new java.util.Date());
         dataClass.save();
     }
 
     private void saveBrainClass(CSVRecord smellLine){
-        String projectName = smellLine.get("Project");
-        String className =  smellLine.get("Location");
-        String path =  smellLine.get("Path");
+        String projectName = smellLine.get("Project").trim();
+        String className =  smellLine.get("Location").trim();
+        String path =  smellLine.get("Path").trim();
         BrainClassDAO brainClass = new BrainClassDAO(className, className, AnalyzerConstants.JSPIRIT, projectName, path, language, new java.util.Date());
         brainClass.save();
     }
 
     private void saveBrainMethod(CSVRecord smellLine){
-        String projectName = smellLine.get("Project");
+        String projectName = smellLine.get("Project").trim();
         String[] location =  smellLine.get("Location").split("\\.");
-        String className = location[0];
-        String methodName = location[1];
-        String path =  smellLine.get("Path");
+        String className = location[0].trim();
+        String methodName = location[1].trim();
+        String path =  smellLine.get("Path").trim();
         BrainMethodDAO brainMethod = new BrainMethodDAO(className, className, methodName ,AnalyzerConstants.JSPIRIT, projectName, path, language, new java.util.Date());
         brainMethod.save();
     }
 
     private void saveFeatureEnvy(CSVRecord smellLine){
-        String projectName = smellLine.get("Project");
+        String projectName = smellLine.get("Project").trim();
         String[] location =  smellLine.get("Location").split("\\.");
-        String className = location[0];
-        String methodName = location[1];        String path =  smellLine.get("Path");
+        String className = location[0].trim();
+        String methodName = location[1].trim();
+        String path =  smellLine.get("Path").trim();
         FeatureEnvyDAO featureEnvy = new FeatureEnvyDAO(className, className, methodName, AnalyzerConstants.JSPIRIT, projectName, path, language, new java.util.Date());
         featureEnvy.save();
     }
