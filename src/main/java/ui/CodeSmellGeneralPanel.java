@@ -139,12 +139,12 @@ public class CodeSmellGeneralPanel {
         //input: "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/hibernate/hibernate-4.2.2/src/hibernate-release-4.2.2.Final/project/hibernate-core/src/main/java/org/hibernate/cfg/HbmBinder.java"
         //Output: /Users/williamcasasola/Documents/TEC/Detector/test/
         try {
-            if(!onlyAnalyzer){
+            /*if(!onlyAnalyzer){
                 executorOutputPathName = outputPath.isEmpty() ?
                     createFolder(resultFileName) : outputPath +  resultFileName;
                 executor.execute(inputPath, executorOutputPathName, metricName);
                 if (saveInDB) ReadPMFileAndSaveResults();
-            }
+            }*/
             initAnalyzerAndSaveResults();
         } catch (ParseException ex) {
             ex.printStackTrace();
@@ -155,16 +155,16 @@ public class CodeSmellGeneralPanel {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             errorMessage = throwables.getMessage();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-            errorMessage = ioException.getMessage();
         } catch (ClassNotFoundException classNotFoundException) {
             classNotFoundException.printStackTrace();
             errorMessage = classNotFoundException.getMessage();
         } catch (UnsupportedLanguageException unsupportedLanguageException) {
             unsupportedLanguageException.printStackTrace();
             errorMessage = unsupportedLanguageException.getMessage();
-        } catch (ExecutionException executionException) {
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            errorMessage = ioException.getMessage();
+        }/* catch (ExecutionException executionException) {
             executionException.printStackTrace();
             errorMessage = executionException.getMessage();
         } catch (InterruptedException interruptedException) {
@@ -173,7 +173,7 @@ public class CodeSmellGeneralPanel {
         } catch (TimeoutException timeoutException) {
             timeoutException.printStackTrace();
             errorMessage = timeoutException.getMessage();
-        }
+        }*/
         catch (Exception ex){
             errorMessage = ex.getMessage();
         }
@@ -188,7 +188,7 @@ public class CodeSmellGeneralPanel {
 
     }
 
-    public void showResultsTable(int analyzerId){}
+    public void showResultsTable(int analyzerId, String language, String projectName){}
 
     public void configureJsonForAnalyzer(){
         ip = new ArrayList<>();
@@ -265,6 +265,7 @@ public class CodeSmellGeneralPanel {
             } else {
                 System.out.println("File already exists.");
             }
+            System.out.println("PMD output path: " + file.getAbsolutePath());
             return file.getAbsolutePath();
         } catch (IOException e) {
             System.out.println("An error occurred.");

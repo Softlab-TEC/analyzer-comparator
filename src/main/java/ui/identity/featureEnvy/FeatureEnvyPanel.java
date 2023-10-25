@@ -50,7 +50,7 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
         FeatureEnvyDAO fe = new FeatureEnvyDAO();
         switch (analyzerId){
             case 0: t = fe.getFeatureEnvies(sql); break;
-            default: t = fe.getFeatureEnviesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = fe.getFeatureEnviesOnlyAnalyzer(analyzerId, language, projectName, false); break;
         }
         TableModel tableModel = new FeatureEnvyTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Feature Envy");

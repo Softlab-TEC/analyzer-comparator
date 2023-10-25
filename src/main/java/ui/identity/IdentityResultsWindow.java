@@ -17,7 +17,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class IdentityResultsWindow {
@@ -32,6 +31,8 @@ public class IdentityResultsWindow {
     private static JTextField inputPathField;
     private static JLabel inputPathLabel;
     private static JLabel languageLabel;
+    private static Checkbox avoidTestFile;
+
     private static JLabel toolLabel;
 
     public IdentityResultsWindow(){
@@ -78,6 +79,12 @@ public class IdentityResultsWindow {
         constraints.gridy = 2;
         panel.add(inputPathLabel, constraints);
 
+        avoidTestFile = new Checkbox("Exclude Test files");
+
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+
+        panel.add(avoidTestFile, constraints);
 
         inputPathField = new JTextField();
         inputPathField.setPreferredSize(new Dimension(300,30));
@@ -107,7 +114,7 @@ public class IdentityResultsWindow {
         panel.add(inputPathField, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 3;
+        constraints.gridy = 4;
         JButton btn = new JButton("Execute");
         btn.setBackground(Color.GRAY);
         btn.setOpaque(true);
@@ -154,7 +161,7 @@ public class IdentityResultsWindow {
     private void showResults(int analyzerId, String language, String projectName){
         showGodClassResultsTable(analyzerId, language, projectName);
         showDataClassResultsTable(analyzerId, language, projectName);
-        showFeatureEnvyResultsTable(analyzerId, language, projectName);
+        showFeatureEnvyResultsTable(analyzerId, language, projectName, avoidTestFile.getState());
         showBrainMethodResultsTable(analyzerId, language, projectName);
         showBrainClassResultsTable(analyzerId, language, projectName);
     }
@@ -168,7 +175,7 @@ public class IdentityResultsWindow {
             default: t = gcd.getGodClassesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         javax.swing.table.TableModel tableModel = new GodClassTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel, "God Class");
+        ComparativeTable ct = new ComparativeTable(tableModel, "God Class " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
@@ -181,20 +188,20 @@ public class IdentityResultsWindow {
             default: t = dc.getDataClassesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         TableModel tableModel = new DataClassTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel, "Data Class");
+        ComparativeTable ct = new ComparativeTable(tableModel, "Data Class " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
-    public void showFeatureEnvyResultsTable(int analyzerId, String language, String projectName){
+    public void showFeatureEnvyResultsTable(int analyzerId, String language, String projectName, boolean avoidTestFiles){
         String sql = "SELECT * FROM FEATUREENVY ORDER BY classname, methodname, analyzerid, insertdate";
         ArrayList<FeatureEnvyDAO> t;
         FeatureEnvyDAO fe = new FeatureEnvyDAO();
         switch (analyzerId){
             case 0: t = fe.getFeatureEnvies(sql); break;
-            default: t = fe.getFeatureEnviesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = fe.getFeatureEnviesOnlyAnalyzer(analyzerId, language, projectName, avoidTestFiles); break;
         }
         TableModel tableModel = new FeatureEnvyTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel, "Feature Envy");
+        ComparativeTable ct = new ComparativeTable(tableModel, "Feature Envy " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
@@ -207,7 +214,7 @@ public class IdentityResultsWindow {
             default: t = bm.getBrainMethodsOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new BrainMethodTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Method");
+        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Method " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
@@ -220,7 +227,7 @@ public class IdentityResultsWindow {
             default: t = bc.getBrainClassesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new BrainClassTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Class");
+        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Class " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 }

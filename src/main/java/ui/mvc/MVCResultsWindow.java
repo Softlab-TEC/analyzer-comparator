@@ -168,7 +168,7 @@ public class MVCResultsWindow {
                 break;
         }
         ui.TableModel tableModel = new PromiscuousControllerTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel, "Promiscuous Controller");
+        ComparativeTable ct = new ComparativeTable(tableModel, "Promiscuous Controller " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
@@ -185,7 +185,7 @@ public class MVCResultsWindow {
                 break;
         }
         ui.TableModel tableModel = new BrainControllerTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Controller");
+        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Controller " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
@@ -198,7 +198,7 @@ public class MVCResultsWindow {
             default: t = ms.getMeddlingServicesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new MeddlingServiceTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel, "Meddling Service");
+        ComparativeTable ct = new ComparativeTable(tableModel, "Meddling Service " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
@@ -211,7 +211,7 @@ public class MVCResultsWindow {
             default: t = lrm.getLaboriousRepoMethodOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new LaboriousRepositoryMethodTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel, "Laborious Repository Method");
+        ComparativeTable ct = new ComparativeTable(tableModel, "Laborious Repository Method " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
@@ -224,7 +224,7 @@ public class MVCResultsWindow {
             default: t = fr.getFatRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new FatRepositoryTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel, "Fat Repository");
+        ComparativeTable ct = new ComparativeTable(tableModel, "Fat Repository " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
@@ -237,7 +237,7 @@ public class MVCResultsWindow {
             default: t = bc.getBrainRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new BrainRepositoryTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Repository");
+        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Repository " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
