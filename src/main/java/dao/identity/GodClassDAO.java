@@ -129,14 +129,14 @@ public class GodClassDAO extends CodeSmellDAO {
         return godClasses;
     }
 
-    public ArrayList<GodClassDAO> getGodClassesOnlyPMD(){
+    public ArrayList<GodClassDAO> getGodClassesOnlyPMD(int analyzerId, String language, String projectName){
         String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON " +
                 "(gc1.classname = gc2.classname OR gc1.mainclassname = gc2.mainclassname)" +
                 " AND gc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE gc1.analyzerid = " + AnalyzerConstants.PMD + " AND gc2.analyzerid IS NULL;";
         return getGodClasses(query);
     }
 
-    public ArrayList<GodClassDAO> getGodClassesOnlyAnalyzer(){
+    public ArrayList<GodClassDAO> getGodClassesOnlyAnalyzer(int analyzerId, String language, String projectName){
         String query = "SELECT gc1.* FROM GODCLASS gc1 LEFT JOIN GODCLASS gc2 ON " +
                 "(gc1.classname = gc2.classname OR gc1.mainclassname = gc2.mainclassname)" +
                 " AND gc2.analyzerid = " + AnalyzerConstants.PMD + " WHERE gc1.analyzerid = " + AnalyzerConstants.ANALYZER + " AND gc2.analyzerid IS NULL";

@@ -27,7 +27,7 @@ public class AllMVCPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void showResultsTable(int analyzerId){
+    public void showResultsTable(int analyzerId, String language, String projectName){
 
     }
 

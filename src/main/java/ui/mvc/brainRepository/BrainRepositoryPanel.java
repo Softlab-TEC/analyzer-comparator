@@ -39,14 +39,14 @@ public class BrainRepositoryPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void showResultsTable(int analyzerId){
+    public void showResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM BRAINREPOSITORY ORDER BY classname, analyzerid, insertdate";
         ArrayList<BrainRepositoryDAO> t = new ArrayList<>();
         BrainRepositoryDAO bc = new BrainRepositoryDAO();
         switch (analyzerId){
             case 0: t = bc.getBrainRepositories(sql); break;
-            case 1: t = bc.getBrainRepositoriesOnlyAnalyzer(); break;
-            case 2: t = bc.getBrainRepositoriesOnlySpringLint(); break;
+            case 1: t = bc.getBrainRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
+            case 2: t = bc.getBrainRepositoriesOnlySpringLint(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new BrainRepositoryTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel);

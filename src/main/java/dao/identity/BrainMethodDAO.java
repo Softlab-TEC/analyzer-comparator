@@ -157,12 +157,12 @@ public class BrainMethodDAO extends CodeSmellDAO {
         return brainMethods;
     }
 
-    public ArrayList<BrainMethodDAO> getBrainMethodsOnlyPMD(){
+    public ArrayList<BrainMethodDAO> getBrainMethodsOnlyPMD(int analyzerId, String language, String projectName){
         String query = "SELECT bm1.* FROM BRAINMETHOD bm1 LEFT JOIN BRAINMETHOD bm2 ON bm1.classname = bm2.classname AND bm1.methodname = bm2.methodname AND bm2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE bm1.analyzerid = " + AnalyzerConstants.PMD + " AND bm2.analyzerid IS NULL;";
         return getBrainMethods(query);
     }
 
-    public ArrayList<BrainMethodDAO> getBrainMethodsOnlyAnalyzer(){
+    public ArrayList<BrainMethodDAO> getBrainMethodsOnlyAnalyzer(int analyzerId, String language, String projectName){
         String query = "SELECT bm1.* FROM BRAINMETHOD bm1 LEFT JOIN BRAINMETHOD bm2 ON bm1.classname = bm2.classname AND bm1.methodname = bm2.methodname AND bm2.analyzerid = " + AnalyzerConstants.PMD + " WHERE bm1.analyzerid = " + AnalyzerConstants.ANALYZER + " AND bm2.analyzerid IS NULL";
         return getBrainMethods(query);
     }

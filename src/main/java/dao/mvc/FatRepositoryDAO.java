@@ -91,12 +91,12 @@ public class FatRepositoryDAO extends CodeSmellDAO {
         return fatRepositories;
     }
 
-    public ArrayList<FatRepositoryDAO> getFatRepositoriesOnlySpringLint(){
+    public ArrayList<FatRepositoryDAO> getFatRepositoriesOnlySpringLint(int analyzerId, String language, String projectName){
         String query = "SELECT fr1.* FROM FATREPOSITORY fr1 LEFT JOIN FATREPOSITORY fr2 ON fr1.classname = fr2.classname AND fr2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE fr1.analyzerid = " + AnalyzerConstants.SPRINGLINT + " AND fr1.analyzerid IS NULL;";
         return geFatRepositories(query);
     }
 
-    public ArrayList<FatRepositoryDAO> getFatRepositoriesOnlyAnalyzer(){
+    public ArrayList<FatRepositoryDAO> getFatRepositoriesOnlyAnalyzer(int analyzerId, String language, String projectName){
         String query = "SELECT fr1.* FROM FATREPOSITORY fr1 LEFT JOIN FATREPOSITORY fr2 ON fr1.classname = fr2.classname AND fr2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE fr1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND fr2.analyzerid IS NULL";
         return geFatRepositories(query);
     }

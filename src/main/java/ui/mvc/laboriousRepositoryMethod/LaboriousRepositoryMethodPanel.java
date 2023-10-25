@@ -33,14 +33,14 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void showResultsTable(int analyzerId){
+    public void showResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM LABORIOUSREPOSITORYMETHOD ORDER BY classname, analyzerid, insertdate";
         ArrayList<LaboriousRepositoryMethodDAO> t = new ArrayList<>();
         LaboriousRepositoryMethodDAO lrm = new LaboriousRepositoryMethodDAO();
         switch (analyzerId){
             case 0: t = lrm.getLaboriousRepositoryMethods(sql); break;
-            case 1: t = lrm.getLaboriousRepoMethodOnlyAnalyzer(); break;
-            case 2: t = lrm.getLaboriousRepoMethodOnlySpringLint(); break;
+            case 1: t = lrm.getLaboriousRepoMethodOnlyAnalyzer(analyzerId, language, projectName); break;
+            case 2: t = lrm.getLaboriousRepoMethodOnlySpringLint(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new LaboriousRepositoryMethodTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel);

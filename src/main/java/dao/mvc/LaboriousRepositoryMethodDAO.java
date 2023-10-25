@@ -106,12 +106,12 @@ public class LaboriousRepositoryMethodDAO extends CodeSmellDAO {
         return laboriousRepoMethods;
     }
 
-    public ArrayList<LaboriousRepositoryMethodDAO> getLaboriousRepoMethodOnlySpringLint(){
+    public ArrayList<LaboriousRepositoryMethodDAO> getLaboriousRepoMethodOnlySpringLint(int analyzerId, String language, String projectName){
         String query = "SELECT lrm1.* FROM LABORIOUSREPOSITORYMETHOD lrm1 LEFT JOIN LABORIOUSREPOSITORYMETHOD lrm2 ON lrm1.classname = lrm2.classname AND lrm2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE lrm1.analyzerid = " + AnalyzerConstants.SPRINGLINT + " AND lrm1.analyzerid IS NULL;";
         return getLaboriousRepositoryMethods(query);
     }
 
-    public ArrayList<LaboriousRepositoryMethodDAO> getLaboriousRepoMethodOnlyAnalyzer(){
+    public ArrayList<LaboriousRepositoryMethodDAO> getLaboriousRepoMethodOnlyAnalyzer(int analyzerId, String language, String projectName){
         String query = "SELECT lrm1.* FROM LABORIOUSREPOSITORYMETHOD lrm1 LEFT JOIN LABORIOUSREPOSITORYMETHOD lrm2 ON lrm1.classname = lrm2.classname AND lrm2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE lrm1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND lrm2.analyzerid IS NULL";
         return getLaboriousRepositoryMethods(query);
     }

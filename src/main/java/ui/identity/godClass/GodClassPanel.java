@@ -99,14 +99,14 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void showResultsTable(int analyzerId){
+    public void showResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM GODCLASS ORDER BY classname, analyzerid, insertdate";
         ArrayList<GodClassDAO> t = new ArrayList<>();
         GodClassDAO gcd = new GodClassDAO();
         switch (analyzerId){
             case 0: t = gcd.getGodClasses(sql); break;
-            case 1: t = gcd.getGodClassesOnlyAnalyzer(); break;
-            case 2: t = gcd.getGodClassesOnlyPMD(); break;
+            case 1: t = gcd.getGodClassesOnlyAnalyzer(analyzerId, language, projectName); break;
+            case 2: t = gcd.getGodClassesOnlyPMD(analyzerId, language, projectName); break;
         }
         TableModel tableModel = new GodClassTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel);

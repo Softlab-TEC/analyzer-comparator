@@ -33,14 +33,14 @@ public class MeddlingServicePanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void showResultsTable(int analyzerId){
+    public void showResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM MEDDLINGSERVICE ORDER BY classname, analyzerid, insertdate";
         ArrayList<MeddlingServiceDAO> t = new ArrayList<>();
         MeddlingServiceDAO ms = new MeddlingServiceDAO();
         switch (analyzerId){
             case 0: t = ms.getMeddlingServices(sql); break;
-            case 1: t = ms.getMeddlingServicesOnlyAnalyzer(); break;
-            case 2: t = ms.getMeddlingServiceOnlySpringLint(); break;
+            case 1: t = ms.getMeddlingServicesOnlyAnalyzer(analyzerId, language, projectName); break;
+            case 2: t = ms.getMeddlingServiceOnlySpringLint(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new MeddlingServiceTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel);

@@ -33,14 +33,14 @@ public class FatRepositoryPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void showResultsTable(int analyzerId){
+    public void showResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM FATREPOSITORY ORDER BY classname, analyzerid, insertdate";
         ArrayList<FatRepositoryDAO> t = new ArrayList<>();
         FatRepositoryDAO fr = new FatRepositoryDAO();
         switch (analyzerId){
             case 0: t = fr.geFatRepositories(sql); break;
-            case 1: t = fr.getFatRepositoriesOnlyAnalyzer(); break;
-            case 2: t = fr.getFatRepositoriesOnlySpringLint(); break;
+            case 1: t = fr.getFatRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
+            case 2: t = fr.getFatRepositoriesOnlySpringLint(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new FatRepositoryTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel);

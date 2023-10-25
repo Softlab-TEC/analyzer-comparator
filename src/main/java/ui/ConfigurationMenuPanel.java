@@ -1,5 +1,6 @@
 package ui;
 import gastmappers.Language;
+import utils.AnalyzerConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -118,20 +119,20 @@ public class ConfigurationMenuPanel extends JPanel {
         constraints.gridx = 1;
         constraints.gridy = 10;
         JButton btn = new JButton("Execute");
-        btn.setBackground(Color.RED);
+        btn.setBackground(Color.GRAY);
         btn.setOpaque(true);
         btn.setBorderPainted(false);
         btn.addActionListener(new BtnListenerExecutor());
         add(btn, constraints);
 
         JButton btnOnlyAnalyzer = new JButton("Only Analyzer");
-        btnOnlyAnalyzer.addActionListener(new BtnListenerShowResultsTable(1));
+        btnOnlyAnalyzer.addActionListener(new BtnListenerShowResultsTable(AnalyzerConstants.ANALYZER));
         constraints.gridy = 11;
         constraints.gridx = 0;
         add(btnOnlyAnalyzer, constraints);
 
         JButton btnOnlyPMD = new JButton("Only PMD");
-        btnOnlyPMD.addActionListener(new BtnListenerShowResultsTable(2));
+        btnOnlyPMD.addActionListener(new BtnListenerShowResultsTable(AnalyzerConstants.PMD));
         constraints.gridx = 1;
         add(btnOnlyPMD, constraints);
 
@@ -170,7 +171,7 @@ public class ConfigurationMenuPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            codeSmellGeneralPanel.showResultsTable(analyzerId);
+            //codeSmellGeneralPanel.showResultsTable(analyzerId, language, projectName);
         }
     }
 

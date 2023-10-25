@@ -1,6 +1,8 @@
 package ui;
 
+import ui.identity.IdentityResultsWindow;
 import ui.identity.MainIdentity;
+import ui.mvc.MVCResultsWindow;
 import ui.mvc.MainMVC;
 
 import javax.swing.*;
@@ -85,9 +87,19 @@ public class MainWindow extends JFrame{
         constraints.gridy = 1;
         mainMenuPanel.add(btnMVC, constraints);
 
+        JButton identityResults = new JButton("Identity Results");
+        identityResults.addActionListener(new BtnIdentityResultsListener());
+        constraints.gridy = 2;
+        mainMenuPanel.add(identityResults, constraints);
+
+        JButton MVCResults = new JButton("MVC Results");
+        MVCResults.addActionListener(new BtnMVCResultsListener());
+        constraints.gridy = 3;
+        mainMenuPanel.add(MVCResults, constraints);
+
         JButton readSave = new JButton("Read and Save Results");
         readSave.addActionListener(new BtnReadSaveListener());
-        constraints.gridy = 2;
+        constraints.gridy = 4;
         mainMenuPanel.add(readSave, constraints);
 
         return mainMenuPanel;
@@ -115,6 +127,16 @@ public class MainWindow extends JFrame{
     private class BtnReadSaveListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) { useNewPanel(new ReadSavePanel().getPanel()); }
+    }
+
+    private class BtnMVCResultsListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) { useNewPanel(new MVCResultsWindow().getPanel()); }
+    }
+
+    private class BtnIdentityResultsListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) { useNewPanel(new IdentityResultsWindow().getPanel()); }
     }
 
 }

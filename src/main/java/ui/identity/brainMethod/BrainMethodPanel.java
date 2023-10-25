@@ -48,14 +48,14 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void showResultsTable(int analyzerId){
+    public void showResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM BRAINMETHOD ORDER BY classname, methodname, analyzerid, insertdate";
         ArrayList<BrainMethodDAO> t = new ArrayList<>();
         BrainMethodDAO bm = new BrainMethodDAO();
         switch (analyzerId){
             case 0: t = bm.getBrainMethods(sql); break;
-            case 1: t = bm.getBrainMethodsOnlyAnalyzer(); break;
-            case 2: t = bm.getBrainMethodsOnlyPMD(); break;
+            case 1: t = bm.getBrainMethodsOnlyAnalyzer(analyzerId, language, projectName); break;
+            case 2: t = bm.getBrainMethodsOnlyPMD(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new BrainMethodTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel);

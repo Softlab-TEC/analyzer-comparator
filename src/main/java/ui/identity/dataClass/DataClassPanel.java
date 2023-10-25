@@ -53,14 +53,14 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
     }
 
     @Override
-    public void showResultsTable(int analyzerId){
+    public void showResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM DATACLASS ORDER BY classname, analyzerid, insertdate";
         ArrayList<DataClassDAO> t = new ArrayList<>();
         DataClassDAO dc = new DataClassDAO();
         switch (analyzerId){
             case 0: t = dc.getDataClasses(sql); break;
-            case 1: t = dc.getDataClassesOnlyAnalyzer(); break;
-            case 2: t = dc.getDataClassesOnlyPMD(); break;
+            case 1: t = dc.getDataClassesOnlyAnalyzer(analyzerId, language, projectName); break;
+            case 2: t = dc.getDataClassesOnlyPMD(analyzerId, language, projectName); break;
         }
         TableModel tableModel = new DataClassTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel);
