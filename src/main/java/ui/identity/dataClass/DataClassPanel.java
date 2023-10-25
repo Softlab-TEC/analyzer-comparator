@@ -59,11 +59,10 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
         DataClassDAO dc = new DataClassDAO();
         switch (analyzerId){
             case 0: t = dc.getDataClasses(sql); break;
-            case 1: t = dc.getDataClassesOnlyAnalyzer(analyzerId, language, projectName); break;
-            case 2: t = dc.getDataClassesOnlyPMD(analyzerId, language, projectName); break;
+            default: t = dc.getDataClassesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         TableModel tableModel = new DataClassTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Data Class");
         ct.drawTable();
     }
 
@@ -87,7 +86,7 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
                 Persistence persistence = new Persistence(saveInDB, language);
                 persistence.saveResults(odc, dataClasses);
                 TableModel tableModel = new DataClassTableModel(dataClasses);
-                ComparativeTable ct = new ComparativeTable(tableModel);
+                ComparativeTable ct = new ComparativeTable(tableModel, "Data Class");
                 ct.drawTable();
             }
             System.out.println("Success" + odc.toString());

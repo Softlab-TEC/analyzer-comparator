@@ -145,11 +145,6 @@ public class BrainClassDAO extends CodeSmellDAO {
         return brainClasses;
     }
 
-    public ArrayList<BrainClassDAO> getBrainClassesOnlyPMD(int analyzerId, String language, String projectName){
-        String query = "SELECT bc1.* FROM BRAINCLASS bc1 LEFT JOIN BRAINCLASS bc2 ON bc1.classname = bc2.classname AND bc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE bc1.analyzerid = " + AnalyzerConstants.PMD + " AND bc2.analyzerid IS NULL;";
-        return getBrainClasses(query);
-    }
-
     public ArrayList<BrainClassDAO> getBrainClassesOnlyAnalyzer(int analyzerId, String language, String projectName){
         String query = "SELECT dc1.* FROM BRAINCLASS dc1 LEFT JOIN BRAINCLASS dc2 ON (dc1.classname = dc2.classname  OR dc1.mainclassname = dc2.mainclassname) AND dc2.analyzerid <> " + analyzerId +
                 " AND dc2.path LIKE '% " + projectName + "%' AND dc2.language = '"+ language + "' WHERE dc1.analyzerid = " + analyzerId

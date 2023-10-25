@@ -144,14 +144,11 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
         return featureEnvies;
     }
 
-    public ArrayList<FeatureEnvyDAO> getFeatureEnviesOnlyPMD(int analyzerId, String language, String projectName){
-        String query = "SELECT gc1.* FROM FEATUREENVY fe1 LEFT JOIN FEATUREENVY fe2 ON fe1.classname = fe2.classname AND fe2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE fe1.analyzerid = " + AnalyzerConstants.PMD + " AND fe2.analyzerid IS NULL;";
-        return getFeatureEnvies(query);
-    }
-
     public ArrayList<FeatureEnvyDAO> getFeatureEnviesOnlyAnalyzer(int analyzerId, String language, String projectName){
-        String query = "SELECT fe1.* FROM FEATUREENVY fe1 LEFT JOIN FEATUREENVY fe2 ON fe1.classname = fe2.classname AND fe2.analyzerid = " + AnalyzerConstants.PMD + " WHERE fe1.analyzerid = " + AnalyzerConstants.ANALYZER + " AND fe2.analyzerid IS NULL";
-        return getFeatureEnvies(query);
+        String query = "SELECT t1.* FROM FEATUREENVY t1 LEFT JOIN FEATUREENVY t2 ON (t1.classname = t2.classname  OR " +
+                "t1.mainclassname = t2.mainclassname) AND t2.analyzerid <> " + analyzerId + " AND t2.path " +
+                "LIKE '%" + projectName + "%' AND t2.language = '"+ language + "' WHERE t1.analyzerid = " + analyzerId
+                + " AND t2.analyzerid IS NULL AND t1.path LIKE '%" + projectName + "%' AND t1.language = '" + language + "'";        return getFeatureEnvies(query);
     }
 
     public void save(){

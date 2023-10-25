@@ -145,86 +145,82 @@ public class IdentityResultsWindow {
                     break;
                 case "Analyzer":
                     showResults(AnalyzerConstants.ANALYZER, language, inputPath);
+                    break;
                 default: showResults(0, language, inputPath);
             }
         }
     }
 
     private void showResults(int analyzerId, String language, String projectName){
-        //showGodClassResultsTable(analyzerId, language, projectName);
+        showGodClassResultsTable(analyzerId, language, projectName);
         showDataClassResultsTable(analyzerId, language, projectName);
-        //showFeatureEnvyResultsTable(analyzerId, language, projectName);
-        //showBrainMethodResultsTable(analyzerId, language, projectName);
+        showFeatureEnvyResultsTable(analyzerId, language, projectName);
+        showBrainMethodResultsTable(analyzerId, language, projectName);
         showBrainClassResultsTable(analyzerId, language, projectName);
     }
 
     public void showGodClassResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM GODCLASS ORDER BY classname, analyzerid, insertdate";
-        ArrayList<GodClassDAO> t = new ArrayList<>();
+        ArrayList<GodClassDAO> t;
         GodClassDAO gcd = new GodClassDAO();
         switch (analyzerId){
             case 0: t = gcd.getGodClasses(sql); break;
-            case 1: t = gcd.getGodClassesOnlyAnalyzer(analyzerId, language, projectName); break;
-            case 2: t = gcd.getGodClassesOnlyPMD(analyzerId, language, projectName); break;
+            default: t = gcd.getGodClassesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         javax.swing.table.TableModel tableModel = new GodClassTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "God Class");
         ct.drawTable();
     }
 
     public void showDataClassResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM DATACLASS ORDER BY classname, analyzerid, insertdate";
-        ArrayList<DataClassDAO> t = new ArrayList<>();
+        ArrayList<DataClassDAO> t;
         DataClassDAO dc = new DataClassDAO();
         switch (analyzerId){
             case 0: t = dc.getDataClasses(sql); break;
-            case 1: t = dc.getDataClassesOnlyAnalyzer(analyzerId, language, projectName); break;
-            case 2: t = dc.getDataClassesOnlyPMD(analyzerId, language, projectName); break;
+            default: t = dc.getDataClassesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         TableModel tableModel = new DataClassTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Data Class");
         ct.drawTable();
     }
 
     public void showFeatureEnvyResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM FEATUREENVY ORDER BY classname, methodname, analyzerid, insertdate";
-        ArrayList<FeatureEnvyDAO> t = new ArrayList<>();
+        ArrayList<FeatureEnvyDAO> t;
         FeatureEnvyDAO fe = new FeatureEnvyDAO();
         switch (analyzerId){
             case 0: t = fe.getFeatureEnvies(sql); break;
-            case 1: t = fe.getFeatureEnviesOnlyAnalyzer(analyzerId, language, projectName); break;
-            case 2: t = fe.getFeatureEnviesOnlyPMD(analyzerId, language, projectName); break;
+            default: t = fe.getFeatureEnviesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         TableModel tableModel = new FeatureEnvyTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Feature Envy");
         ct.drawTable();
     }
 
     public void showBrainMethodResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM BRAINMETHOD ORDER BY classname, methodname, analyzerid, insertdate";
-        ArrayList<BrainMethodDAO> t = new ArrayList<>();
+        ArrayList<BrainMethodDAO> t;
         BrainMethodDAO bm = new BrainMethodDAO();
         switch (analyzerId){
             case 0: t = bm.getBrainMethods(sql); break;
-            case 1: t = bm.getBrainMethodsOnlyAnalyzer(analyzerId, language, projectName); break;
-            case 2: t = bm.getBrainMethodsOnlyPMD(analyzerId, language, projectName); break;
+            default: t = bm.getBrainMethodsOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new BrainMethodTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Method");
         ct.drawTable();
     }
 
     public void showBrainClassResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM BRAINCLASS ORDER BY classname, analyzerid, insertdate";
-        ArrayList<BrainClassDAO> t = new ArrayList<>();
+        ArrayList<BrainClassDAO> t;
         BrainClassDAO bc = new BrainClassDAO();
         switch (analyzerId){
             case 0: t = bc.getBrainClasses(sql); break;
-            case 1: t = bc.getBrainClassesOnlyAnalyzer(analyzerId, language, projectName); break;
-            case 2: t = bc.getBrainClassesOnlyPMD(analyzerId, language, projectName); break;
+            default: t = bc.getBrainClassesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new BrainClassTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Class");
         ct.drawTable();
     }
 }

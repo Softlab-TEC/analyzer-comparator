@@ -91,13 +91,11 @@ public class FatRepositoryDAO extends CodeSmellDAO {
         return fatRepositories;
     }
 
-    public ArrayList<FatRepositoryDAO> getFatRepositoriesOnlySpringLint(int analyzerId, String language, String projectName){
-        String query = "SELECT fr1.* FROM FATREPOSITORY fr1 LEFT JOIN FATREPOSITORY fr2 ON fr1.classname = fr2.classname AND fr2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE fr1.analyzerid = " + AnalyzerConstants.SPRINGLINT + " AND fr1.analyzerid IS NULL;";
-        return geFatRepositories(query);
-    }
-
     public ArrayList<FatRepositoryDAO> getFatRepositoriesOnlyAnalyzer(int analyzerId, String language, String projectName){
-        String query = "SELECT fr1.* FROM FATREPOSITORY fr1 LEFT JOIN FATREPOSITORY fr2 ON fr1.classname = fr2.classname AND fr2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE fr1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND fr2.analyzerid IS NULL";
+        String query = "SELECT t1.* FROM FATREPOSITORY t1 LEFT JOIN FATREPOSITORY t2 ON (t1.classname = t2.classname  OR " +
+                "t1.mainclassname = t2.mainclassname) AND t2.analyzerid <> " + analyzerId + " AND t2.path " +
+                "LIKE '%" + projectName + "%' AND t2.language = '"+ language + "' WHERE t1.analyzerid = " + analyzerId
+                + " AND t2.analyzerid IS NULL AND t1.path LIKE '%" + projectName + "%' AND t1.language = '" + language + "'";
         return geFatRepositories(query);
     }
 

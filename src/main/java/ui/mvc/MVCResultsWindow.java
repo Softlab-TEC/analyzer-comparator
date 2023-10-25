@@ -157,55 +157,48 @@ public class MVCResultsWindow {
 
     public void showPromiscuousResultsTable(int analyzerId, String language, String projectName) {
         String sql = "SELECT * FROM PROMISCUOUSCONTROLLER ORDER BY classname, analyzerid, insertdate";
-        ArrayList<PromiscuousControllerDAO> t = new ArrayList<>();
+        ArrayList<PromiscuousControllerDAO> t;
         PromiscuousControllerDAO pc = new PromiscuousControllerDAO();
         switch (analyzerId) {
             case 0:
                 t = pc.getPromiscuousControllers(sql);
                 break;
-            case 1:
+            default:
                 t = pc.getPromiscuousControllersOnlyAnalyzer(analyzerId, language, projectName);
-                break;
-            case 2:
-                t = pc.getPromiscuousControllersOnlySpringLint(analyzerId, language, projectName);
                 break;
         }
         ui.TableModel tableModel = new PromiscuousControllerTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Promiscuous Controller");
         ct.drawTable();
     }
 
     public void showBrainControllerResultsTable(int analyzerId, String language, String projectName) {
         String sql = "SELECT * FROM BRAINCONTROLLER ORDER BY classname, analyzerid, insertdate";
-        ArrayList<BrainControllerDAO> t = new ArrayList<>();
+        ArrayList<BrainControllerDAO> t;
         BrainControllerDAO bc = new BrainControllerDAO();
         switch (analyzerId) {
             case 0:
                 t = bc.getBrainControllers(sql);
                 break;
-            case 1:
+            default:
                 t = bc.getBrainControllersOnlyAnalyzer(analyzerId, language, projectName);
-                break;
-            case 2:
-                t = bc.getBrainControllersOnlySpringLint(analyzerId, language, projectName);
                 break;
         }
         ui.TableModel tableModel = new BrainControllerTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Controller");
         ct.drawTable();
     }
 
     public void showMeddlingResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM MEDDLINGSERVICE ORDER BY classname, analyzerid, insertdate";
-        ArrayList<MeddlingServiceDAO> t = new ArrayList<>();
+        ArrayList<MeddlingServiceDAO> t;
         MeddlingServiceDAO ms = new MeddlingServiceDAO();
         switch (analyzerId){
             case 0: t = ms.getMeddlingServices(sql); break;
-            case 1: t = ms.getMeddlingServicesOnlyAnalyzer(analyzerId, language, projectName); break;
-            case 2: t = ms.getMeddlingServiceOnlySpringLint(analyzerId, language, projectName); break;
+            default: t = ms.getMeddlingServicesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new MeddlingServiceTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Meddling Service");
         ct.drawTable();
     }
 
@@ -215,39 +208,36 @@ public class MVCResultsWindow {
         LaboriousRepositoryMethodDAO lrm = new LaboriousRepositoryMethodDAO();
         switch (analyzerId){
             case 0: t = lrm.getLaboriousRepositoryMethods(sql); break;
-            case 1: t = lrm.getLaboriousRepoMethodOnlyAnalyzer(analyzerId, language, projectName); break;
-            case 2: t = lrm.getLaboriousRepoMethodOnlySpringLint(analyzerId, language, projectName); break;
+            default: t = lrm.getLaboriousRepoMethodOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new LaboriousRepositoryMethodTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Laborious Repository Method");
         ct.drawTable();
     }
 
     public void showFatRepositoryResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM FATREPOSITORY ORDER BY classname, analyzerid, insertdate";
-        ArrayList<FatRepositoryDAO> t = new ArrayList<>();
+        ArrayList<FatRepositoryDAO> t;
         FatRepositoryDAO fr = new FatRepositoryDAO();
         switch (analyzerId){
             case 0: t = fr.geFatRepositories(sql); break;
-            case 1: t = fr.getFatRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
-            case 2: t = fr.getFatRepositoriesOnlySpringLint(analyzerId, language, projectName); break;
+            default: t = fr.getFatRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new FatRepositoryTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Fat Repository");
         ct.drawTable();
     }
 
     public void showBrainRepositoryResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM BRAINREPOSITORY ORDER BY classname, analyzerid, insertdate";
-        ArrayList<BrainRepositoryDAO> t = new ArrayList<>();
+        ArrayList<BrainRepositoryDAO> t;
         BrainRepositoryDAO bc = new BrainRepositoryDAO();
         switch (analyzerId){
             case 0: t = bc.getBrainRepositories(sql); break;
-            case 1: t = bc.getBrainRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
-            case 2: t = bc.getBrainRepositoriesOnlySpringLint(analyzerId, language, projectName); break;
+            default: t = bc.getBrainRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new BrainRepositoryTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Repository");
         ct.drawTable();
     }
 

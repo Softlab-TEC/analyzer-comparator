@@ -91,13 +91,12 @@ public class MeddlingServiceDAO extends CodeSmellDAO {
         return meddlingServices;
     }
 
-    public ArrayList<MeddlingServiceDAO> getMeddlingServiceOnlySpringLint(int analyzerId, String language, String projectName){
-        String query = "SELECT mc1.* FROM MEDDLINGSERVICE mc1 LEFT JOIN MEDDLINGSERVICE mc2 ON mc1.classname = mc2.classname AND mc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE mc1.analyzerid = " + AnalyzerConstants.SPRINGLINT + " AND mc1.analyzerid IS NULL;";
-        return getMeddlingServices(query);
-    }
 
     public ArrayList<MeddlingServiceDAO> getMeddlingServicesOnlyAnalyzer(int analyzerId, String language, String projectName){
-        String query = "SELECT mc1.* FROM MEDDLINGSERVICE mc1 LEFT JOIN MEDDLINGSERVICE mc2 ON mc1.classname = mc2.classname AND mc2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE mc1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND mc2.analyzerid IS NULL";
+        String query = "SELECT t1.* FROM MEDDLINGSERVICE t1 LEFT JOIN MEDDLINGSERVICE t2 ON (t1.classname = t2.classname  OR " +
+                "t1.mainclassname = t2.mainclassname) AND t2.analyzerid <> " + analyzerId + " AND t2.path " +
+                "LIKE '%" + projectName + "%' AND t2.language = '"+ language + "' WHERE t1.analyzerid = " + analyzerId
+                + " AND t2.analyzerid IS NULL AND t1.path LIKE '%" + projectName + "%' AND t1.language = '" + language + "'";
         return getMeddlingServices(query);
     }
 

@@ -105,13 +105,11 @@ public class BrainRepositoryDAO extends CodeSmellDAO {
         return brainRepositories;
     }
 
-    public ArrayList<BrainRepositoryDAO> getBrainRepositoriesOnlySpringLint(int analyzerId, String language, String projectName){
-        String query = "SELECT br1.* FROM BRAINREPOSITORY br1 LEFT JOIN BRAINREPOSITORY br2 ON br1.classname = br2.classname AND br2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE br1.analyzerid = " + AnalyzerConstants.SPRINGLINT + " AND br1.analyzerid IS NULL;";
-        return getBrainRepositories(query);
-    }
-
     public ArrayList<BrainRepositoryDAO> getBrainRepositoriesOnlyAnalyzer(int analyzerId, String language, String projectName){
-        String query = "SELECT br1.* FROM BRAINREPOSITORY br1 LEFT JOIN BRAINREPOSITORY br2 ON br1.classname = br2.classname AND br2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE br1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND br2.analyzerid IS NULL";
+        String query = "SELECT t1.* FROM BRAINREPOSITORY t1 LEFT JOIN BRAINREPOSITORY t2 ON (t1.classname = t2.classname  OR " +
+                "t1.mainclassname = t2.mainclassname) AND t2.analyzerid <> " + analyzerId + " AND t2.path " +
+                "LIKE '%" + projectName + "%' AND t2.language = '"+ language + "' WHERE t1.analyzerid = " + analyzerId
+                + " AND t2.analyzerid IS NULL AND t1.path LIKE '%" + projectName + "%' AND t1.language = '" + language + "'";
         return getBrainRepositories(query);
     }
 

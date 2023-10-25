@@ -1,6 +1,7 @@
 package ui;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -12,9 +13,11 @@ import java.util.Date;
 
 public class ComparativeTable{
     TableModel tableModel;
+    String title;
 
-    public  ComparativeTable(TableModel tableModel){
+    public  ComparativeTable(TableModel tableModel, String title){
         this.tableModel = tableModel;
+        this.title = title;
     }
 
     public void drawTable() {
@@ -78,10 +81,25 @@ public class ComparativeTable{
         // Add the table to a scroll pane, so that it can be scrolled if necessary
         JScrollPane scrollPane = new JScrollPane(table);
 
+        scrollPane.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createEtchedBorder(), title, TitledBorder.LEFT,
+                TitledBorder.TOP));
+
+
+        JLabel rowCountLabel = new JLabel("Total Rows: " + tableModel.getRowCount());
+        scrollPane.add(rowCountLabel);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(rowCountLabel, BorderLayout.SOUTH);
+
         // Add the scroll pane to a frame and display the frame
         JFrame frame = new JFrame();
-        frame.add(scrollPane);
+        frame.add(panel);
         frame.setSize(800, 200);
         frame.setVisible(true);
+
+        this.title = "Testing";
     }
 }

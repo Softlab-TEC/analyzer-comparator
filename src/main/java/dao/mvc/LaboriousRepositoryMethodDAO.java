@@ -106,14 +106,11 @@ public class LaboriousRepositoryMethodDAO extends CodeSmellDAO {
         return laboriousRepoMethods;
     }
 
-    public ArrayList<LaboriousRepositoryMethodDAO> getLaboriousRepoMethodOnlySpringLint(int analyzerId, String language, String projectName){
-        String query = "SELECT lrm1.* FROM LABORIOUSREPOSITORYMETHOD lrm1 LEFT JOIN LABORIOUSREPOSITORYMETHOD lrm2 ON lrm1.classname = lrm2.classname AND lrm2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE lrm1.analyzerid = " + AnalyzerConstants.SPRINGLINT + " AND lrm1.analyzerid IS NULL;";
-        return getLaboriousRepositoryMethods(query);
-    }
-
     public ArrayList<LaboriousRepositoryMethodDAO> getLaboriousRepoMethodOnlyAnalyzer(int analyzerId, String language, String projectName){
-        String query = "SELECT lrm1.* FROM LABORIOUSREPOSITORYMETHOD lrm1 LEFT JOIN LABORIOUSREPOSITORYMETHOD lrm2 ON lrm1.classname = lrm2.classname AND lrm2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE lrm1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND lrm2.analyzerid IS NULL";
-        return getLaboriousRepositoryMethods(query);
+        String query = "SELECT t1.* FROM LABORIOUSREPOSITORYMETHOD t1 LEFT JOIN LABORIOUSREPOSITORYMETHOD t2 ON (t1.classname = t2.classname  OR " +
+                "t1.mainclassname = t2.mainclassname) AND t2.analyzerid <> " + analyzerId + " AND t2.path " +
+                "LIKE '%" + projectName + "%' AND t2.language = '"+ language + "' WHERE t1.analyzerid = " + analyzerId
+                + " AND t2.analyzerid IS NULL AND t1.path LIKE '%" + projectName + "%' AND t1.language = '" + language + "'";        return getLaboriousRepositoryMethods(query);
     }
 
     public void save(){

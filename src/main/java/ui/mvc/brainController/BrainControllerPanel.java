@@ -35,21 +35,18 @@ public class BrainControllerPanel extends CodeSmellGeneralPanel {
     @Override
     public void showResultsTable(int analyzerId, String language, String projectName) {
         String sql = "SELECT * FROM BRAINCONTROLLER ORDER BY classname, analyzerid, insertdate";
-        ArrayList<BrainControllerDAO> t = new ArrayList<>();
+        ArrayList<BrainControllerDAO> t;
         BrainControllerDAO bc = new BrainControllerDAO();
         switch (analyzerId) {
             case 0:
                 t = bc.getBrainControllers(sql);
                 break;
-            case 1:
+            default:
                 t = bc.getBrainControllersOnlyAnalyzer(analyzerId, language, projectName);
-                break;
-            case 2:
-                t = bc.getBrainControllersOnlySpringLint(analyzerId, language, projectName);
                 break;
         }
         ui.TableModel tableModel = new BrainControllerTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Brain Controller");
         ct.drawTable();
     }
 
@@ -66,7 +63,7 @@ public class BrainControllerPanel extends CodeSmellGeneralPanel {
                 Persistence persistence = new Persistence(saveInDB, language);
                 persistence.saveResults(obc, controllers);
                 TableModel tableModel = new BrainControllerTableModel(controllers);
-                ComparativeTable ct = new ComparativeTable(tableModel);
+                ComparativeTable ct = new ComparativeTable(tableModel, "Brain Controller");
                 ct.drawTable();
 
             }

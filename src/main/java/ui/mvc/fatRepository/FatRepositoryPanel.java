@@ -39,11 +39,10 @@ public class FatRepositoryPanel extends CodeSmellGeneralPanel {
         FatRepositoryDAO fr = new FatRepositoryDAO();
         switch (analyzerId){
             case 0: t = fr.geFatRepositories(sql); break;
-            case 1: t = fr.getFatRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
-            case 2: t = fr.getFatRepositoriesOnlySpringLint(analyzerId, language, projectName); break;
+            default: t = fr.getFatRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new FatRepositoryTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Fat Repository");
         ct.drawTable();
     }
 
@@ -61,7 +60,7 @@ public class FatRepositoryPanel extends CodeSmellGeneralPanel {
                 persistence.saveResults(ofr, repositories);
                 TableModel tableModel = new FatRepositoryTableModel(repositories);
 
-                ComparativeTable ct = new ComparativeTable(tableModel);
+                ComparativeTable ct = new ComparativeTable(tableModel, "Fat Repository");
                 ct.drawTable();
 
             }

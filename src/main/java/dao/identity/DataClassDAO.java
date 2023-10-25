@@ -141,17 +141,11 @@ public class DataClassDAO extends CodeSmellDAO {
         return dataClasses;
     }
 
-    public ArrayList<DataClassDAO> getDataClassesOnlyPMD(int analyzerId, String language, String projectName){
-        String query = "SELECT dc1.* FROM DATACLASS dc1 LEFT JOIN DATACLASS dc2 ON " +
-                "(dc1.classname = dc2.classname OR dc1.mainclassname = dc2.mainclassname)" +
-                " AND dc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE dc1.analyzerid = " + AnalyzerConstants.PMD + " AND dc2.analyzerid IS NULL;";
-        return getDataClasses(query);
-    }
-
     public ArrayList<DataClassDAO> getDataClassesOnlyAnalyzer(int analyzerId, String language, String projectName){
-        String query = "SELECT dc1.* FROM DATACLASS dc1 LEFT JOIN DATACLASS dc2 ON (dc1.classname = dc2.classname  OR dc1.mainclassname = dc2.mainclassname) AND dc2.analyzerid <> " + analyzerId +
-                " AND dc2.path LIKE '% " + projectName + "%' AND dc2.language = '"+ language + "' WHERE dc1.analyzerid = " + analyzerId
-                + " AND dc2.analyzerid IS NULL AND dc1.path LIKE '% " + projectName + "%' AND dc1.language = '"+ language + "'";
+        String query = "SELECT t1.* FROM DATACLASS t1 LEFT JOIN DATACLASS t2 ON (t1.classname = t2.classname  OR " +
+            "t1.mainclassname = t2.mainclassname) AND t2.analyzerid <> " + analyzerId + " AND t2.path " +
+            "LIKE '%" + projectName + "%' AND t2.language = '"+ language + "' WHERE t1.analyzerid = " + analyzerId
+            + " AND t2.analyzerid IS NULL AND t1.path LIKE '%" + projectName + "%' AND t1.language = '" + language + "'";
         return getDataClasses(query);
     }
 

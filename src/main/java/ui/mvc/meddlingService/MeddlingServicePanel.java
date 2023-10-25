@@ -35,15 +35,14 @@ public class MeddlingServicePanel extends CodeSmellGeneralPanel {
     @Override
     public void showResultsTable(int analyzerId, String language, String projectName){
         String sql = "SELECT * FROM MEDDLINGSERVICE ORDER BY classname, analyzerid, insertdate";
-        ArrayList<MeddlingServiceDAO> t = new ArrayList<>();
+        ArrayList<MeddlingServiceDAO> t;
         MeddlingServiceDAO ms = new MeddlingServiceDAO();
         switch (analyzerId){
             case 0: t = ms.getMeddlingServices(sql); break;
-            case 1: t = ms.getMeddlingServicesOnlyAnalyzer(analyzerId, language, projectName); break;
-            case 2: t = ms.getMeddlingServiceOnlySpringLint(analyzerId, language, projectName); break;
+            default: t = ms.getMeddlingServicesOnlyAnalyzer(analyzerId, language, projectName); break;
         }
         ui.TableModel tableModel = new MeddlingServiceTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Meddling Service");
         ct.drawTable();
     }
 
@@ -60,7 +59,7 @@ public class MeddlingServicePanel extends CodeSmellGeneralPanel {
                 Persistence persistence = new Persistence(saveInDB, language);
                 persistence.saveResults(oms, services);
                 TableModel tableModel = new MeddlingServiceTableModel(services);
-                ComparativeTable ct = new ComparativeTable(tableModel);
+                ComparativeTable ct = new ComparativeTable(tableModel, "Meddling Service");
                 ct.drawTable();
 
             }

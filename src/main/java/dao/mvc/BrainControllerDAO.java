@@ -91,14 +91,12 @@ public class BrainControllerDAO extends CodeSmellDAO {
         return brainControllers;
     }
 
-    public ArrayList<BrainControllerDAO> getBrainControllersOnlySpringLint(int analyzerId, String language, String projectName){
-        String query = "SELECT bc1.* FROM BRAINCONTROLLER bc1 LEFT JOIN BRAINCONTROLLER bc2 ON bc1.classname = bc2.classname AND bc2.analyzerid = " + AnalyzerConstants.ANALYZER + " WHERE bc1.analyzerid = " + AnalyzerConstants.SPRINGLINT + " AND bc1.analyzerid IS NULL;";
-        return getBrainControllers(query);
-    }
 
     public ArrayList<BrainControllerDAO> getBrainControllersOnlyAnalyzer(int analyzerId, String language, String projectName){
-        String query = "SELECT bc1.* FROM BRAINCONTROLLER bc1 LEFT JOIN BRAINCONTROLLER bc2 ON bc1.classname = bc2.classname AND bc2.analyzerid = "+ AnalyzerConstants.SPRINGLINT + " WHERE bc1.analyzerid = " + AnalyzerConstants.ANALYZER+ " AND bc2.analyzerid IS NULL";
-        return getBrainControllers(query);
+        String query = "SELECT t1.* FROM BRAINCONTROLLER t1 LEFT JOIN BRAINCONTROLLER t2 ON (t1.classname = t2.classname  OR " +
+                "t1.mainclassname = t2.mainclassname) AND t2.analyzerid <> " + analyzerId + " AND t2.path " +
+                "LIKE '%" + projectName + "%' AND t2.language = '"+ language + "' WHERE t1.analyzerid = " + analyzerId
+                + " AND t2.analyzerid IS NULL AND t1.path LIKE '%" + projectName + "%' AND t1.language = '" + language + "'";        return getBrainControllers(query);
     }
 
     public void save(){

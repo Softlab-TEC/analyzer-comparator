@@ -41,21 +41,18 @@ public class PromiscuousControllerPanel extends CodeSmellGeneralPanel {
     @Override
     public void showResultsTable(int analyzerId, String language, String projectName) {
         String sql = "SELECT * FROM PROMISCUOUSCONTROLLER ORDER BY classname, analyzerid, insertdate";
-        ArrayList<PromiscuousControllerDAO> t = new ArrayList<>();
+        ArrayList<PromiscuousControllerDAO> t;
         PromiscuousControllerDAO pc = new PromiscuousControllerDAO();
         switch (analyzerId) {
             case 0:
                 t = pc.getPromiscuousControllers(sql);
                 break;
-            case 1:
+            default:
                 t = pc.getPromiscuousControllersOnlyAnalyzer(analyzerId, language, projectName);
-                break;
-            case 2:
-                t = pc.getPromiscuousControllersOnlySpringLint(analyzerId, language, projectName);
                 break;
         }
         ui.TableModel tableModel = new PromiscuousControllerTableModel(t);
-        ComparativeTable ct = new ComparativeTable(tableModel);
+        ComparativeTable ct = new ComparativeTable(tableModel, "Promiscuous Controller");
         ct.drawTable();
     }
 
@@ -74,7 +71,7 @@ public class PromiscuousControllerPanel extends CodeSmellGeneralPanel {
                 Persistence persistence = new Persistence(saveInDB, language);
                 persistence.saveResults(opc, controllers);
                 TableModel tableModel = new PromiscuousControllerTableModel(controllers);
-                ComparativeTable ct = new ComparativeTable(tableModel);
+                ComparativeTable ct = new ComparativeTable(tableModel, "Promiscuous Controller");
                 ct.drawTable();
 
             }
