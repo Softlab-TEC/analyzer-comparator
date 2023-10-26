@@ -157,5 +157,59 @@ public class ComparativeTable{
                 "\tGROUPS g\n" +
                 "ORDER BY\n" +
                 "\tsame DESC";
+
+
+        String version2 = "WITH GROUPS AS (\n" +
+                "\tSELECT DISTINCT\n" +
+                "\t\tdc1.projectname,\n" +
+                "\t\tCASE WHEN dc1.analyzerid > dc2.analyzerid THEN\n" +
+                "\t\t\tdc2.analyzerid\n" +
+                "\t\tELSE\n" +
+                "\t\t\tdc1.analyzerid\n" +
+                "\t\tEND id1,\n" +
+                "\t\tCASE WHEN dc1.analyzerid > dc2.analyzerid THEN\n" +
+                "\t\t\tdc1.analyzerid\n" +
+                "\t\tELSE\n" +
+                "\t\t\tdc2.analyzerid\n" +
+                "\t\tEND id2,\n" +
+                "\t\tdc1.classname\n" +
+                "\tFROM\n" +
+                "\t\tGODCLASS dc1\n" +
+                "\t\tINNER JOIN GODCLASS dc2 ON (dc1.projectname = dc2.projectname\n" +
+                "\t\t\t\tOR dc1.projectname = SUBSTR(dc2.projectname,\n" +
+                "\t\t\t\t\tINSTR(dc2.projectname,\n" +
+                "\t\t\t\t\t\tdc1.projectname),\n" +
+                "\t\t\t\t\tlength(dc1.projectname) + 1))\n" +
+                "\t\t\tAND dc1.language = dc2.language\n" +
+                "\t\t\tAND dc1.analyzerid <> dc2.analyzerid\n" +
+                "\t\t\tAND(dc1.classname = dc2.classname\n" +
+                "\t\t\t\tOR dc1.classname = dc2.mainclassname\n" +
+                "\t\t\t\tOR dc1.mainclassname = dc2.classname\n" +
+                "\t\t\t\tOR dc1.mainclassname = dc2.mainclassname)\n" +
+                "\t\t\tAND dc1.mainclassname NOT LIKE '%test%' AND dc2.mainclassname NOT LIKE '%test%'\n" +
+                ")\n" +
+                "SELECT\n" +
+                "\tprojectname,\n" +
+                "\t(\n" +
+                "\t\tSELECT\n" +
+                "\t\t\tname\n" +
+                "\t\tFROM\n" +
+                "\t\t\tANALYZER a\n" +
+                "\tWHERE\n" +
+                "\t\ta.id = g.id1) AnalyzerName1, (\n" +
+                "\t\tSELECT\n" +
+                "\t\t\tname\n" +
+                "\t\tFROM\n" +
+                "\t\t\tANALYZER a\n" +
+                "\t\tWHERE\n" +
+                "\t\t\ta.id = g.id2) AnalyzerName2, COUNT(1) same\n" +
+                "FROM\n" +
+                "\tGROUPS g\n" +
+                "GROUP BY\n" +
+                "\tg.id1,\n" +
+                "\tg.id2,\n" +
+                "\tg.projectname\n" +
+                "ORDER BY\n" +
+                "\tsame DESC";
     }
 }
