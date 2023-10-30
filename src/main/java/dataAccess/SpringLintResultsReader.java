@@ -103,7 +103,7 @@ public class SpringLintResultsReader {
 
     private void savePromiscuousController(JSONObject smell, JSONObject metadata){
         String projectName = (String) metadata.get("file");
-        String className =  (String) metadata.get("name");
+        String mainClassName =  (String) metadata.get("name");
         String path = (String) metadata.get("file");
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher((String)smell.get("description"));
@@ -115,22 +115,24 @@ public class SpringLintResultsReader {
         if(matcher.find()){
             nsd = Integer.parseInt(matcher.group());
         }
-        PromiscuousControllerDAO promiscuousController = new PromiscuousControllerDAO(className, className, nor, nsd, AnalyzerConstants.SPRINGLINT, projectName, path, language, new java.util.Date());
+        String className = getClassName(mainClassName);
+        PromiscuousControllerDAO promiscuousController = new PromiscuousControllerDAO(className, mainClassName, nor, nsd, AnalyzerConstants.SPRINGLINT, projectName, path, language, new java.util.Date());
         promiscuousController.save();
     }
 
     private void saveBrainController(JSONObject smell, JSONObject metadata){
         String projectName = (String) metadata.get("file");
-        String className =  (String) metadata.get("name");
+        String mainClassName =  (String) metadata.get("name");
         String path = (String) metadata.get("file");
         int nfrc = Integer.parseInt(((String)smell.get("description")).split("=")[1]);
-        BrainControllerDAO brainController = new BrainControllerDAO(className, className, nfrc, AnalyzerConstants.SPRINGLINT, projectName, path, language, new java.util.Date());
+        String className = getClassName(mainClassName);
+        BrainControllerDAO brainController = new BrainControllerDAO(className, mainClassName, nfrc, AnalyzerConstants.SPRINGLINT, projectName, path, language, new java.util.Date());
         brainController.save();
     }
 
     private void saveMeddlingService(JSONObject smell, JSONObject metadata){
         String projectName = (String) metadata.get("file");
-        String className =  (String) metadata.get("name");
+        String mainClassName =  (String) metadata.get("name");
         String path = (String) metadata.get("file");
         int persistenceDependencies = -1;
         Pattern pattern = Pattern.compile("\\d+");
@@ -138,13 +140,14 @@ public class SpringLintResultsReader {
         if(matcher.find()){
             persistenceDependencies = Integer.parseInt(matcher.group());
         }
-        MeddlingServiceDAO meddlingService = new MeddlingServiceDAO(className, className, persistenceDependencies, AnalyzerConstants.SPRINGLINT, projectName, path, language, new java.util.Date());
+        String className = getClassName(mainClassName);
+        MeddlingServiceDAO meddlingService = new MeddlingServiceDAO(className, mainClassName, persistenceDependencies, AnalyzerConstants.SPRINGLINT, projectName, path, language, new java.util.Date());
         meddlingService.save();
     }
 
     private void saveBrainRepository(JSONObject smell, JSONObject metadata){
         String projectName = (String) metadata.get("file");
-        String className =  (String) metadata.get("name");
+        String mainClassName =  (String) metadata.get("name");
         String path = (String) metadata.get("file");
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher((String)smell.get("description"));
@@ -156,13 +159,14 @@ public class SpringLintResultsReader {
         if(matcher.find()){
             cyclo = Integer.parseInt(matcher.group());
         }
-        BrainRepositoryDAO brainRepository = new BrainRepositoryDAO(className, className, cyclo, sqlComplexity ,AnalyzerConstants.SPRINGLINT, projectName, path, language, new java.util.Date());
+        String className = getClassName(mainClassName);
+        BrainRepositoryDAO brainRepository = new BrainRepositoryDAO(className, mainClassName, cyclo, sqlComplexity ,AnalyzerConstants.SPRINGLINT, projectName, path, language, new java.util.Date());
         brainRepository.save();
     }
 
     private void saveLaboriousRepositoryMethod(JSONObject smell, JSONObject metadata){
         String projectName = (String) metadata.get("file");
-        String className =  (String) metadata.get("name");
+        String mainClassName =  (String) metadata.get("name");
         String methodName =  (String) metadata.get("name");
         String path = (String) metadata.get("file");
         Pattern pattern = Pattern.compile("\\d+");
@@ -171,13 +175,14 @@ public class SpringLintResultsReader {
         if(matcher.find()){
             quantityPersistenceActions = Integer.parseInt(matcher.group());
         }
-        LaboriousRepositoryMethodDAO laboriousRepositoryMethod = new LaboriousRepositoryMethodDAO(className, className, methodName, quantityPersistenceActions,AnalyzerConstants.SPRINGLINT, projectName, path, language, new java.util.Date());
+        String className = getClassName(mainClassName);
+        LaboriousRepositoryMethodDAO laboriousRepositoryMethod = new LaboriousRepositoryMethodDAO(className, mainClassName, methodName, quantityPersistenceActions,AnalyzerConstants.SPRINGLINT, projectName, path, language, new java.util.Date());
         laboriousRepositoryMethod.save();
     }
 
     private void saveFatRepository(JSONObject smell, JSONObject metadata){
         String projectName = (String) metadata.get("file");
-        String className =  (String) metadata.get("name");
+        String mainClassName =  (String) metadata.get("name");
         String path = (String) metadata.get("file");
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher((String)smell.get("description"));
@@ -185,7 +190,18 @@ public class SpringLintResultsReader {
         if(matcher.find()){
             entities = Integer.parseInt(matcher.group());
         }
-        FatRepositoryDAO fatRepository = new FatRepositoryDAO(className, className, entities, AnalyzerConstants.SPRINGLINT, projectName, path, language, new java.util.Date());
+        String className = getClassName(mainClassName);
+        FatRepositoryDAO fatRepository = new FatRepositoryDAO(className, mainClassName, entities, AnalyzerConstants.SPRINGLINT, projectName, path, language, new java.util.Date());
         fatRepository.save();
+    }
+
+    private String getClassName(String mainClassname){
+        Pattern pattern = Pattern.compile("[^.]+$");
+        Matcher matcher = pattern.matcher(mainClassname);
+        if (matcher.find()) {
+            String result = matcher.group();
+            return  result;
+        }
+        return mainClassname;
     }
 }
