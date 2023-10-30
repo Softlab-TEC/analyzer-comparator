@@ -1,5 +1,7 @@
 package dao.mvc;
 
+import dao.helpers.CodeSmellDAO;
+import dao.helpers.GetCodeSmellHelper;
 import dao.identity.*;
 import gastmappers.Language;
 import metrics.codesmells.brainClass.OutputBrainClass;
@@ -18,15 +20,21 @@ import metrics.codesmells.mvc.meddlingService.OutputMeddlingService;
 import metrics.codesmells.mvc.promiscuousController.OutputPromiscuousController;
 import utils.AnalyzerConstants;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Persistence {
+public class Persistence extends CodeSmellDAO {
     private boolean saveInDB;
     private  Language language;
+    private String projectName;
 
-    public Persistence(boolean saveInDB, Language language){
+    public Persistence(boolean saveInDB, Language language, String projectName){
         this.saveInDB = saveInDB;
         this.language = language;
+        this.projectName = projectName;
     }
 
     public void saveResults(OutputGodClass ogc, ArrayList<GodClassDAO> godClasses) {
@@ -39,7 +47,7 @@ public class Persistence {
                 god.calculateATFD(),
                 god.getTCC(),
                 AnalyzerConstants.ANALYZER,
-                god.getPath(),//Todo: In the analyzer get the path of the class
+                !projectName.isEmpty() ? projectName : god.getPath(),//Todo: In the analyzer get the path of the class
                 god.getPath(),
                 language.toString(),
                 new java.util.Date()
@@ -60,7 +68,7 @@ public class Persistence {
                 dataC.getNOAM(),
                 dataC.getWMC(),
                 AnalyzerConstants.ANALYZER,
-                dataC.getPath(),//Todo: In the analyzer get the path of the class
+                    !projectName.isEmpty() ? projectName : dataC.getPath(),//Todo: In the analyzer get the path of the class
                 dataC.getPath(),
                 language.toString(),
                 new java.util.Date()
@@ -81,7 +89,7 @@ public class Persistence {
                 brain.getTCC(),
                 brain.getNumberOfBrainMethods(),
                 AnalyzerConstants.ANALYZER,
-                brain.getPath(),//Todo: In the analyzer get the path of the class
+                    !projectName.isEmpty() ? projectName : brain.getPath(),//Todo: In the analyzer get the path of the class
                 brain.getPath(),
                 language.toString(),
                 new java.util.Date()
@@ -103,7 +111,7 @@ public class Persistence {
                 brain.getMaxNesting(),
                 brain.calculatePossibleAccessors().size(),
                 AnalyzerConstants.ANALYZER,
-                brain.getFile(),//Todo: In the analyzer get the path of the class
+                    !projectName.isEmpty() ? projectName : brain.getFile(),//Todo: In the analyzer get the path of the class
                 brain.getFile(),
                 language.toString(),
                 new java.util.Date()
@@ -125,7 +133,7 @@ public class Persistence {
                 fe.calculateLAA(),
                 fe.getFDP(),
                 AnalyzerConstants.ANALYZER,
-                fe.getFile(),//Todo: In the analyzer get the path of the class
+                    !projectName.isEmpty() ? projectName :fe.getFile(),//Todo: In the analyzer get the path of the class
                 fe.getFile(),
                 language.toString(),
                 new java.util.Date()
@@ -144,7 +152,7 @@ public class Persistence {
                 controller.getNumberOfRoutes(),
                 controller.getNumberOfServices(),
                 AnalyzerConstants.ANALYZER,
-                controller.getPath(),//Todo: In the analyzer get the path of the class
+                    !projectName.isEmpty() ? projectName : controller.getPath(),//Todo: In the analyzer get the path of the class
                 controller.getPath(),
                 language.toString(),
                 new java.util.Date()
@@ -162,7 +170,7 @@ public class Persistence {
                 service.getMainClassName(),
                 service.getNumberPersistenceDependencies(language),
                 AnalyzerConstants.ANALYZER,
-                service.getPath(),//Todo: In the analyzer get the path of the class
+                    !projectName.isEmpty() ? projectName : service.getPath(),//Todo: In the analyzer get the path of the class
                 service.getPath(),
                 language.toString(),
                 new java.util.Date()
@@ -181,7 +189,7 @@ public class Persistence {
                 repository.getName(),
                 repository.getNumberPersistenceActions(),
                 AnalyzerConstants.ANALYZER,
-                repository.getFile(),//Todo: In the analyzer get the path of the class
+                    !projectName.isEmpty() ? projectName : repository.getFile(),//Todo: In the analyzer get the path of the class
                 repository.getFile(),
                 language.toString(),
                 new java.util.Date()
@@ -199,7 +207,7 @@ public class Persistence {
                 fat.getMainClassName(),
                 fat.getNumberEntities(),
                 AnalyzerConstants.ANALYZER,
-                fat.getPath(),//Todo: In the analyzer get the path of the class
+                    !projectName.isEmpty() ? projectName : fat.getPath(),//Todo: In the analyzer get the path of the class
                 fat.getPath(),
                 language.toString(),
                 new java.util.Date()
@@ -218,7 +226,7 @@ public class Persistence {
                 repository.getWMC(),
                 repository.getMaxSQLComplexity(),
                 AnalyzerConstants.ANALYZER,
-                repository.getPath(),//Todo: In the analyzer get the path of the class
+                    !projectName.isEmpty() ? projectName : repository.getPath(),//Todo: In the analyzer get the path of the class
                 repository.getPath(),
                 language.toString(),
                 new java.util.Date()
@@ -236,7 +244,7 @@ public class Persistence {
                 brain.getMainClassName(),
                 brain.getRFC().getAsInt(),
                 AnalyzerConstants.ANALYZER,
-                brain.getPath(),//Todo: In the analyzer get the path of the class
+                    !projectName.isEmpty() ? projectName : brain.getPath(),//Todo: In the analyzer get the path of the class
                 brain.getPath(),
                 language.toString(),
                 new java.util.Date()
@@ -244,5 +252,26 @@ public class Persistence {
             if (saveInDB && brain.isSmell()) brainController.save();
             controllers.add(brainController);
         }
+    }
+
+    public ArrayList<String> getProjectsRan(){
+        String query = "SELECT DISTINCT projectname FROM GODCLASS g WHERE analyzerid = 1" +
+                " UNION SELECT DISTINCT projectname FROM DATACLASS d WHERE d.analyzerid = 1" +
+                " UNION SELECT DISTINCT projectname FROM FEATUREENVY f WHERE f.analyzerid = 1" +
+                " UNION SELECT DISTINCT projectname  FROM BRAINCLASS bc WHERE bc.analyzerid = 1 " +
+                " UNION SELECT DISTINCT projectname  FROM BRAINMETHOD bm WHERE bm.analyzerid = 1";
+        ArrayList<String> projects = new ArrayList<>();
+        try (Connection conn = connection.getConnection()) {
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            GetCodeSmellHelper.preparedStatementByBasicProps(this, pstmt);
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()){
+                projects.add(rs.getString("projectname"));
+            }
+        } catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return projects;
     }
 }

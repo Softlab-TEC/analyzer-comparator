@@ -67,7 +67,7 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
     }
 
     @Override
-    public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+    public void initAnalyzerAndSaveResults(String projectName) throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if(isAValidNumericInput(wocField.getText(), wocLabel.getText())
                 && isAValidNumericInput(fewPublicField.getText(), fewPublicLabel.getText())
                 && isAValidNumericInput(highWmcField.getText(), highWmcLabel.getText())
@@ -83,7 +83,7 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
             OutputDataClass odc = (OutputDataClass) callAnalyzer("DATA_CLASS", inputParameters);
             if (odc != null && !odc.getDataClassResults().isEmpty()) {
                 ArrayList<DataClassDAO> dataClasses = new ArrayList<>();
-                Persistence persistence = new Persistence(saveInDB, language);
+                Persistence persistence = new Persistence(saveInDB, language, projectName);
                 persistence.saveResults(odc, dataClasses);
                 TableModel tableModel = new DataClassTableModel(dataClasses);
                 ComparativeTable ct = new ComparativeTable(tableModel, "Data Class");
@@ -94,10 +94,10 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
     }
 
     @Override
-    public void ReadPMFileAndSaveResults(){
+    public void ReadPMFileAndSaveResults(String projectName){
         PMDResultsReader reader = new PMDResultsReader();
         try {
-            reader.readDataClass(executorOutputPathName, language.toString());
+            reader.readDataClass(executorOutputPathName, language.toString(), projectName);
         } catch (IOException e) {
             e.printStackTrace();
         }

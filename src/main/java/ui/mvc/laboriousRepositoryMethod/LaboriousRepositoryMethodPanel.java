@@ -47,7 +47,7 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+    public void initAnalyzerAndSaveResults(String projectName) throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if(isAValidNumericInput(persistenceActionsField.getText(), persistenceActionsLabel.getText())) {
             ArrayList<Number> inputParameters = new ArrayList<>();
             inputParameters.add(Integer.parseInt(persistenceActionsField.getText()));
@@ -55,7 +55,7 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
             OutputLaboriousRepositoryMethod olrm = (OutputLaboriousRepositoryMethod) callAnalyzer("LABORIOUS_REPOSITORY_METHOD", inputParameters);
             if (olrm != null && !olrm.getLabRepResults().isEmpty()) {
                 ArrayList<LaboriousRepositoryMethodDAO> methods = new ArrayList<>();
-                Persistence persistence = new Persistence(saveInDB, language);
+                Persistence persistence = new Persistence(saveInDB, language, projectName);
                 persistence.saveResults(olrm, methods);
                 TableModel tableModel = new LaboriousRepositoryMethodTableModel(methods);
 

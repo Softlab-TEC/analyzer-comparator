@@ -53,7 +53,7 @@ public class BrainRepositoryPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+    public void initAnalyzerAndSaveResults(String projectName) throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if(isAValidNumericInput(cycloField.getText(), cycloLabel.getText())
                 && isAValidNumericInput(sqlComplexityField.getText(), sqlComplexityLabel.getText())) {
             ArrayList<Number> inputParameters = new ArrayList<>();
@@ -63,7 +63,7 @@ public class BrainRepositoryPanel extends CodeSmellGeneralPanel {
             OutputBrainRepository ogc = (OutputBrainRepository) callAnalyzer("BRAIN_REPOSITORY", inputParameters);
             if (ogc != null && !ogc.getBrainRepositoryResults().isEmpty()) {
                 ArrayList<BrainRepositoryDAO> repositories = new ArrayList<>();
-                Persistence persistence = new Persistence(saveInDB, language);
+                Persistence persistence = new Persistence(saveInDB, language, projectName);
                 persistence.saveResults(ogc, repositories);
                 TableModel tableModel = new BrainRepositoryTableModel(repositories);
                 ComparativeTable ct = new ComparativeTable(tableModel, "Brain Repository");

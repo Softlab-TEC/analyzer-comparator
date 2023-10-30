@@ -113,7 +113,7 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+    public void initAnalyzerAndSaveResults(String projectName) throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if(isAValidNumericInput(atfdField.getText(), atfdLabel.getText())
                 && isAValidNumericInput(wmcField.getText(), wmcLabel.getText())
                 && isAValidNumericInput(tccField.getText(), tccLabel.getText())) {
@@ -125,7 +125,7 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
             OutputGodClass ogc = (OutputGodClass) callAnalyzer("GOD_CLASS", inputParameters);
             if(ogc != null && !ogc.getGodClassResults().isEmpty()) {
                 ArrayList<GodClassDAO> godClasses = new ArrayList<>();
-                Persistence persistence = new Persistence(saveInDB, language);
+                Persistence persistence = new Persistence(saveInDB, language, projectName);
                 persistence.saveResults(ogc, godClasses);
                 TableModel tableModel = new GodClassTableModel(godClasses);
                 ComparativeTable ct = new ComparativeTable(tableModel, "God Class");
@@ -136,10 +136,10 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void ReadPMFileAndSaveResults(){
+    public void ReadPMFileAndSaveResults(String projectName){
         PMDResultsReader reader = new PMDResultsReader();
         try {
-            reader.readGodClass(executorOutputPathName, language.toString());
+            reader.readGodClass(executorOutputPathName, language.toString(), projectName);
         } catch (IOException e) {
             e.printStackTrace();
         }

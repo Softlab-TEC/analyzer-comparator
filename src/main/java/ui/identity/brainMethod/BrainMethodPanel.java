@@ -62,7 +62,7 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+    public void initAnalyzerAndSaveResults(String projectName) throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if (isAValidNumericInput(locField.getText(), locLabel.getText())
                 && isAValidNumericInput(cycloField.getText(), cycloLabel.getText())
                 && isAValidNumericInput(maxNestingField.getText(), maxNestingLabel.getText())
@@ -76,7 +76,7 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
             OutputBrainMethod obm = (OutputBrainMethod) callAnalyzer("BRAIN_METHOD", inputParameters);
             if (obm != null && !obm.getBrainMethodResults().isEmpty()) {
                 ArrayList<BrainMethodDAO> brainMethods = new ArrayList<>();
-                Persistence persistence = new Persistence(saveInDB, language);
+                Persistence persistence = new Persistence(saveInDB, language, projectName);
                 persistence.saveResults(obm, brainMethods);
                 TableModel tableModel = new BrainMethodTableModel(brainMethods);
 

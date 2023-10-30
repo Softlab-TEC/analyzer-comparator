@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class PMDResultsReader {
     String st;
 
-    public void readGodClass(String sourcePath, String language) throws IOException {
+    public void readGodClass(String sourcePath, String language, String projectName) throws IOException {
         GodClassDAO godClass;
         int wmc;
         int atfd;
@@ -34,14 +34,16 @@ public class PMDResultsReader {
                     wmc = Integer.parseInt(getNumericMetric(metrics[4]));
                     atfd = Integer.parseInt(getNumericMetric(metrics[5]));
                     tcc = Float.parseFloat(getNumericMetric(metrics[6]));
-                    godClass = new GodClassDAO(className, className, wmc, atfd, tcc, AnalyzerConstants.PMD, path, path, language, new java.util.Date());
+                    String projectNameToSave = !projectName.isEmpty() ? projectName : path;
+                    godClass = new GodClassDAO(className, className, wmc, atfd, tcc, AnalyzerConstants.PMD,
+                            projectNameToSave, path, language, new java.util.Date());
                     godClass.save();
                 }
             }
         }
     }
 
-    public void readDataClass(String sourcePath, String language) throws IOException {
+    public void readDataClass(String sourcePath, String language, String projectName) throws IOException {
         DataClassDAO dataClass;
         float woc;
         int nopa;
@@ -61,7 +63,9 @@ public class PMDResultsReader {
                     nopa = Integer.parseInt(getNumericMetric(metrics[12]));
                     noam = Integer.parseInt(getNumericMetric(metrics[13]));
                     wmc =  Integer.parseInt(getNumericMetric(metrics[14]));
-                    dataClass = new DataClassDAO(className, className, woc, nopa, noam, wmc, AnalyzerConstants.PMD, path, path, language, new java.util.Date());
+                    String projectNameToSave = !projectName.isEmpty() ? projectName : path;
+                    dataClass = new DataClassDAO(className, className, woc, nopa, noam, wmc, AnalyzerConstants.PMD,
+                            projectNameToSave, path, language, new java.util.Date());
                     dataClass.save();
                 }
             }
@@ -105,6 +109,8 @@ public class PMDResultsReader {
                 && !st.contains("ParseException")
                 && !st.contains("Was expecting:")
                 && !st.contains("<IDENTIFIER>")
-                && !st.contains("Was expecting one of:");
+                && !st.contains("Was expecting one of:")
+                && !st.contains("\"class\" ...")
+                && !st.contains("\"interface\" ...");
     }
 }

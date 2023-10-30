@@ -36,17 +36,17 @@ public class AllIdentityPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+    public void initAnalyzerAndSaveResults(String projectName) throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         configureJsonForAnalyzer();
         ArrayList<Output> outputs =  callAnalyzerAll(getMVCParameters());
         if (outputs != null && !outputs.isEmpty()) {
-            saveResults(outputs);
+            saveResults(outputs, projectName);
         }
         System.out.println("Success " + outputs.size());
     }
 
-    private void saveResults(ArrayList<Output> outputs){
-        Persistence persistence = new Persistence(saveInDB, language);
+    private void saveResults(ArrayList<Output> outputs, String projectName){
+        Persistence persistence = new Persistence(saveInDB, language, projectName);
         for (Output output: outputs) {
             if (output instanceof OutputGodClass){
                 persistence.saveResults((OutputGodClass)output, new ArrayList<>());

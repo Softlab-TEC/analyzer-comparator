@@ -58,7 +58,7 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+    public void initAnalyzerAndSaveResults(String projectName) throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if(isAValidNumericInput(atfdField.getText(), atfdLabel.getText())
                 && isAValidNumericInput(laaField.getText(), laaLabel.getText())
                 && isAValidNumericInput(fdpField.getText(), fdpLabel.getText())) {
@@ -70,7 +70,7 @@ public class FeatureEnvyPanel extends CodeSmellGeneralPanel {
             OutputFeatureEnvy ofe = (OutputFeatureEnvy) callAnalyzer("FEATURE_ENVY", inputParameters);
             if (ofe != null && !ofe.getFeatureEnvyResults().isEmpty()) {
                 ArrayList<FeatureEnvyDAO> envyMethods = new ArrayList<>();
-                Persistence persistence = new Persistence(saveInDB, language);
+                Persistence persistence = new Persistence(saveInDB, language, projectName);
                 persistence.saveResults(ofe, envyMethods);
                 TableModel tableModel = new FeatureEnvyTableModel(envyMethods);
                 ComparativeTable ct = new ComparativeTable(tableModel, "Feature Envy");

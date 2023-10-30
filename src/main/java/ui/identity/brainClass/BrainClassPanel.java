@@ -58,7 +58,7 @@ public class BrainClassPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+    public void initAnalyzerAndSaveResults(String projectName) throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if(isAValidNumericInput(locField.getText(), locLabel.getText())
                 && isAValidNumericInput(wmcField.getText(), wmcLabel.getText())
                 && isAValidNumericInput(tccField.getText(), tccLabel.getText())) {
@@ -71,7 +71,7 @@ public class BrainClassPanel extends CodeSmellGeneralPanel {
             OutputBrainClass obc = (OutputBrainClass) callAnalyzer("BRAIN_CLASS", inputParameters);
             if (obc != null && !obc.getBrainClassResult().isEmpty()) {
                 ArrayList<BrainClassDAO> brainClasses = new ArrayList<>();
-                Persistence persistence = new Persistence(saveInDB, language);
+                Persistence persistence = new Persistence(saveInDB, language, projectName);
                 persistence.saveResults(obc, brainClasses);
                 TableModel tableModel = new BrainClassTableModel(brainClasses);
 

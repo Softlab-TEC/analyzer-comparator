@@ -47,7 +47,7 @@ public class MeddlingServicePanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+    public void initAnalyzerAndSaveResults(String projectName) throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if(isAValidNumericInput(persistenceDependenciesField.getText(), persistenceDependenciesLabel.getText())) {
             ArrayList<Number> inputParameters = new ArrayList<>();
             inputParameters.add(Integer.parseInt(persistenceDependenciesField.getText()));
@@ -56,7 +56,7 @@ public class MeddlingServicePanel extends CodeSmellGeneralPanel {
             OutputMeddlingService oms = (OutputMeddlingService) callAnalyzer("MEDDLING_SERVICE", inputParameters);
             if (oms != null && !oms.getMeddlingServiceResults().isEmpty()) {
                 ArrayList<MeddlingServiceDAO> services = new ArrayList<>();
-                Persistence persistence = new Persistence(saveInDB, language);
+                Persistence persistence = new Persistence(saveInDB, language, projectName);
                 persistence.saveResults(oms, services);
                 TableModel tableModel = new MeddlingServiceTableModel(services);
                 ComparativeTable ct = new ComparativeTable(tableModel, "Meddling Service");

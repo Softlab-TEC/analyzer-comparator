@@ -47,7 +47,7 @@ public class FatRepositoryPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+    public void initAnalyzerAndSaveResults(String projectName) throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if(isAValidNumericInput(entitiesField.getText(), entitiesLabel.getText())) {
             ArrayList<Number> inputParameters = new ArrayList<>();
             inputParameters.add(Integer.parseInt(entitiesField.getText()));
@@ -56,7 +56,7 @@ public class FatRepositoryPanel extends CodeSmellGeneralPanel {
             OutputFatRepository ofr = (OutputFatRepository) callAnalyzer("FAT_REPOSITORY", inputParameters);
             if (ofr != null && !ofr.getFatRepositoryResults().isEmpty()) {
                 ArrayList<FatRepositoryDAO> repositories = new ArrayList<>();
-                Persistence persistence = new Persistence(saveInDB, language);
+                Persistence persistence = new Persistence(saveInDB, language, projectName);
                 persistence.saveResults(ofr, repositories);
                 TableModel tableModel = new FatRepositoryTableModel(repositories);
 

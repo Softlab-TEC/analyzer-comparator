@@ -57,7 +57,7 @@ public class PromiscuousControllerPanel extends CodeSmellGeneralPanel {
     }
 
     @Override
-    public void initAnalyzerAndSaveResults() throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
+    public void initAnalyzerAndSaveResults(String projectName) throws ParseException, UnsupportedMetricException, SQLException, IOException, ClassNotFoundException, UnsupportedLanguageException {
         if (isAValidNumericInput(norField.getText(), norLabel.getText())
                 && isAValidNumericInput(nsdField.getText(), nsdLabel.getText())) {
             ArrayList<Number> inputParameters = new ArrayList<>();
@@ -68,7 +68,7 @@ public class PromiscuousControllerPanel extends CodeSmellGeneralPanel {
             OutputPromiscuousController opc = (OutputPromiscuousController) callAnalyzer("PROMISCUOUS_CONTROLLER", inputParameters);
             if (opc != null && !opc.getPromiscuousControllerResults().isEmpty()) {
                 ArrayList<PromiscuousControllerDAO> controllers = new ArrayList<>();
-                Persistence persistence = new Persistence(saveInDB, language);
+                Persistence persistence = new Persistence(saveInDB, language, projectName);
                 persistence.saveResults(opc, controllers);
                 TableModel tableModel = new PromiscuousControllerTableModel(controllers);
                 ComparativeTable ct = new ComparativeTable(tableModel, "Promiscuous Controller");
