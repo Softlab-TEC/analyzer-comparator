@@ -341,6 +341,7 @@ public class CodeSmellGeneralPanel {
     public void ReadPMFileAndSaveResults(String projectName){}
 
     private void initProjectsToProcess(){
+        /*
         projectsToProcess.put("ant", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/ant/ant-1.8.4/src/apache-ant-1.8.4");
         projectsToProcess.put("antlr", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/antlr/antlr-4.0/src");
         projectsToProcess.put("aoi", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/aoi/aoi-2.8.1/src/AoIsrc281");
@@ -381,7 +382,7 @@ public class CodeSmellGeneralPanel {
         projectsToProcess.put("freemind", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/freemind/freemind-0.9.0/src/freemind/freemind");
         projectsToProcess.put("galleon", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/galleon/galleon-2.3.0/src/src/org/lnicholls/galleon");
         projectsToProcess.put("gantproject", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/ganttproject/ganttproject-2.0.9/src/ganttproject-2.0.9-src/ganttproject/src");
-        //projectsToProcess.put("gt2", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/gt2/gt2-2.7-M3/src/geotools-2.7-M3");
+        projectsToProcess.put("gt2", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/gt2/gt2-2.7-M3/src/geotools-2.7-M3");
         projectsToProcess.put("hadoop", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/hadoop/hadoop-1.0.0/src/hadoop-1.0.0/src");
         projectsToProcess.put("heritrix", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/heritrix/heritrix-1.14.4/src/heritrix-1.14.4/src");
         projectsToProcess.put("hibernate.tutorial.annotations", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r/Systems/hibernate/hibernate-4.2.2/src/hibernate-release-4.2.2.Final/project/documentation/src/main/docbook/quickstart/tutorials/annotations");
@@ -531,6 +532,14 @@ public class CodeSmellGeneralPanel {
         projectsToProcess.put("xalan", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r-2/Systems/xalan/xalan-2.7.1/src/xalan-j_2_7_1/src");
         projectsToProcess.put("xerces", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r-2/Systems/xerces/xerces-2.10.0/src/xerces-2_10_0/src");
         projectsToProcess.put("xmojo", "/Users/williamcasasola/Documents/TEC/Detector/Qualitas_Corpus/QualitasCorpus-20130901r-2/Systems/xmojo/xmojo-5.0.0/src/XMOJO");
+        */
+        //No from Qualitas Corpus
+        //projectsToProcess.put("SweetHome3D-6.6.4-src", "/Users/williamcasasola/Documents/TEC/Detector/SweetHome3D-6.6.4-src");
+        //projectsToProcess.put("spring-petclinic", "/Users/williamcasasola/Documents/TEC/Detector/spring-petclinic");
+        //projectsToProcess.put("elasticsearch.lang-expression", "/Users/williamcasasola/Documents/TEC/Detector/elasticsearch/modules/lang-expression/src/main");
+        //projectsToProcess.put("elasticsearch.transport-netty4", "/Users/williamcasasola/Documents/TEC/Detector/elasticsearch/modules/transport-netty4/src/main");
+        //projectsToProcess.put("vraptor-core", "/Users/williamcasasola/Documents/TEC/Detector/SpringSamples/vraptor-master");
+
     }
 
 
