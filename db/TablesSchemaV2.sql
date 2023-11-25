@@ -179,6 +179,16 @@ CREATE TABLE FATREPOSITORY(
 	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
 );
 
+
+CREATE TABLE ANALYZEDPROJECTS(
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	projectname TEXT NOT NULL,
+	analyzerid INT NOT NULL,
+	language TEXT NOT NULL,
+	insertdate datetime default current_timestamp,
+	FOREIGN KEY(analyzerid) REFERENCES ANALYZER(id)
+);
+
 INSERT INTO  "ANALYZER" ("name") VALUES ('Analyzer');
 INSERT INTO  "ANALYZER" ("name") VALUES ('PMD');
 INSERT INTO  "ANALYZER" ("name") VALUES ('SpringLint');
