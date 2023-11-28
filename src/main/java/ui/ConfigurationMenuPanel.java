@@ -135,6 +135,7 @@ public class ConfigurationMenuPanel extends JPanel {
         btn.setBackground(Color.GRAY);
         btn.setOpaque(true);
         btn.setBorderPainted(false);
+        btn.setFocusPainted(false);
         btn.addActionListener(new BtnListenerExecutor());
         add(btn, constraints);
     }
