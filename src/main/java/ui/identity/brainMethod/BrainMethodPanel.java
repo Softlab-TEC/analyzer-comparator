@@ -54,7 +54,7 @@ public class BrainMethodPanel extends CodeSmellGeneralPanel {
         BrainMethodDAO bm = new BrainMethodDAO();
         switch (analyzerId){
             case 0: t = bm.getBrainMethods(sql); break;
-            default: t = bm.getBrainMethodsOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = bm.getBrainMethodsOnlyAnalyzer(analyzerId, language, projectName, false); break;
         }
         ui.TableModel tableModel = new BrainMethodTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Brain Method");

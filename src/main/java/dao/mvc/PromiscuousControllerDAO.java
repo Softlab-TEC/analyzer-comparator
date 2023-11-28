@@ -107,11 +107,9 @@ public class PromiscuousControllerDAO extends CodeSmellDAO {
         return promiscuousControllers;
     }
 
-    public ArrayList<PromiscuousControllerDAO> getPromiscuousControllersOnlyAnalyzer(int analyzerId, String language, String projectName){
-        String query = "SELECT t1.* FROM PROMISCUOUSCONTROLLER t1 LEFT JOIN PROMISCUOUSCONTROLLER t2 ON (t1.classname = t2.classname  OR " +
-                "t1.mainclassname = t2.mainclassname) AND t2.analyzerid <> " + analyzerId + " AND t2.path " +
-                "LIKE '%" + projectName + "%' AND t2.language = '"+ language + "' WHERE t1.analyzerid = " + analyzerId
-                + " AND t2.analyzerid IS NULL AND t1.path LIKE '%" + projectName + "%' AND t1.language = '" + language + "'";
+    public ArrayList<PromiscuousControllerDAO> getPromiscuousControllersOnlyAnalyzer(int analyzerId, String language, String projectName,
+                                                                                     boolean avoidTestFiles){
+        String query = getOnlyOneAnalyzerResult("PROMISCUOUSCONTROLLER", analyzerId, language, projectName, avoidTestFiles);
         return getPromiscuousControllers(query);
     }
 

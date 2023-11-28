@@ -92,11 +92,10 @@ public class BrainControllerDAO extends CodeSmellDAO {
     }
 
 
-    public ArrayList<BrainControllerDAO> getBrainControllersOnlyAnalyzer(int analyzerId, String language, String projectName){
-        String query = "SELECT t1.* FROM BRAINCONTROLLER t1 LEFT JOIN BRAINCONTROLLER t2 ON (t1.classname = t2.classname  OR " +
-                "t1.mainclassname = t2.mainclassname) AND t2.analyzerid <> " + analyzerId + " AND t2.path " +
-                "LIKE '%" + projectName + "%' AND t2.language = '"+ language + "' WHERE t1.analyzerid = " + analyzerId
-                + " AND t2.analyzerid IS NULL AND t1.path LIKE '%" + projectName + "%' AND t1.language = '" + language + "'";        return getBrainControllers(query);
+    public ArrayList<BrainControllerDAO> getBrainControllersOnlyAnalyzer(int analyzerId, String language, String projectName,
+                                                                         boolean avoidTestFiles){
+        String query = getOnlyOneAnalyzerResult("BRAINCONTROLLER", analyzerId, language, projectName, avoidTestFiles);
+        return getBrainControllers(query);
     }
 
     public void save(){

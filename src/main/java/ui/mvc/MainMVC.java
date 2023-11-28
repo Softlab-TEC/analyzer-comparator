@@ -1,5 +1,6 @@
 package ui.mvc;
 
+import ui.ArrowIcon;
 import ui.CodeSmellGeneralPanel;
 import ui.ConfigurationMenuPanel;
 import ui.mvc.brainController.BrainControllerPanel;
@@ -18,6 +19,7 @@ public class MainMVC extends JPanel{
     JPanel currentPanel;
     JPanel mainMenuPanel;
     JPanel mainPanel;
+    JButton btnMainMenu;
     GridBagConstraints mainConstraints;
 
     public MainMVC() {
@@ -35,6 +37,7 @@ public class MainMVC extends JPanel{
     public void reinitMainMenu() {
         mainPanel.remove(currentPanel);
         mainConstraints.gridy = 1;
+        btnMainMenu.setIcon(null);
         mainPanel.add(mainMenuPanel, mainConstraints);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -43,6 +46,8 @@ public class MainMVC extends JPanel{
     private void useNewPanel(CodeSmellGeneralPanel generalPanel) {
         mainPanel.remove(mainMenuPanel);
         currentPanel = new ConfigurationMenuPanel(generalPanel);
+        Icon arrowIcon = new ArrowIcon(10, 10);
+        btnMainMenu.setIcon(arrowIcon);
         mainConstraints.gridy = 1;
         mainPanel.add(currentPanel, mainConstraints);
         mainPanel.repaint();
@@ -57,10 +62,11 @@ public class MainMVC extends JPanel{
         mainConstraints.anchor = GridBagConstraints.WEST;
         mainConstraints.insets = new Insets(0, 10, 10, 10);
 
-        JButton btnMainMenu = new JButton("MVC Menu");
+        btnMainMenu = new JButton("MVC Menu");
         btnMainMenu.setBackground(Color.LIGHT_GRAY);
         btnMainMenu.setOpaque(true);
         btnMainMenu.setBorderPainted(false);
+        btnMainMenu.setFocusPainted(false);
         btnMainMenu.addActionListener(new BtnMainMVCMenuListener());
 
         mainConstraints.gridx = 0;
@@ -170,4 +176,5 @@ public class MainMVC extends JPanel{
             useNewPanel(new AllMVCPanel());
         }
     }
+
 }

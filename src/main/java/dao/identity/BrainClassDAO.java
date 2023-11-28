@@ -2,7 +2,6 @@ package dao.identity;
 
 import dao.helpers.CodeSmellDAO;
 import dao.helpers.GetCodeSmellHelper;
-import utils.AnalyzerConstants;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -145,10 +144,15 @@ public class BrainClassDAO extends CodeSmellDAO {
         return brainClasses;
     }
 
-    public ArrayList<BrainClassDAO> getBrainClassesOnlyAnalyzer(int analyzerId, String language, String projectName){
-        String query = "SELECT dc1.* FROM BRAINCLASS dc1 LEFT JOIN BRAINCLASS dc2 ON (dc1.classname = dc2.classname  OR dc1.mainclassname = dc2.mainclassname) AND dc2.analyzerid <> " + analyzerId +
-                " AND dc2.path LIKE '% " + projectName + "%' AND dc2.language = '"+ language + "' WHERE dc1.analyzerid = " + analyzerId
-                + " AND dc2.analyzerid IS NULL AND dc1.path LIKE '% " + projectName + "%' AND dc1.language = '"+ language + "'";
+    public ArrayList<BrainClassDAO> getAllBrainClasses(String language, boolean avoidTestFiles){
+        String avoidTestsLeft = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String query = "SELECT * FROM BRAINMETHOD t1  WHERE  AND t1.language = '" + language + "'" + avoidTestsLeft;
+        return getBrainClasses(query);
+    }
+
+    public ArrayList<BrainClassDAO> getBrainClassesOnlyAnalyzer(int analyzerId, String language, String projectName,
+                                                                boolean avoidTestFiles){
+        String query = getOnlyOneAnalyzerResult("BRAINCLASS", analyzerId, language, projectName, avoidTestFiles);
         return getBrainClasses(query);
     }
 

@@ -1,5 +1,6 @@
 package ui.identity;
 
+import ui.ArrowIcon;
 import ui.CodeSmellGeneralPanel;
 import ui.ConfigurationMenuPanel;
 import ui.identity.brainClass.BrainClassPanel;
@@ -17,6 +18,7 @@ public class MainIdentity extends JPanel{
     JPanel currentPanel;
     JPanel mainMenuPanel;
     JPanel mainPanel;
+    JButton btnMainMenu;
     GridBagConstraints mainConstraints;
 
     public MainIdentity() {
@@ -27,6 +29,7 @@ public class MainIdentity extends JPanel{
         currentPanel = initializeMainMenuPanel();
         initMainPanel();
         mainConstraints.gridy = 1;
+        btnMainMenu.setIcon(null);
         mainPanel.add(currentPanel, mainConstraints);
         add(mainPanel);
     }
@@ -34,6 +37,7 @@ public class MainIdentity extends JPanel{
     public void reinitMainMenu() {
         mainPanel.remove(currentPanel);
         mainConstraints.gridy = 1;
+        btnMainMenu.setIcon(null);
         mainPanel.add(mainMenuPanel, mainConstraints);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -42,6 +46,8 @@ public class MainIdentity extends JPanel{
     private void useNewPanel(CodeSmellGeneralPanel generalPanel) {
         mainPanel.remove(mainMenuPanel);
         currentPanel = new ConfigurationMenuPanel(generalPanel);
+        Icon arrowIcon = new ArrowIcon(10, 10);
+        btnMainMenu.setIcon(arrowIcon);
         mainConstraints.gridy = 1;
         mainPanel.add(currentPanel, mainConstraints);
         mainPanel.repaint();
@@ -56,10 +62,11 @@ public class MainIdentity extends JPanel{
         mainConstraints.anchor = GridBagConstraints.WEST;
         mainConstraints.insets = new Insets(0, 10, 10, 10);
 
-        JButton btnMainMenu = new JButton("Identity Menu");
+        btnMainMenu = new JButton("Identity Menu");
         btnMainMenu.setBackground(Color.LIGHT_GRAY);
         btnMainMenu.setOpaque(true);
         btnMainMenu.setBorderPainted(false);
+        btnMainMenu.setFocusPainted(false);
         btnMainMenu.addActionListener(new BtnMainIdentityMenuListener());
 
         mainConstraints.gridx = 0;

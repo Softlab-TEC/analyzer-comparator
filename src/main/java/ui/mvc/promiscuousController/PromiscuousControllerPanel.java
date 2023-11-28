@@ -48,7 +48,7 @@ public class PromiscuousControllerPanel extends CodeSmellGeneralPanel {
                 t = pc.getPromiscuousControllers(sql);
                 break;
             default:
-                t = pc.getPromiscuousControllersOnlyAnalyzer(analyzerId, language, projectName);
+                t = pc.getPromiscuousControllersOnlyAnalyzer(analyzerId, language, projectName, false);
                 break;
         }
         ui.TableModel tableModel = new PromiscuousControllerTableModel(t);

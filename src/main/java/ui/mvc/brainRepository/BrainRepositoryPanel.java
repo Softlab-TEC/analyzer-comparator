@@ -45,7 +45,7 @@ public class BrainRepositoryPanel extends CodeSmellGeneralPanel {
         BrainRepositoryDAO bc = new BrainRepositoryDAO();
         switch (analyzerId){
             case 0: t = bc.getBrainRepositories(sql); break;
-            default: t = bc.getBrainRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = bc.getBrainRepositoriesOnlyAnalyzer(analyzerId, language, projectName, false); break;
         }
         ui.TableModel tableModel = new BrainRepositoryTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Brain Repository");

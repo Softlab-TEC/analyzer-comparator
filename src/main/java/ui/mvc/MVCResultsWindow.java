@@ -1,8 +1,6 @@
 package ui.mvc;
 
 import dao.mvc.*;
-import dataAccess.JSpIRITResultsReader;
-import dataAccess.SpringLintResultsReader;
 import gastmappers.Language;
 import ui.ComparativeTable;
 import ui.mvc.brainController.BrainControllerTableModel;
@@ -17,7 +15,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MVCResultsWindow {
@@ -31,6 +28,8 @@ public class MVCResultsWindow {
     private static JTextField inputPathField;
     private static JLabel inputPathLabel;
     private static JLabel languageLabel;
+    private static Checkbox avoidTestFile;
+
     private static JLabel toolLabel;
 
     public MVCResultsWindow(){
@@ -78,6 +77,14 @@ public class MVCResultsWindow {
         panel.add(inputPathLabel, constraints);
 
 
+        avoidTestFile = new Checkbox("Exclude Test files");
+
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+
+        panel.add(avoidTestFile, constraints);
+
+
         inputPathField = new JTextField();
         inputPathField.setPreferredSize(new Dimension(300,30));
 
@@ -106,11 +113,12 @@ public class MVCResultsWindow {
         panel.add(inputPathField, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 3;
+        constraints.gridy = 4;
         JButton btn = new JButton("Execute");
         btn.setBackground(Color.GRAY);
         btn.setOpaque(true);
         btn.setBorderPainted(false);
+        btn.setFocusPainted(false);
         btn.addActionListener(new BtnListenerExecutor());
         panel.add(btn, constraints);
     }
@@ -136,27 +144,30 @@ public class MVCResultsWindow {
         public void actionPerformed(ActionEvent e) {
             String inputPath = inputPathField.getText();
                 switch (selectedTool){
-                    case "JSpIRIT":
-                        showResults(AnalyzerConstants.JSPIRIT, language, inputPath);
+                    case "SpringLint":
+                        showResults(AnalyzerConstants.SPRINGLINT, language, inputPath);
                         break;
                     case "Analyzer":
                         showResults(AnalyzerConstants.ANALYZER, language, inputPath);
+                        break;
                         default: showResults(0, language, inputPath);
                 }
         }
     }
 
     private void showResults(int analyzerId, String language, String projectName){
-        showPromiscuousResultsTable(analyzerId, language, projectName);
-        showBrainControllerResultsTable(analyzerId, language, projectName);
-        showMeddlingResultsTable(analyzerId, language, projectName);
-        showLaboriousResultsTable(analyzerId, language, projectName);
-        showBrainRepositoryResultsTable(analyzerId, language, projectName);
-        showFatRepositoryResultsTable(analyzerId, language, projectName);
+        showPromiscuousResultsTable(analyzerId, language, projectName, avoidTestFile.getState());
+        showBrainControllerResultsTable(analyzerId, language, projectName, avoidTestFile.getState());
+        showMeddlingResultsTable(analyzerId, language, projectName, avoidTestFile.getState());
+        showLaboriousResultsTable(analyzerId, language, projectName, avoidTestFile.getState());
+        showBrainRepositoryResultsTable(analyzerId, language, projectName, avoidTestFile.getState());
+        showFatRepositoryResultsTable(analyzerId, language, projectName, avoidTestFile.getState());
     }
 
-    public void showPromiscuousResultsTable(int analyzerId, String language, String projectName) {
-        String sql = "SELECT * FROM PROMISCUOUSCONTROLLER ORDER BY classname, analyzerid, insertdate";
+    public void showPromiscuousResultsTable(int analyzerId, String language, String projectName, boolean avoidTestFiles) {
+        String avoidTests = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String sql = "SELECT * FROM PROMISCUOUSCONTROLLER WHERE projectname = '" +  projectName + "' AND language = '" + language +
+                "' " + avoidTests + " ORDER BY classname, analyzerid, insertdate";
         ArrayList<PromiscuousControllerDAO> t;
         PromiscuousControllerDAO pc = new PromiscuousControllerDAO();
         switch (analyzerId) {
@@ -164,7 +175,7 @@ public class MVCResultsWindow {
                 t = pc.getPromiscuousControllers(sql);
                 break;
             default:
-                t = pc.getPromiscuousControllersOnlyAnalyzer(analyzerId, language, projectName);
+                t = pc.getPromiscuousControllersOnlyAnalyzer(analyzerId, language, projectName, avoidTestFiles);
                 break;
         }
         ui.TableModel tableModel = new PromiscuousControllerTableModel(t);
@@ -172,8 +183,10 @@ public class MVCResultsWindow {
         ct.drawTable();
     }
 
-    public void showBrainControllerResultsTable(int analyzerId, String language, String projectName) {
-        String sql = "SELECT * FROM BRAINCONTROLLER ORDER BY classname, analyzerid, insertdate";
+    public void showBrainControllerResultsTable(int analyzerId, String language, String projectName, boolean avoidTestFiles) {
+        String avoidTests = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String sql = "SELECT * FROM BRAINCONTROLLER WHERE projectname = '" +  projectName + "' AND language = '" + language +
+                "' " + avoidTests + " ORDER BY classname, analyzerid, insertdate";
         ArrayList<BrainControllerDAO> t;
         BrainControllerDAO bc = new BrainControllerDAO();
         switch (analyzerId) {
@@ -181,7 +194,7 @@ public class MVCResultsWindow {
                 t = bc.getBrainControllers(sql);
                 break;
             default:
-                t = bc.getBrainControllersOnlyAnalyzer(analyzerId, language, projectName);
+                t = bc.getBrainControllersOnlyAnalyzer(analyzerId, language, projectName, avoidTestFiles);
                 break;
         }
         ui.TableModel tableModel = new BrainControllerTableModel(t);
@@ -189,52 +202,60 @@ public class MVCResultsWindow {
         ct.drawTable();
     }
 
-    public void showMeddlingResultsTable(int analyzerId, String language, String projectName){
-        String sql = "SELECT * FROM MEDDLINGSERVICE ORDER BY classname, analyzerid, insertdate";
+    public void showMeddlingResultsTable(int analyzerId, String language, String projectName, boolean avoidTestFiles){
+        String avoidTests = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String sql = "SELECT * FROM MEDDLINGSERVICE WHERE projectname = '" +  projectName + "' AND language = '" + language +
+                "' " + avoidTests + " ORDER BY classname, analyzerid, insertdate";
         ArrayList<MeddlingServiceDAO> t;
         MeddlingServiceDAO ms = new MeddlingServiceDAO();
         switch (analyzerId){
             case 0: t = ms.getMeddlingServices(sql); break;
-            default: t = ms.getMeddlingServicesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = ms.getMeddlingServicesOnlyAnalyzer(analyzerId, language, projectName, avoidTestFiles); break;
         }
         ui.TableModel tableModel = new MeddlingServiceTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Meddling Service " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
-    public void showLaboriousResultsTable(int analyzerId, String language, String projectName){
-        String sql = "SELECT * FROM LABORIOUSREPOSITORYMETHOD ORDER BY classname, analyzerid, insertdate";
+    public void showLaboriousResultsTable(int analyzerId, String language, String projectName, boolean avoidTestFiles){
+        String avoidTests = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String sql = "SELECT * FROM LABORIOUSREPOSITORYMETHOD WHERE projectname = '" +  projectName + "' AND language = '" + language +
+                "' " + avoidTests + " ORDER BY classname, analyzerid, insertdate";
         ArrayList<LaboriousRepositoryMethodDAO> t = new ArrayList<>();
         LaboriousRepositoryMethodDAO lrm = new LaboriousRepositoryMethodDAO();
         switch (analyzerId){
             case 0: t = lrm.getLaboriousRepositoryMethods(sql); break;
-            default: t = lrm.getLaboriousRepoMethodOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = lrm.getLaboriousRepoMethodOnlyAnalyzer(analyzerId, language, projectName, avoidTestFiles); break;
         }
         ui.TableModel tableModel = new LaboriousRepositoryMethodTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Laborious Repository Method " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
-    public void showFatRepositoryResultsTable(int analyzerId, String language, String projectName){
-        String sql = "SELECT * FROM FATREPOSITORY ORDER BY classname, analyzerid, insertdate";
+    public void showFatRepositoryResultsTable(int analyzerId, String language, String projectName, boolean avoidTestFiles){
+        String avoidTests = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String sql = "SELECT * FROM FATREPOSITORY WHERE projectname = '" +  projectName + "' AND language = '" + language +
+                "' " + avoidTests + " ORDER BY classname, analyzerid, insertdate";
         ArrayList<FatRepositoryDAO> t;
         FatRepositoryDAO fr = new FatRepositoryDAO();
         switch (analyzerId){
             case 0: t = fr.geFatRepositories(sql); break;
-            default: t = fr.getFatRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = fr.getFatRepositoriesOnlyAnalyzer(analyzerId, language, projectName, avoidTestFiles); break;
         }
         ui.TableModel tableModel = new FatRepositoryTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Fat Repository " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
-    public void showBrainRepositoryResultsTable(int analyzerId, String language, String projectName){
-        String sql = "SELECT * FROM BRAINREPOSITORY ORDER BY classname, analyzerid, insertdate";
+    public void showBrainRepositoryResultsTable(int analyzerId, String language, String projectName, boolean avoidTestFiles){
+        String avoidTests = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String sql = "SELECT * FROM BRAINREPOSITORY WHERE projectname = '" +  projectName + "' AND language = '" + language +
+                "' " + avoidTests +" ORDER BY classname, analyzerid, insertdate";
         ArrayList<BrainRepositoryDAO> t;
         BrainRepositoryDAO bc = new BrainRepositoryDAO();
         switch (analyzerId){
             case 0: t = bc.getBrainRepositories(sql); break;
-            default: t = bc.getBrainRepositoriesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = bc.getBrainRepositoriesOnlyAnalyzer(analyzerId, language, projectName, avoidTestFiles); break;
         }
         ui.TableModel tableModel = new BrainRepositoryTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Brain Repository " + AnalyzerConstants.getAnalyzerName(analyzerId));

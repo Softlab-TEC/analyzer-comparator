@@ -59,7 +59,7 @@ public class DataClassPanel extends CodeSmellGeneralPanel{
         DataClassDAO dc = new DataClassDAO();
         switch (analyzerId){
             case 0: t = dc.getDataClasses(sql); break;
-            default: t = dc.getDataClassesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = dc.getDataClassesOnlyAnalyzer(analyzerId, language, projectName, false); break;
         }
         TableModel tableModel = new DataClassTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Data Class");

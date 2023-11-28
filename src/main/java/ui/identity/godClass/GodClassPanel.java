@@ -105,7 +105,7 @@ public class GodClassPanel extends CodeSmellGeneralPanel {
         GodClassDAO gcd = new GodClassDAO();
         switch (analyzerId){
             case 0: t = gcd.getGodClasses(sql); break;
-            default: t = gcd.getGodClassesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = gcd.getGodClassesOnlyAnalyzer(analyzerId, language, projectName, false); break;
         }
         TableModel tableModel = new GodClassTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "God Class");

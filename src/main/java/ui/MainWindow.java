@@ -14,6 +14,7 @@ public class MainWindow extends JFrame{
     JPanel currentPanel;
     JPanel mainMenuPanel;
     JPanel mainPanel;
+    JButton btnMainMenu;
     GridBagConstraints mainConstraints;
 
     public MainWindow() {
@@ -35,6 +36,7 @@ public class MainWindow extends JFrame{
     public void reinitMainMenu(){
         mainPanel.remove(currentPanel);
         mainConstraints.gridy = 1;
+        btnMainMenu.setIcon(null);
         mainPanel.add(mainMenuPanel, mainConstraints);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -43,6 +45,8 @@ public class MainWindow extends JFrame{
     private void useNewPanel(JPanel smellsPanel) {
         mainPanel.remove(mainMenuPanel);
         currentPanel = smellsPanel;
+        Icon arrowIcon = new ArrowIcon(10, 10);
+        btnMainMenu.setIcon(arrowIcon);
         mainConstraints.gridy = 1;
         mainPanel.add(currentPanel, mainConstraints);
         mainPanel.repaint();
@@ -57,10 +61,11 @@ public class MainWindow extends JFrame{
         mainConstraints.anchor = GridBagConstraints.WEST;
         mainConstraints.insets = new Insets(0, 10, 10, 10);
 
-        JButton btnMainMenu = new JButton("Main Menu");
+        btnMainMenu = new JButton("Main Menu");
         btnMainMenu.setBackground(Color.GRAY);
         btnMainMenu.setOpaque(true);
         btnMainMenu.setBorderPainted(false);
+        btnMainMenu.setFocusPainted(false);
         btnMainMenu.addActionListener(new BtnMainMenuListener());
 
         mainConstraints.gridx = 0;
@@ -84,22 +89,24 @@ public class MainWindow extends JFrame{
 
         JButton btnMVC = new JButton("MVC");
         btnMVC.addActionListener(new BtnMVCListener());
-        constraints.gridy = 1;
+        constraints.gridx = 1;
         mainMenuPanel.add(btnMVC, constraints);
 
         JButton identityResults = new JButton("Identity Results");
         identityResults.addActionListener(new BtnIdentityResultsListener());
-        constraints.gridy = 2;
+        constraints.gridx = 0;
+        constraints.gridy = 1;
         mainMenuPanel.add(identityResults, constraints);
 
         JButton MVCResults = new JButton("MVC Results");
         MVCResults.addActionListener(new BtnMVCResultsListener());
-        constraints.gridy = 3;
+        constraints.gridx = 1;
         mainMenuPanel.add(MVCResults, constraints);
 
-        JButton readSave = new JButton("Read and Save Results");
+        JButton readSave = new JButton("Import Results");
         readSave.addActionListener(new BtnReadSaveListener());
-        constraints.gridy = 4;
+        constraints.gridy = 2;
+        constraints.gridx = 0;
         mainMenuPanel.add(readSave, constraints);
 
         return mainMenuPanel;

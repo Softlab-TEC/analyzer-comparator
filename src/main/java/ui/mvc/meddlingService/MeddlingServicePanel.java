@@ -39,7 +39,7 @@ public class MeddlingServicePanel extends CodeSmellGeneralPanel {
         MeddlingServiceDAO ms = new MeddlingServiceDAO();
         switch (analyzerId){
             case 0: t = ms.getMeddlingServices(sql); break;
-            default: t = ms.getMeddlingServicesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = ms.getMeddlingServicesOnlyAnalyzer(analyzerId, language, projectName, false); break;
         }
         ui.TableModel tableModel = new MeddlingServiceTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Meddling Service");

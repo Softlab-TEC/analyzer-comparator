@@ -42,7 +42,7 @@ public class BrainControllerPanel extends CodeSmellGeneralPanel {
                 t = bc.getBrainControllers(sql);
                 break;
             default:
-                t = bc.getBrainControllersOnlyAnalyzer(analyzerId, language, projectName);
+                t = bc.getBrainControllersOnlyAnalyzer(analyzerId, language, projectName, false);
                 break;
         }
         ui.TableModel tableModel = new BrainControllerTableModel(t);

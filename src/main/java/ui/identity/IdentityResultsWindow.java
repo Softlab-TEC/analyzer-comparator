@@ -119,6 +119,7 @@ public class IdentityResultsWindow {
         btn.setBackground(Color.GRAY);
         btn.setOpaque(true);
         btn.setBorderPainted(false);
+        btn.setFocusPainted(false);
         btn.addActionListener(new BtnListenerExecutor());
         panel.add(btn, constraints);
     }
@@ -159,33 +160,37 @@ public class IdentityResultsWindow {
     }
 
     private void showResults(int analyzerId, String language, String projectName){
-        showGodClassResultsTable(analyzerId, language, projectName);
-        showDataClassResultsTable(analyzerId, language, projectName);
+        showGodClassResultsTable(analyzerId, language, projectName, avoidTestFile.getState());
+        showDataClassResultsTable(analyzerId, language, projectName, avoidTestFile.getState());
         showFeatureEnvyResultsTable(analyzerId, language, projectName, avoidTestFile.getState());
-        showBrainMethodResultsTable(analyzerId, language, projectName);
-        showBrainClassResultsTable(analyzerId, language, projectName);
+        showBrainMethodResultsTable(analyzerId, language, projectName, avoidTestFile.getState());
+        showBrainClassResultsTable(analyzerId, language, projectName, avoidTestFile.getState());
     }
 
-    public void showGodClassResultsTable(int analyzerId, String language, String projectName){
-        String sql = "SELECT * FROM GODCLASS ORDER BY classname, analyzerid, insertdate";
+    public void showGodClassResultsTable(int analyzerId, String language, String projectName, boolean avoidTestFiles){
+        String avoidTests = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String sql = "SELECT * FROM GODCLASS WHERE projectname = '" +  projectName + "' AND language = '" + language +
+                "' " + avoidTests + " ORDER BY classname, analyzerid, insertdate";
         ArrayList<GodClassDAO> t;
         GodClassDAO gcd = new GodClassDAO();
         switch (analyzerId){
             case 0: t = gcd.getGodClasses(sql); break;
-            default: t = gcd.getGodClassesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = gcd.getGodClassesOnlyAnalyzer(analyzerId, language, projectName, avoidTestFiles); break;
         }
         javax.swing.table.TableModel tableModel = new GodClassTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "God Class " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
-    public void showDataClassResultsTable(int analyzerId, String language, String projectName){
-        String sql = "SELECT * FROM DATACLASS ORDER BY classname, analyzerid, insertdate";
+    public void showDataClassResultsTable(int analyzerId, String language, String projectName, boolean avoidTestFiles){
+        String avoidTests = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String sql = "SELECT * FROM DATACLASS WHERE projectname = '" +  projectName + "' AND language = '" + language +
+                "' " + avoidTests + " ORDER BY classname, analyzerid, insertdate";
         ArrayList<DataClassDAO> t;
         DataClassDAO dc = new DataClassDAO();
         switch (analyzerId){
             case 0: t = dc.getDataClasses(sql); break;
-            default: t = dc.getDataClassesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = dc.getDataClassesOnlyAnalyzer(analyzerId, language, projectName, avoidTestFiles); break;
         }
         TableModel tableModel = new DataClassTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Data Class " + AnalyzerConstants.getAnalyzerName(analyzerId));
@@ -193,7 +198,9 @@ public class IdentityResultsWindow {
     }
 
     public void showFeatureEnvyResultsTable(int analyzerId, String language, String projectName, boolean avoidTestFiles){
-        String sql = "SELECT * FROM FEATUREENVY ORDER BY classname, methodname, analyzerid, insertdate";
+        String avoidTests = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String sql = "SELECT * FROM FEATUREENVY WHERE projectname = '" +  projectName + "' AND language = '" + language +
+                "' " + avoidTests + " ORDER BY classname, analyzerid, insertdate";
         ArrayList<FeatureEnvyDAO> t;
         FeatureEnvyDAO fe = new FeatureEnvyDAO();
         switch (analyzerId){
@@ -205,26 +212,30 @@ public class IdentityResultsWindow {
         ct.drawTable();
     }
 
-    public void showBrainMethodResultsTable(int analyzerId, String language, String projectName){
-        String sql = "SELECT * FROM BRAINMETHOD ORDER BY classname, methodname, analyzerid, insertdate";
+    public void showBrainMethodResultsTable(int analyzerId, String language, String projectName, boolean avoidTestFiles){
+        String avoidTests = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String sql = "SELECT * FROM BRAINMETHOD WHERE projectname = '" +  projectName + "' AND language = '" + language +
+                "' " + avoidTests + " ORDER BY classname, analyzerid, insertdate";
         ArrayList<BrainMethodDAO> t;
         BrainMethodDAO bm = new BrainMethodDAO();
         switch (analyzerId){
             case 0: t = bm.getBrainMethods(sql); break;
-            default: t = bm.getBrainMethodsOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = bm.getBrainMethodsOnlyAnalyzer(analyzerId, language, projectName, avoidTestFiles); break;
         }
         ui.TableModel tableModel = new BrainMethodTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Brain Method " + AnalyzerConstants.getAnalyzerName(analyzerId));
         ct.drawTable();
     }
 
-    public void showBrainClassResultsTable(int analyzerId, String language, String projectName){
-        String sql = "SELECT * FROM BRAINCLASS ORDER BY classname, analyzerid, insertdate";
+    public void showBrainClassResultsTable(int analyzerId, String language, String projectName, boolean avoidTestFiles){
+        String avoidTests = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String sql = "SELECT * FROM BRAINCLASS WHERE projectname = '" +  projectName + "' AND language = '" + language +
+                "' " + avoidTests + " ORDER BY classname, analyzerid, insertdate";
         ArrayList<BrainClassDAO> t;
         BrainClassDAO bc = new BrainClassDAO();
         switch (analyzerId){
             case 0: t = bc.getBrainClasses(sql); break;
-            default: t = bc.getBrainClassesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = bc.getBrainClassesOnlyAnalyzer(analyzerId, language, projectName, avoidTestFiles); break;
         }
         ui.TableModel tableModel = new BrainClassTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Brain Class " + AnalyzerConstants.getAnalyzerName(analyzerId));

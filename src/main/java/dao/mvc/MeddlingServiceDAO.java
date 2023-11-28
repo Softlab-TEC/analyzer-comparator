@@ -92,11 +92,9 @@ public class MeddlingServiceDAO extends CodeSmellDAO {
     }
 
 
-    public ArrayList<MeddlingServiceDAO> getMeddlingServicesOnlyAnalyzer(int analyzerId, String language, String projectName){
-        String query = "SELECT t1.* FROM MEDDLINGSERVICE t1 LEFT JOIN MEDDLINGSERVICE t2 ON (t1.classname = t2.classname  OR " +
-                "t1.mainclassname = t2.mainclassname) AND t2.analyzerid <> " + analyzerId + " AND t2.path " +
-                "LIKE '%" + projectName + "%' AND t2.language = '"+ language + "' WHERE t1.analyzerid = " + analyzerId
-                + " AND t2.analyzerid IS NULL AND t1.path LIKE '%" + projectName + "%' AND t1.language = '" + language + "'";
+    public ArrayList<MeddlingServiceDAO> getMeddlingServicesOnlyAnalyzer(int analyzerId, String language, String projectName,
+                                                                         boolean avoidTestFiles){
+        String query = getOnlyOneAnalyzerResult("MEDDLINGSERVICE", analyzerId, language, projectName, avoidTestFiles);
         return getMeddlingServices(query);
     }
 

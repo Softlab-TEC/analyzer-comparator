@@ -2,7 +2,6 @@ package dao.identity;
 
 import dao.helpers.CodeSmellDAO;
 import dao.helpers.GetCodeSmellHelper;
-import utils.AnalyzerConstants;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -144,15 +143,15 @@ public class FeatureEnvyDAO extends CodeSmellDAO {
         return featureEnvies;
     }
 
+    public ArrayList<FeatureEnvyDAO> getAllFeatureEnvies(String language, boolean avoidTestFiles){
+        String avoidTestsLeft = avoidTestFiles ? " AND classname NOT LIKE '%test%' " : "";
+        String query = "SELECT * FROM FEATUREENVY t1  WHERE  AND t1.language = '" + language + "'" + avoidTestsLeft;
+        return getFeatureEnvies(query);
+    }
+
     public ArrayList<FeatureEnvyDAO> getFeatureEnviesOnlyAnalyzer(int analyzerId, String language, String projectName,
                                                                   boolean avoidTestFiles){
-        String avoidTestsLeft = avoidTestFiles ? " AND t1.classname NOT LIKE '%test%' " : "";
-        String avoidTestsRight = avoidTestFiles ? " AND t2.classname NOT LIKE '%test%' " : "";
-        String query = "SELECT t1.* FROM FEATUREENVY t1 LEFT JOIN FEATUREENVY t2 ON (t1.classname = t2.classname OR " +
-                "t1.mainclassname = t2.mainclassname) AND t2.analyzerid <> " + analyzerId + " AND t2.path " +
-                "LIKE '%" + projectName + "%' AND t2.language = '"+ language + "'" + avoidTestsRight +
-                " WHERE t1.analyzerid = " + analyzerId + " AND t2.analyzerid IS NULL AND t1.path LIKE '%"
-                + projectName + "%' AND t1.language = '" + language + "'" + avoidTestsLeft;
+        String query = getOnlyOneAnalyzerResult("FEATUREENVY", analyzerId, language, projectName, avoidTestFiles);
         return getFeatureEnvies(query);
     }
 

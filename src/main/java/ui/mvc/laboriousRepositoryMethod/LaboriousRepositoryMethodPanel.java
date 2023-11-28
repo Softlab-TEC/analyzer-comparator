@@ -39,7 +39,7 @@ public class LaboriousRepositoryMethodPanel extends CodeSmellGeneralPanel {
         LaboriousRepositoryMethodDAO lrm = new LaboriousRepositoryMethodDAO();
         switch (analyzerId){
             case 0: t = lrm.getLaboriousRepositoryMethods(sql); break;
-            default: t = lrm.getLaboriousRepoMethodOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = lrm.getLaboriousRepoMethodOnlyAnalyzer(analyzerId, language, projectName, false); break;
         }
         ui.TableModel tableModel = new LaboriousRepositoryMethodTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Laborious Repository Method");

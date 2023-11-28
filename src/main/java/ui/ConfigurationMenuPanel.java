@@ -12,6 +12,7 @@ import java.io.IOException;
 public class ConfigurationMenuPanel extends JPanel {
 
     private static JTextField inputPathField;
+    private static JTextField inputProjectNameField;
     private static JTextField outputPathField;
     private static JTextField wmcField;
     private static JTextField tccField;
@@ -24,6 +25,7 @@ public class ConfigurationMenuPanel extends JPanel {
     private static Checkbox onlyAnalyzerToggle;
     private static Checkbox returnMetricsToggle;
     private static JLabel inputPathLabel;
+    private static JLabel inputProjectNameLabel;
     private static JLabel languageLabel;
     private static JLabel outputPathLabel;
 
@@ -51,10 +53,17 @@ public class ConfigurationMenuPanel extends JPanel {
         constraints.gridy = 1;
         add(inputPathLabel, constraints);
 
-        outputPathLabel = new JLabel("Output Path:");
+        inputProjectNameLabel = new JLabel("Project Name:");
+        constraints.gridx = 0;
         constraints.gridy = 2;
+        add(inputProjectNameLabel, constraints);
+
+        outputPathLabel = new JLabel("Output Path:");
+        constraints.gridy = 3;
         add(outputPathLabel, constraints);
 
+        inputProjectNameField = new JTextField();
+        inputProjectNameField.setPreferredSize(new Dimension(300,30));
         inputPathField = new JTextField();
         inputPathField.setPreferredSize(new Dimension(300,30));
         outputPathField = new JTextField();
@@ -86,61 +95,48 @@ public class ConfigurationMenuPanel extends JPanel {
         constraints.gridy = 1;
         add(inputPathField, constraints);
 
+        constraints.gridx = 1;
         constraints.gridy = 2;
-        add(outputPathField, constraints);
+        add(inputProjectNameField, constraints);
 
         constraints.gridy = 3;
+        add(outputPathField, constraints);
+
+        constraints.gridy = 4;
         constraints.gridx = 0;
         add(isFolderToggle, constraints);
         constraints.gridx = 1;
         add(isGastFileToggle, constraints);
-        constraints.gridy = 4;
+        constraints.gridy = 5;
         constraints.gridx = 0;
         add(useThreadsToggle, constraints);
         constraints.gridx = 1;
         add(isFromMemoryToggle, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 5;
+        constraints.gridy = 6;
         add(saveInDBToggle, constraints);
 
         constraints.gridx = 1;
         add(onlyAnalyzerToggle, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 6;
+        constraints.gridy = 7;
         add(returnMetricsToggle, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 7;
+        constraints.gridy = 8;
         add(codeSmellGeneralPanel.getPanel(),  constraints);
 
 
         constraints.gridx = 1;
-        constraints.gridy = 10;
+        constraints.gridy = 11;
         JButton btn = new JButton("Execute");
         btn.setBackground(Color.GRAY);
         btn.setOpaque(true);
         btn.setBorderPainted(false);
         btn.addActionListener(new BtnListenerExecutor());
         add(btn, constraints);
-
-        JButton btnOnlyAnalyzer = new JButton("Only Analyzer");
-        btnOnlyAnalyzer.addActionListener(new BtnListenerShowResultsTable(AnalyzerConstants.ANALYZER));
-        constraints.gridy = 11;
-        constraints.gridx = 0;
-        add(btnOnlyAnalyzer, constraints);
-
-        JButton btnOnlyPMD = new JButton("Only PMD");
-        btnOnlyPMD.addActionListener(new BtnListenerShowResultsTable(AnalyzerConstants.PMD));
-        constraints.gridx = 1;
-        add(btnOnlyPMD, constraints);
-
-        JButton btnShowAll = new JButton("Show All");
-        btnShowAll.addActionListener(new BtnListenerShowResultsTable(0));
-        constraints.gridx = 0;
-        constraints.gridy = 12;
-        add(btnShowAll, constraints);
     }
 
     private String createFolder(){
@@ -160,18 +156,6 @@ public class ConfigurationMenuPanel extends JPanel {
             System.out.println("An error occurred.");
             e.printStackTrace();
             return "";
-        }
-    }
-
-    private class BtnListenerShowResultsTable implements ActionListener {
-        private int analyzerId;
-        public BtnListenerShowResultsTable(int analyzerId){
-            this.analyzerId = analyzerId;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //codeSmellGeneralPanel.showResultsTable(analyzerId, language, projectName);
         }
     }
 
@@ -196,6 +180,7 @@ public class ConfigurationMenuPanel extends JPanel {
             codeSmellGeneralPanel.setUseThreads(useThreadsToggle.getState());
             codeSmellGeneralPanel.setSaveInDB(saveInDBToggle.getState());
             codeSmellGeneralPanel.setInputPath(inputPathField.getText());
+            codeSmellGeneralPanel.setInputProjectName(inputProjectNameField.getText());
             codeSmellGeneralPanel.setOutputPath(outputPathField.getText());
             codeSmellGeneralPanel.execute();
         }

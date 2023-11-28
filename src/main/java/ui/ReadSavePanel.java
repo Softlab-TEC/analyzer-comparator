@@ -101,6 +101,7 @@ public class ReadSavePanel {
         btn.setBackground(Color.GRAY);
         btn.setOpaque(true);
         btn.setBorderPainted(false);
+        btn.setFocusPainted(false);
         btn.addActionListener(new BtnListenerExecutor());
         panel.add(btn, constraints);
     }

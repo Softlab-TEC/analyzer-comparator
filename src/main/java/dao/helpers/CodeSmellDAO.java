@@ -117,4 +117,16 @@ public class CodeSmellDAO {
         this.insertDate = insertDate;
     }
 
+    protected String getOnlyOneAnalyzerResult(String tableName, int analyzerId, String language, String projectName,
+                                              boolean avoidTestFiles){
+        String avoidTestsLeft = avoidTestFiles ? " AND t1.classname NOT LIKE '%test%' " : "";
+        String avoidTestsRight = avoidTestFiles ? " AND t2.classname NOT LIKE '%test%' " : "";
+        String query = "SELECT t1.* FROM " + tableName + " t1 LEFT JOIN " + tableName + " t2 ON (t1.classname = t2.classname OR " +
+                "t1.mainclassname = t2.mainclassname) AND t2.analyzerid <> " + analyzerId + " AND t2.projectName " +
+                "= '" + projectName + "' AND t2.language = '"+ language + "'" + avoidTestsRight +
+                " WHERE t1.analyzerid = " + analyzerId + " AND t2.analyzerid IS NULL AND t1.projectName = '"
+                + projectName + "' AND t1.language = '" + language + "'" + avoidTestsLeft;
+        return query;
+    }
+
 }

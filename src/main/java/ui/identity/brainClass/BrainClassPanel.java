@@ -50,7 +50,7 @@ public class BrainClassPanel extends CodeSmellGeneralPanel {
         BrainClassDAO bc = new BrainClassDAO();
         switch (analyzerId){
             case 0: t = bc.getBrainClasses(sql); break;
-            default: t = bc.getBrainClassesOnlyAnalyzer(analyzerId, language, projectName); break;
+            default: t = bc.getBrainClassesOnlyAnalyzer(analyzerId, language, projectName, false); break;
         }
         ui.TableModel tableModel = new BrainClassTableModel(t);
         ComparativeTable ct = new ComparativeTable(tableModel, "Brain Class");
