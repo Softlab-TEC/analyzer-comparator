@@ -6,6 +6,7 @@ import ui.mvc.MVCResultsWindow;
 import ui.mvc.MainMVC;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,10 +59,12 @@ public class MainWindow extends JFrame{
         mainPanel.setLayout(new GridBagLayout());
 
         mainConstraints = new GridBagConstraints();
-        mainConstraints.anchor = GridBagConstraints.WEST;
+        mainConstraints.anchor = GridBagConstraints.CENTER;
         mainConstraints.insets = new Insets(0, 10, 10, 10);
 
         btnMainMenu = new JButton("Main Menu");
+        Dimension buttonSize = new Dimension(150, 40);
+        btnMainMenu.setPreferredSize(buttonSize);
         btnMainMenu.setBackground(Color.GRAY);
         btnMainMenu.setOpaque(true);
         btnMainMenu.setBorderPainted(false);
@@ -75,39 +78,81 @@ public class MainWindow extends JFrame{
 
     private JPanel initializeMainMenuPanel() {
         mainMenuPanel = new JPanel();
+        JPanel detectorsPanel = new JPanel();
+        JPanel resultsPanel = new JPanel();
+        JPanel importPanel = new JPanel();
+
+        TitledBorder detectorsBorder = BorderFactory.createTitledBorder("Detect code smells");
+        TitledBorder resultsBorder = BorderFactory.createTitledBorder("Results of detections");
+        TitledBorder importBorder = BorderFactory.createTitledBorder("Import external results");
+        Dimension panelSize = new Dimension(200, 80);
+        detectorsPanel.setPreferredSize(panelSize);
+        resultsPanel.setPreferredSize(panelSize);
+        importPanel.setPreferredSize(panelSize);
+
+        detectorsPanel.setBorder(detectorsBorder);
+        resultsPanel.setBorder(resultsBorder);
+        importPanel.setBorder(importBorder);
+
         mainMenuPanel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.insets = new Insets(10, 10, 10, 10);
 
         constraints.gridx = 0;
         constraints.gridy = 0;
+        Dimension buttonSize = new Dimension(150, 20);
 
         JButton btnIdentity = new JButton("Identity");
+        btnIdentity.setPreferredSize(buttonSize);
+        btnIdentity.setVerticalTextPosition(AbstractButton.CENTER);
+        btnIdentity.setHorizontalTextPosition(AbstractButton.CENTER);
         btnIdentity.addActionListener(new BtnIdentityListener());
-        mainMenuPanel.add(btnIdentity, constraints);
 
         JButton btnMVC = new JButton("MVC");
+        btnMVC.setPreferredSize(buttonSize);
+        btnMVC.setVerticalTextPosition(AbstractButton.CENTER);
+        btnMVC.setHorizontalTextPosition(AbstractButton.CENTER);
         btnMVC.addActionListener(new BtnMVCListener());
-        constraints.gridx = 1;
-        mainMenuPanel.add(btnMVC, constraints);
+
+        detectorsPanel.add(btnIdentity);
+        detectorsPanel.add(btnMVC);
+
+
+        mainMenuPanel.add(detectorsPanel, constraints);
+        constraints.gridy = 1;
+
 
         JButton identityResults = new JButton("Identity Results");
+        identityResults.setPreferredSize(buttonSize);
+        identityResults.setVerticalTextPosition(AbstractButton.CENTER);
+        identityResults.setHorizontalTextPosition(AbstractButton.CENTER);
         identityResults.addActionListener(new BtnIdentityResultsListener());
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        mainMenuPanel.add(identityResults, constraints);
 
         JButton MVCResults = new JButton("MVC Results");
+        MVCResults.setPreferredSize(buttonSize);
+        MVCResults.setVerticalTextPosition(AbstractButton.CENTER);
+        MVCResults.setHorizontalTextPosition(AbstractButton.CENTER);
         MVCResults.addActionListener(new BtnMVCResultsListener());
-        constraints.gridx = 1;
-        mainMenuPanel.add(MVCResults, constraints);
+
+        resultsPanel.setLayout(new FlowLayout());
+        resultsPanel.add(identityResults);
+        resultsPanel.add(MVCResults);
+
+        mainMenuPanel.add(resultsPanel, constraints);
+        constraints.gridy = 2;
+
 
         JButton readSave = new JButton("Import Results");
+        readSave.setPreferredSize(buttonSize);
+        readSave.setVerticalTextPosition(AbstractButton.CENTER);
+        readSave.setHorizontalTextPosition(AbstractButton.CENTER);
         readSave.addActionListener(new BtnReadSaveListener());
-        constraints.gridy = 2;
-        constraints.gridx = 0;
-        mainMenuPanel.add(readSave, constraints);
+
+        importPanel.setLayout(new FlowLayout());
+        importPanel.add(readSave);
+
+        mainMenuPanel.add(importPanel, constraints);
 
         return mainMenuPanel;
     }

@@ -59,10 +59,12 @@ public class MainIdentity extends JPanel{
         mainPanel.setLayout(new GridBagLayout());
 
         mainConstraints = new GridBagConstraints();
-        mainConstraints.anchor = GridBagConstraints.WEST;
+        mainConstraints.anchor = GridBagConstraints.CENTER;
         mainConstraints.insets = new Insets(0, 10, 10, 10);
 
         btnMainMenu = new JButton("Identity Menu");
+        Dimension buttonSize = new Dimension(150, 30);
+        btnMainMenu.setPreferredSize(buttonSize);
         btnMainMenu.setBackground(Color.LIGHT_GRAY);
         btnMainMenu.setOpaque(true);
         btnMainMenu.setBorderPainted(false);
@@ -78,37 +80,56 @@ public class MainIdentity extends JPanel{
         mainMenuPanel = new JPanel();
         mainMenuPanel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.insets = new Insets(10, 10, 10, 10);
 
         constraints.gridx = 0;
         constraints.gridy = 0;
+        Dimension buttonSize = new Dimension(150, 20);
 
         JButton btnGodClass = new JButton("God Class");
+        btnGodClass.setPreferredSize(buttonSize);
+        btnGodClass.setVerticalTextPosition(AbstractButton.CENTER);
+        btnGodClass.setHorizontalTextPosition(AbstractButton.CENTER);
         btnGodClass.addActionListener(new MainIdentity.BtnGodClassListener());
         mainMenuPanel.add(btnGodClass, constraints);
 
         JButton btnFeatureEnvy = new JButton("Feature Envy");
+        btnFeatureEnvy.setPreferredSize(buttonSize);
+        btnFeatureEnvy.setVerticalTextPosition(AbstractButton.CENTER);
+        btnFeatureEnvy.setHorizontalTextPosition(AbstractButton.CENTER);
         btnFeatureEnvy.addActionListener(new MainIdentity.BtnFeatureEnvy());
         constraints.gridy = 1;
         mainMenuPanel.add(btnFeatureEnvy, constraints);
 
         JButton btnDataClass = new JButton("Data Class");
+        btnDataClass.setPreferredSize(buttonSize);
+        btnDataClass.setVerticalTextPosition(AbstractButton.CENTER);
+        btnDataClass.setHorizontalTextPosition(AbstractButton.CENTER);
         btnDataClass.addActionListener(new MainIdentity.BtnDataClass());
         constraints.gridy = 2;
         mainMenuPanel.add(btnDataClass, constraints);
 
         JButton btnBrainMethod = new JButton("Brain Method");
+        btnBrainMethod.setPreferredSize(buttonSize);
+        btnBrainMethod.setVerticalTextPosition(AbstractButton.CENTER);
+        btnBrainMethod.setHorizontalTextPosition(AbstractButton.CENTER);
         btnBrainMethod.addActionListener(new MainIdentity.BtnBrainMethod());
         constraints.gridy = 3;
         mainMenuPanel.add(btnBrainMethod, constraints);
 
         JButton btnBrainClass = new JButton("Brain Class");
+        btnBrainClass.setPreferredSize(buttonSize);
+        btnBrainClass.setVerticalTextPosition(AbstractButton.CENTER);
+        btnBrainClass.setHorizontalTextPosition(AbstractButton.CENTER);
         btnBrainClass.addActionListener(new MainIdentity.BtnBrainClass());
         constraints.gridy = 4;
         mainMenuPanel.add(btnBrainClass, constraints);
 
         JButton btnAllIdentity = new JButton("All Identity");
+        btnAllIdentity.setPreferredSize(buttonSize);
+        btnAllIdentity.setVerticalTextPosition(AbstractButton.CENTER);
+        btnAllIdentity.setHorizontalTextPosition(AbstractButton.CENTER);
         btnAllIdentity.addActionListener(new MainIdentity.BtnAllIdentityListener());
         constraints.gridy = 5;
         mainMenuPanel.add(btnAllIdentity, constraints);
