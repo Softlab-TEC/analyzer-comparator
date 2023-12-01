@@ -1,8 +1,8 @@
 package ui;
 import gastmappers.Language;
-import utils.AnalyzerConstants;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +33,10 @@ public class ConfigurationMenuPanel extends JPanel {
 
     public ConfigurationMenuPanel(CodeSmellGeneralPanel codeSmellDetector){
         this.codeSmellGeneralPanel = codeSmellDetector;
+        String smellName = codeSmellGeneralPanel.isDrawMetricsPanel() ?
+                codeSmellGeneralPanel.getCodeSmellName() : "All";
+        TitledBorder resultsBorder = BorderFactory.createTitledBorder("Configurations-"+ smellName);
+        setBorder(resultsBorder);
         codeSmellGeneralPanel.setLanguage(Language.JAVA);
         setLayout(new GridBagLayout());
         initialize();
@@ -40,25 +44,31 @@ public class ConfigurationMenuPanel extends JPanel {
 
     private void initialize(){
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(10, 10, 10, 10);
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.insets = new Insets(0, 10, 0,10);
+        Dimension labelSize = new Dimension(150, 30);
+
 
         languageLabel = new JLabel("Language:");
+        languageLabel.setSize(labelSize);
         constraints.gridx = 0;
         constraints.gridy = 0;
         add(languageLabel, constraints);
 
         inputPathLabel = new JLabel("Input Path:");
+        inputPathLabel.setSize(labelSize);
         constraints.gridx = 0;
         constraints.gridy = 1;
         add(inputPathLabel, constraints);
 
         inputProjectNameLabel = new JLabel("Project Name:");
+        inputProjectNameLabel.setSize(labelSize);
         constraints.gridx = 0;
         constraints.gridy = 2;
         add(inputProjectNameLabel, constraints);
 
         outputPathLabel = new JLabel("Output Path:");
+        outputPathLabel.setSize(labelSize);
         constraints.gridy = 3;
         add(outputPathLabel, constraints);
 
@@ -74,6 +84,7 @@ public class ConfigurationMenuPanel extends JPanel {
         tccField.setPreferredSize(new Dimension(30, 30));
         atfdField = new JTextField();
         atfdField.setPreferredSize(new Dimension(30, 30));
+        Dimension preferredSize = new Dimension(150, 30);
         isFolderToggle = new Checkbox("Folder");
         isGastFileToggle = new Checkbox("GAST file");
         isFromMemoryToggle = new Checkbox("Memory");
@@ -81,6 +92,15 @@ public class ConfigurationMenuPanel extends JPanel {
         saveInDBToggle = new Checkbox("Save results in DB");
         onlyAnalyzerToggle = new Checkbox("Run only Analyzer");
         returnMetricsToggle = new Checkbox("Return metrics");
+
+        isFolderToggle.setPreferredSize(preferredSize);
+        isGastFileToggle.setPreferredSize(preferredSize);
+        isFromMemoryToggle.setPreferredSize(preferredSize);
+        useThreadsToggle.setPreferredSize(preferredSize);
+        saveInDBToggle.setPreferredSize(preferredSize);
+        onlyAnalyzerToggle.setPreferredSize(preferredSize);
+        returnMetricsToggle.setPreferredSize(preferredSize);
+
 
         String[] languagesString = { Language.JAVA.toString(), Language.CSHARP.toString() };
 
@@ -126,13 +146,15 @@ public class ConfigurationMenuPanel extends JPanel {
 
         constraints.gridx = 0;
         constraints.gridy = 8;
-        add(codeSmellGeneralPanel.getPanel(),  constraints);
-
+        if(codeSmellGeneralPanel.isDrawMetricsPanel()){
+            add(codeSmellGeneralPanel.getPanel(),  constraints);
+        } else {
+            constraints.gridy = 7;
+        }
 
         constraints.gridx = 1;
-        constraints.gridy = 11;
         JButton btn = new JButton("Execute");
-        btn.setBackground(Color.GRAY);
+        btn.setBackground(Color.LIGHT_GRAY);
         btn.setOpaque(true);
         btn.setBorderPainted(false);
         btn.setFocusPainted(false);

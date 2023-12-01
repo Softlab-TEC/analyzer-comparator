@@ -5,6 +5,7 @@ import dataAccess.SpringLintResultsReader;
 import gastmappers.Language;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,8 +27,6 @@ public class ReadSavePanel {
     public ReadSavePanel(){
         panel = new JPanel(new GridBagLayout());
         constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(10, 10, 10, 10);
         initialize();
     }
 
@@ -49,8 +48,9 @@ public class ReadSavePanel {
 
     private void initialize(){
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(10, 10, 10, 10);
+        TitledBorder resultsBorder = BorderFactory.createTitledBorder("External Results");
+        panel.setBorder(resultsBorder);
+        constraints.insets = new Insets(5, 10, 5, 10);
 
         languageLabel = new JLabel("Tool:");
         constraints.gridx = 0;
@@ -95,10 +95,10 @@ public class ReadSavePanel {
         constraints.gridy = 2;
         panel.add(inputPathField, constraints);
 
-        constraints.gridx = 0;
+        constraints.gridx = 1;
         constraints.gridy = 3;
-        JButton btn = new JButton("Execute");
-        btn.setBackground(Color.GRAY);
+        JButton btn = new JButton("Load");
+        btn.setBackground(Color.LIGHT_GRAY);
         btn.setOpaque(true);
         btn.setBorderPainted(false);
         btn.setFocusPainted(false);

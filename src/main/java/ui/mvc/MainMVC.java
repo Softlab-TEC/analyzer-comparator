@@ -11,6 +11,7 @@ import ui.mvc.meddlingService.MeddlingServicePanel;
 import ui.mvc.promiscuousController.PromiscuousControllerPanel;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,7 @@ public class MainMVC extends JPanel{
         currentPanel = initializeMainMenuPanel();
         initMainPanel();
         mainConstraints.gridy = 1;
+        btnMainMenu.setVisible(false);
         mainPanel.add(currentPanel, mainConstraints);
         add(mainPanel);
     }
@@ -38,6 +40,8 @@ public class MainMVC extends JPanel{
         mainPanel.remove(currentPanel);
         mainConstraints.gridy = 1;
         btnMainMenu.setIcon(null);
+        btnMainMenu.setVisible(false);
+        mainConstraints.insets = new Insets(5, 10, 5, 10);
         mainPanel.add(mainMenuPanel, mainConstraints);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -48,7 +52,9 @@ public class MainMVC extends JPanel{
         currentPanel = new ConfigurationMenuPanel(generalPanel);
         Icon arrowIcon = new ArrowIcon(10, 10);
         btnMainMenu.setIcon(arrowIcon);
+        btnMainMenu.setVisible(true);
         mainConstraints.gridy = 1;
+        mainConstraints.insets = new Insets(5, 10, 5, 10);
         mainPanel.add(currentPanel, mainConstraints);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -60,10 +66,12 @@ public class MainMVC extends JPanel{
 
         mainConstraints = new GridBagConstraints();
         mainConstraints.anchor = GridBagConstraints.CENTER;
-        mainConstraints.insets = new Insets(0, 10, 10, 10);
+        mainConstraints.insets = new Insets(5, 10, 5, 10);
 
         btnMainMenu = new JButton("MVC Menu");
-        Dimension buttonSize = new Dimension(150, 30);
+        Font buttonFont = new Font(btnMainMenu.getFont().getName(), Font.PLAIN, 14);
+        btnMainMenu.setFont(buttonFont);
+        Dimension buttonSize = new Dimension(150, 25);
         btnMainMenu.setPreferredSize(buttonSize);
         btnMainMenu.setBackground(Color.LIGHT_GRAY);
         btnMainMenu.setOpaque(true);
@@ -79,9 +87,12 @@ public class MainMVC extends JPanel{
     private JPanel initializeMainMenuPanel() {
         mainMenuPanel = new JPanel();
         mainMenuPanel.setLayout(new GridBagLayout());
+        TitledBorder mainMenuBorder = BorderFactory.createTitledBorder("MVC");
+        mainMenuPanel.setBorder(mainMenuBorder);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(10, 10, 10, 10);
+        constraints.insets = new Insets(5, 10, 5, 10);
+
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -196,7 +207,7 @@ public class MainMVC extends JPanel{
 
     private class BtnAllMVCListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e)  {
             useNewPanel(new AllMVCPanel());
         }
     }

@@ -24,6 +24,7 @@ public class AllMVCPanel extends CodeSmellGeneralPanel {
         super();
         resultFileName = "AllMVC.txt";
         metricName = Metrics.AllMVC;
+        drawMetricsPanel = false;
     }
 
     @Override

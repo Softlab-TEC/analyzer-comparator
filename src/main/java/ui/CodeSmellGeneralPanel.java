@@ -20,6 +20,7 @@ import ui.identity.godClass.GodClassPanel;
 import utils.Metrics;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -52,14 +53,21 @@ public class CodeSmellGeneralPanel {
     protected Map<String, String> projectsToProcess = new HashMap<>();
     protected ArrayList<String> alreadyRan = new ArrayList<>();
     protected boolean verifyIfExistInDB = false;
+    protected boolean drawMetricsPanel = true;
 
 
     public CodeSmellGeneralPanel(){
         executor = new PMDExecutor();
         panel = new JPanel(new GridBagLayout());
+        TitledBorder resultsBorder = BorderFactory.createTitledBorder("Metrics");
+        panel.setBorder(resultsBorder);
         constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(10, 10, 10, 10);
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.insets = new Insets(5, 10, 5, 10);
+    }
+
+    public String getCodeSmellName() {
+        return String.join(" ", metricName.toString().split("(?=[A-Z])"));
     }
 
     public static JPanel getPanel() {
@@ -160,6 +168,14 @@ public class CodeSmellGeneralPanel {
 
     public void setMetricName(String metricName) {
         this.metricName = metricName;
+    }
+
+    public boolean isDrawMetricsPanel() {
+        return drawMetricsPanel;
+    }
+
+    public void setDrawMetricsPanel(boolean drawMetricsPanel) {
+        this.drawMetricsPanel = drawMetricsPanel;
     }
 
     public void setExecutorOutputPathName(String executorOutputPathName) {

@@ -25,7 +25,7 @@ public class MainWindow extends JFrame{
     private void initialize() {
         this.setTitle("Analyzer-Comparator");
         this.setVisible(true);
-        this.setSize(780, 2000);
+        this.setSize(600, 580);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         currentPanel = initializeMainMenuPanel();
         initMainPanel();
@@ -59,13 +59,13 @@ public class MainWindow extends JFrame{
         mainPanel.setLayout(new GridBagLayout());
 
         mainConstraints = new GridBagConstraints();
-        mainConstraints.anchor = GridBagConstraints.CENTER;
-        mainConstraints.insets = new Insets(0, 10, 10, 10);
 
         btnMainMenu = new JButton("Main Menu");
-        Dimension buttonSize = new Dimension(150, 40);
+        Font buttonFont = new Font(btnMainMenu.getFont().getName(), Font.PLAIN, 14);
+        btnMainMenu.setFont(buttonFont);
+        Dimension buttonSize = new Dimension(150, 30);
         btnMainMenu.setPreferredSize(buttonSize);
-        btnMainMenu.setBackground(Color.GRAY);
+        btnMainMenu.setBackground(Color.LIGHT_GRAY);
         btnMainMenu.setOpaque(true);
         btnMainMenu.setBorderPainted(false);
         btnMainMenu.setFocusPainted(false);
@@ -97,7 +97,6 @@ public class MainWindow extends JFrame{
         mainMenuPanel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(10, 10, 10, 10);
 
         constraints.gridx = 0;
         constraints.gridy = 0;

@@ -23,6 +23,7 @@ public class AllIdentityPanel extends CodeSmellGeneralPanel {
         super();
         resultFileName = "AllIdentity.txt";
         metricName = Metrics.AllIdentity;
+        drawMetricsPanel = false;
     }
 
     private ArrayList<Pair<String, ArrayList<Number>>> getMVCParameters(){

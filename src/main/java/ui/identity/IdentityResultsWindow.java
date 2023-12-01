@@ -1,8 +1,6 @@
 package ui.identity;
 
 import dao.identity.*;
-import dataAccess.JSpIRITResultsReader;
-import dataAccess.SpringLintResultsReader;
 import gastmappers.Language;
 import ui.ComparativeTable;
 import ui.TableModel;
@@ -14,6 +12,7 @@ import ui.identity.godClass.GodClassTableModel;
 import utils.AnalyzerConstants;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,8 +37,6 @@ public class IdentityResultsWindow {
     public IdentityResultsWindow(){
         panel = new JPanel(new GridBagLayout());
         constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(10, 10, 10, 10);
         initialize();
     }
 
@@ -61,8 +58,10 @@ public class IdentityResultsWindow {
 
     private void initialize(){
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(10, 10, 10, 10);
+        constraints.anchor = GridBagConstraints.CENTER;
+        TitledBorder resultsBorder = BorderFactory.createTitledBorder("Identity Results");
+        panel.setBorder(resultsBorder);
+        constraints.insets = new Insets(5, 10, 5, 10);
 
         languageLabel = new JLabel("Tool:");
         constraints.gridx = 0;
@@ -113,10 +112,10 @@ public class IdentityResultsWindow {
         constraints.gridy = 2;
         panel.add(inputPathField, constraints);
 
-        constraints.gridx = 0;
-        constraints.gridy = 4;
-        JButton btn = new JButton("Execute");
-        btn.setBackground(Color.GRAY);
+        constraints.gridx = 1;
+        constraints.gridy = 3;
+        JButton btn = new JButton("Show");
+        btn.setBackground(Color.LIGHT_GRAY);
         btn.setOpaque(true);
         btn.setBorderPainted(false);
         btn.setFocusPainted(false);

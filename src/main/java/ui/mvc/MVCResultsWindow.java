@@ -12,6 +12,7 @@ import ui.mvc.promiscuousController.PromiscuousControllerTableModel;
 import utils.AnalyzerConstants;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,8 +36,6 @@ public class MVCResultsWindow {
     public MVCResultsWindow(){
         panel = new JPanel(new GridBagLayout());
         constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(10, 10, 10, 10);
         initialize();
     }
 
@@ -58,13 +57,16 @@ public class MVCResultsWindow {
 
     private void initialize(){
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(10, 10, 10, 10);
+        constraints.anchor = GridBagConstraints.CENTER;
+        TitledBorder resultsBorder = BorderFactory.createTitledBorder("MVC Results");
+        panel.setBorder(resultsBorder);
+        constraints.insets = new Insets(5, 10, 5, 10);
 
-        languageLabel = new JLabel("Tool:");
+        toolLabel = new JLabel("Tool:");
+
         constraints.gridx = 0;
         constraints.gridy = 0;
-        panel.add(languageLabel, constraints);
+        panel.add(toolLabel, constraints);
 
         languageLabel = new JLabel("Language:");
         constraints.gridx = 0;
@@ -78,7 +80,6 @@ public class MVCResultsWindow {
 
 
         avoidTestFile = new Checkbox("Exclude Test files");
-
         constraints.gridx = 0;
         constraints.gridy = 3;
 
@@ -112,10 +113,10 @@ public class MVCResultsWindow {
         constraints.gridy = 2;
         panel.add(inputPathField, constraints);
 
-        constraints.gridx = 0;
-        constraints.gridy = 4;
-        JButton btn = new JButton("Execute");
-        btn.setBackground(Color.GRAY);
+        constraints.gridx = 1;
+        constraints.gridy = 3;
+        JButton btn = new JButton("Show");
+        btn.setBackground(Color.LIGHT_GRAY);
         btn.setOpaque(true);
         btn.setBorderPainted(false);
         btn.setFocusPainted(false);
